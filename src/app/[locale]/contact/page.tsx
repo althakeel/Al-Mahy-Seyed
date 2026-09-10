@@ -1,5 +1,35 @@
 import { translations, Locale } from "@/lib/translations";
-import ContactForm from "./ContactForm";
+import ContactHero from "@/components/contact/ContactHero";
+import ContactFormSection from "@/components/contact/ContactFormSection";
+import ContactOfficeSection from "@/components/contact/ContactOfficeSection";
+
+const iconClass = "h-5 w-5";
+
+const officeIcons = {
+  address: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={iconClass} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z" />
+      <circle cx="12" cy="11" r="2.5" />
+    </svg>
+  ),
+  phone: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={iconClass} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M6.5 3h3l1 4-2 .8a10 10 0 0 0 4.2 4.2l.8-2 4 1v3a2 2 0 0 1-2.3 2 16 16 0 0 1-7.7-3.6 16 16 0 0 1-3.6-7.7A2 2 0 0 1 6.5 3Z" />
+    </svg>
+  ),
+  email: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={iconClass} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M4 6.8c0-.993.0-1.49.194-1.86a1.6 1.6 0 0 1 .696-.696C5.26 4 5.757 4 6.75 4h10.5c.993 0 1.49 0 1.86.244.3.194.502.479.605.802.076.238.076.508.076 1.346v7.416c0 .993 0 1.49-.244 1.86a1.6 1.6 0 0 1-.696.696c-.31.2-.68.244-1.24.257v0l-11.7.019c-.993 0-1.49 0-1.86-.244a1.6 1.6 0 0 1-.696-.696C4 15.23 4 14.734 4 13.74Z" />
+      <path d="m5 6 7 5 7-5" />
+    </svg>
+  ),
+  hours: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={iconClass} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  ),
+};
 
 export default async function ContactPage({
   params,
@@ -19,88 +49,56 @@ export default async function ContactPage({
       lines: isAr
         ? ["برج الصقر للأعمال، الطابق الثاني", "شارع الشيخ زايد، مركز دبي المالي العالمي، دبي"]
         : ["Al Saqr Business Tower, 2nd Floor", "Sheikh Zayed Rd, DIFC, Dubai, UAE"],
+      icon: officeIcons.address,
     },
     {
       label: t.phone,
       lines: ["+971 4264 8831", "+971 5040 96028"],
       hrefs: ["tel:+97142648831", "tel:+971504096028"],
+      icon: officeIcons.phone,
     },
     {
       label: t.email,
       lines: ["info@almahy.com", "legal@almahy.com"],
       hrefs: ["mailto:info@almahy.com", "mailto:legal@almahy.com"],
+      icon: officeIcons.email,
     },
     {
       label: t.hours,
       lines: [t.hoursWeekdays, t.hoursWeekend],
+      icon: officeIcons.hours,
     },
   ];
 
   return (
-    <div dir={dir} className="bg-[#160A0A] text-white">
-      <section className="border-b border-white/10 pt-28 pb-10 sm:pt-32 sm:pb-12">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#F0716B]">
-            {isAr ? "تواصل معنا" : "Contact"}
-          </p>
-          <h1 className="mt-2 text-3xl font-bold text-white sm:text-4xl md:text-5xl">
-            {isAr ? "اتصل بنا" : "Contact us"}
-          </h1>
-          <p className="mt-3 max-w-xl text-sm leading-7 text-white/70 sm:text-base">
-            {isAr
-              ? "للاستشارات والملفات العاجلة. نرد عادة خلال يوم عمل واحد."
-              : "For consultations and urgent files. We usually reply within one business day."}
-          </p>
-        </div>
-      </section>
+    <div dir={dir} className="bg-[#100B0B] text-white">
+      <ContactHero
+        isArabic={isAr}
+        eyebrow={isAr ? "تواصل معنا" : "Contact"}
+        title={isAr ? "اتصل بنا" : "Contact us"}
+        subtitle={
+          isAr
+            ? "للاستشارات والملفات العاجلة. نرد عادة خلال يوم عمل واحد."
+            : "For consultations and urgent files. We usually reply within one business day."
+        }
+      />
 
-      {/* Form */}
-      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12">
-        <div className="max-w-3xl">
-          <h2 className="text-xl font-bold text-white sm:text-2xl">{t.sendMessage}</h2>
-          <p className="mt-1 text-sm text-white/65">
-            {isAr
-              ? "اكتب طلبك القانوني باختصار. نرد خلال يوم عمل واحد."
-              : "Briefly describe your legal matter. We reply within one business day."}
-          </p>
-          <div className="mt-6">
-            <ContactForm lang={lang} variant="dark" hideHeader />
-          </div>
-        </div>
-      </section>
+      <ContactFormSection
+        isArabic={isAr}
+        lang={lang}
+        title={t.sendMessage}
+        subtitle={
+          isAr
+            ? "اكتب طلبك القانوني باختصار. نرد خلال يوم عمل واحد."
+            : "Briefly describe your legal matter. We reply within one business day."
+        }
+      />
 
-      {/* Office details — moved below, full width strip */}
-      <section className="border-y border-white/10 bg-white/[0.03]">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 md:px-8">
-          <h2 className="mb-6 text-xl font-bold text-white sm:text-2xl">
-            {isAr ? "بيانات المكتب" : "Office details"}
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {details.map((item) => (
-              <div key={item.label}>
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#F0716B]">
-                  {item.label}
-                </p>
-                <div className="mt-2 space-y-1 text-sm leading-6 text-white/85">
-                  {item.lines.map((line, i) =>
-                    item.hrefs?.[i] ? (
-                      <a
-                        key={line}
-                        href={item.hrefs[i]}
-                        className="block font-medium transition hover:text-white"
-                      >
-                        {line}
-                      </a>
-                    ) : (
-                      <p key={line}>{line}</p>
-                    )
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ContactOfficeSection
+        isArabic={isAr}
+        title={isAr ? "بيانات المكتب" : "Office details"}
+        details={details}
+      />
 
       <section>
         <iframe

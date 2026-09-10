@@ -261,7 +261,7 @@ export default async function CorporateServicesPage({
       paragraphs: [
         'We assist eligible investors, entrepreneurs, professionals, and talented individuals with UAE Golden Visa applications. Our team manages the entire process, from eligibility assessment and document preparation to submission and government approvals.',
         'With comprehensive guidance and end-to-end support, we help clients secure long-term residency efficiently while ensuring compliance with all UAE immigration requirements.',
-      ],
+    ],
     },
     {
       title: 'Ejari Registration',

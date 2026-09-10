@@ -341,6 +341,104 @@ body::-webkit-scrollbar-thumb {
   box-shadow: 0 8px 24px rgba(22, 10, 10, 0.06);
 }
 
+.contact-office-border-wrap {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 1px;
+  animation: clientLogoBorderPulse 4.2s ease-in-out infinite;
+  animation-delay: var(--border-delay, 0ms);
+}
+
+.contact-office-border-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -130%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(179, 141, 66, 0.15) 24deg,
+    rgba(232, 213, 168, 0.88) 48deg,
+    rgba(179, 141, 66, 0.62) 64deg,
+    transparent 92deg,
+    transparent 168deg,
+    rgba(179, 141, 66, 0.12) 204deg,
+    rgba(232, 213, 168, 0.72) 228deg,
+    rgba(179, 141, 66, 0.48) 244deg,
+    transparent 272deg
+  );
+  animation: clientLogoBorderFlow 5s linear infinite;
+  animation-delay: var(--border-delay, 0ms);
+  pointer-events: none;
+}
+
+.contact-office-border-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  border-radius: 17px;
+  border: 1px solid rgba(179, 141, 66, 0.12);
+  background: #ffffff;
+  padding: 1.25rem;
+  box-shadow: 0 12px 28px rgba(20, 15, 7, 0.06);
+}
+
+.contact-form-border-wrap {
+  position: relative;
+  border-radius: 22px;
+  padding: 1px;
+  overflow: hidden;
+  isolation: isolate;
+  animation: heroBorderPulse 4.5s ease-in-out infinite;
+}
+
+.contact-form-border-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -140%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(179, 141, 66, 0.12) 30deg,
+    rgba(232, 213, 168, 0.95) 52deg,
+    rgba(179, 141, 66, 0.55) 68deg,
+    transparent 96deg,
+    transparent 170deg,
+    rgba(179, 141, 66, 0.1) 210deg,
+    rgba(232, 213, 168, 0.75) 232deg,
+    rgba(179, 141, 66, 0.4) 248deg,
+    transparent 276deg
+  );
+  animation: heroBorderFlow 5.5s linear infinite;
+  pointer-events: none;
+}
+
+.contact-form-border-inner {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 21px;
+  border: 1px solid rgba(179, 141, 66, 0.35);
+  background: rgba(22, 10, 10, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 16px 35px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.contact-form-border-inner::after {
+  content: "";
+  position: absolute;
+  top: -35%;
+  right: -18%;
+  width: 55%;
+  height: 55%;
+  background: radial-gradient(circle, rgba(179, 141, 66, 0.12), transparent 68%);
+  pointer-events: none;
+}
+
 .gold-reflection {
   background: linear-gradient(
     105deg,

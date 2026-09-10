@@ -58,28 +58,28 @@ export default function ContactForm({
   const [topic, setTopic] = useState(copy.topics[0]);
 
   const inputClass = light
-    ? "w-full rounded-lg border border-[#160A0A]/15 bg-[#f7f4f1] px-4 py-3 text-[#160A0A] placeholder:text-[#160A0A]/40 outline-none transition focus:border-[#DE3B34] focus:bg-white"
-    : "w-full rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 text-white placeholder:text-white/40 outline-none transition focus:border-[#C9A24B] focus:bg-white/[0.06]";
+    ? "w-full rounded-lg border border-[#160A0A]/15 bg-[#f7f4f1] px-4 py-3 text-[#160A0A] placeholder:text-[#160A0A]/40 outline-none transition focus:border-[#B38D42] focus:bg-white"
+    : "w-full rounded-lg border border-[#B38D42]/20 bg-[#100B0B]/60 px-4 py-3 text-white placeholder:text-white/40 outline-none transition focus:border-[#B38D42] focus:bg-[#100B0B]/80 focus:ring-1 focus:ring-[#B38D42]/25";
 
   const labelClass = light
     ? "space-y-1.5 text-sm font-medium text-[#3f3832]"
     : "space-y-1.5 text-sm font-medium text-white/80";
 
   const selectBtnClass = light
-    ? "border-[#160A0A]/15 bg-[#f7f4f1] text-[#160A0A] hover:bg-white"
-    : "border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.06]";
+    ? "cursor-pointer border-[#160A0A]/15 bg-[#f7f4f1] text-[#160A0A] hover:bg-white"
+    : "cursor-pointer border-[#B38D42]/20 bg-[#100B0B]/60 text-white hover:bg-[#100B0B]/80";
 
   const menuClass = light
     ? "border-[#160A0A]/10 bg-white shadow-xl"
-    : "border-white/10 bg-[#1f1010] shadow-2xl shadow-black/50";
+    : "border-[#B38D42]/20 bg-[#100B0B] shadow-2xl shadow-black/50";
 
   const menuItemIdle = light
-    ? "text-[#3f3832] hover:bg-[#f7f4f1]"
-    : "text-white/80 hover:bg-white/5";
+    ? "cursor-pointer text-[#3f3832] hover:bg-[#f7f4f1]"
+    : "cursor-pointer text-white/80 hover:bg-white/5";
 
   const menuItemActive = light
-    ? "bg-[#DE3B34]/10 text-[#160A0A]"
-    : "bg-[#C9A24B]/15 text-white";
+    ? "cursor-pointer bg-[#B38D42]/10 text-[#160A0A]"
+    : "cursor-pointer bg-[#B38D42]/15 text-white";
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -166,7 +166,7 @@ export default function ContactForm({
         </label>
         <div className={labelClass}>
           <span>{t.formPhone}</span>
-          <div className="flex gap-2">
+          <div className={`flex gap-2 ${isAr ? 'flex-row-reverse' : ''}`}>
             <div className="relative" ref={countryRef}>
               <button
                 type="button"
@@ -174,7 +174,7 @@ export default function ContactForm({
                 aria-haspopup="listbox"
                 aria-expanded={countryOpen}
                 className={`flex h-full items-center gap-1.5 rounded-lg border px-3 py-3 outline-none transition ${selectBtnClass} ${
-                  countryOpen ? (light ? "border-[#DE3B34]" : "border-[#C9A24B]") : ""
+                  countryOpen ? (light ? "border-[#B38D42]" : "border-[#B38D42]") : ""
                 }`}
               >
                 <span className="text-sm">{country.dial}</span>
@@ -202,8 +202,8 @@ export default function ContactForm({
                       placeholder={isAr ? "ابحث عن دولة..." : "Search country..."}
                       className={
                         light
-                          ? "w-full rounded-md border border-[#160A0A]/15 bg-[#f7f4f1] px-3 py-2 text-sm text-[#160A0A] outline-none focus:border-[#DE3B34]"
-                          : "w-full rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus:border-[#C9A24B]"
+                          ? "w-full rounded-md border border-[#160A0A]/15 bg-[#f7f4f1] px-3 py-2 text-sm text-[#160A0A] outline-none focus:border-[#B38D42]"
+                          : "w-full rounded-md border border-[#B38D42]/20 bg-[#100B0B]/60 px-3 py-2 text-sm text-white placeholder:text-white/40 outline-none focus:border-[#B38D42]"
                       }
                     />
                   </div>
@@ -256,9 +256,9 @@ export default function ContactForm({
               onClick={() => setTopicOpen((v) => !v)}
               aria-haspopup="listbox"
               aria-expanded={topicOpen}
-              className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 text-left outline-none transition ${selectBtnClass} ${
-                topicOpen ? (light ? "border-[#DE3B34]" : "border-[#C9A24B]") : ""
-              }`}
+              className={`flex w-full items-center justify-between rounded-lg border px-4 py-3 outline-none transition ${selectBtnClass} ${
+                isAr ? 'flex-row-reverse text-right' : 'text-left'
+              } ${topicOpen ? 'border-[#B38D42]' : ''}`}
             >
               <span>{topic}</span>
               <svg
@@ -319,29 +319,33 @@ export default function ContactForm({
                   ? "bg-emerald-50 text-emerald-800 ring-emerald-200"
                   : "bg-emerald-500/15 text-emerald-100 ring-emerald-500/40"
                 : light
-                  ? "bg-[#DE3B34]/10 text-[#8f2f2f] ring-[#DE3B34]/25"
-                  : "bg-[#C9A24B]/15 text-[#E6C878] ring-[#C9A24B]/40"
+                  ? "bg-[#B38D42]/10 text-[#8f6b2f] ring-[#B38D42]/25"
+                  : "bg-[#B38D42]/15 text-[#E8D5A8] ring-[#B38D42]/40"
             }`}
           >
             {feedback}
           </div>
         )}
 
-        <div className="flex flex-col gap-4 md:col-span-2 md:flex-row md:items-center md:justify-between">
-          <p className={`max-w-xs text-xs leading-relaxed ${light ? "text-[#6b625a]" : "text-white/50"}`}>
+        <div className={`flex flex-col gap-4 md:col-span-2 md:flex-row md:items-center md:justify-between ${isAr ? 'md:flex-row-reverse' : ''}`}>
+          <p className={`max-w-xs text-xs leading-relaxed ${light ? "text-[#6b625a]" : "text-white/50"} ${isAr ? 'md:text-right' : ''}`}>
             {copy.confidential}
           </p>
           <button
             type="submit"
             disabled={status === "sending"}
-            className={`inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 ${
+            className={`inline-flex h-[52px] cursor-pointer items-center justify-center gap-2 rounded-md px-7 text-[12px] font-semibold uppercase tracking-[0.14em] transition disabled:cursor-not-allowed disabled:opacity-60 ${
               light
-                ? "bg-[#DE3B34] text-white hover:bg-[#c73731]"
-                : "rounded-lg bg-[#C9A24B] text-[#160A0A] hover:brightness-110"
+                ? "bg-[#B38D42] text-white hover:bg-[#9A7635]"
+                : "hero-btn-glow-solid bg-[#B38D42] text-white hover:border-[#9A7635] hover:bg-[#9A7635]"
             }`}
           >
             {status === "sending" ? copy.sending : t.formSubmit}
-            {status !== "sending" && <span aria-hidden>{isAr ? "←" : "→"}</span>}
+            {status !== "sending" && (
+              <svg className={`h-3.5 w-3.5 ${isAr ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            )}
           </button>
         </div>
       </form>
