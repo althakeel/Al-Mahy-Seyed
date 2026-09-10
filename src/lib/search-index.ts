@@ -13,6 +13,11 @@ export interface SearchResult {
   source?: string;
 }
 
+/** Stable unique id for external results — uses full href to avoid truncation collisions. */
+export function externalSearchResultId(href: string, prefix = 'ext'): string {
+  return `${prefix}:${href}`;
+}
+
 interface StaticSearchEntry {
   id: string;
   type: SearchResultType;

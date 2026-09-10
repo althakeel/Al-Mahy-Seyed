@@ -17,6 +17,7 @@ interface SiteSearchProps {
   maxPopular?: number;
   maxRecent?: number;
   accentColor?: string;
+  initialQuery?: string;
 }
 
 const labels = {
@@ -54,6 +55,7 @@ export default function SiteSearch({
   maxPopular,
   maxRecent = 4,
   accentColor = '#DE3B34',
+  initialQuery = '',
 }: SiteSearchProps) {
   const router = useRouter();
   const t = labels[locale];
@@ -62,8 +64,9 @@ export default function SiteSearch({
   const isGoldAccent = accentColor === '#B38D42';
   const isGoldNavbar = variant === 'navbar' && isGoldAccent;
   const isGoldHero = variant === 'hero' && isGoldAccent && heroTone === 'dark';
+  const isGoldPage = variant === 'page' && isGoldAccent;
 
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(initialQuery);
   const [expanded, setExpanded] = useState(variant !== 'navbar');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -96,6 +99,12 @@ export default function SiteSearch({
     },
     [locale]
   );
+
+  useEffect(() => {
+    if (variant === 'page') {
+      setQuery(initialQuery);
+    }
+  }, [initialQuery, variant]);
 
   useEffect(() => {
     if (showRecent) {
@@ -133,7 +142,9 @@ export default function SiteSearch({
     }
     setDropdownOpen(false);
     if (variant === 'navbar') setExpanded(false);
-    router.push(`/${locale}/search?q=${encodeURIComponent(q)}`);
+    const nextUrl = `/${locale}/search?q=${encodeURIComponent(q)}`;
+    router.push(nextUrl);
+    router.refresh();
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -146,7 +157,7 @@ export default function SiteSearch({
     (loading || results.length > 0 || query.trim().length > 0) &&
     variant !== 'page';
 
-  const heroInputPadding = isGoldHero
+  const heroInputPadding = isGoldHero || isGoldPage
     ? (isRTL ? 'pl-[46px]' : 'pr-[46px]')
     : isRTL
       ? 'pl-12'
@@ -162,7 +173,7 @@ export default function SiteSearch({
       : variant === 'hero'
       ? `w-full rounded-full border border-white/20 bg-white/95 px-5 py-3.5 ${heroInputPadding} text-base text-[#160A0A] shadow-sm placeholder:text-slate-400 focus:border-[#DE3B34] focus:outline-none focus:ring-2 focus:ring-[#DE3B34]/20`
       : variant === 'page'
-        ? 'w-full rounded-xl border border-gray-200 bg-white px-5 py-3.5 text-base text-[#160A0A] placeholder:text-gray-400 shadow-sm focus:border-[#DE3B34] focus:outline-none focus:ring-2 focus:ring-[#DE3B34]/20'
+        ? `w-full rounded-xl border border-[#B38D42]/35 bg-[#160A0A] px-5 py-3.5 text-base text-white placeholder:text-white/45 shadow-[0_8px_24px_rgba(0,0,0,0.25)] focus:border-[#B38D42] focus:outline-none focus:ring-2 focus:ring-[#B38D42]/30 ${heroInputPadding}`
         : isGoldNavbar
           ? 'w-full rounded-full border border-[#B38D42] bg-[#170C0C]/95 px-4 py-2 text-sm text-white placeholder:text-[#CECDCB] transition-colors hover:border-[#E8D5A8] focus:border-[#E8D5A8] focus:outline-none focus:ring-1 focus:ring-[#B38D42]/50'
           : 'w-full rounded-full border border-[#6C2B27] bg-[#170C0C]/95 px-4 py-2 text-sm text-white placeholder:text-[#CECDCB] focus:border-[#DE3B34] focus:outline-none focus:ring-1 focus:ring-[#DE3B34]/40';
@@ -223,11 +234,11 @@ export default function SiteSearch({
           {variant !== 'navbar' ? (
             <button
               type="submit"
-              className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full text-white transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42] ${
-                isGoldHero
+              className={`absolute top-1/2 z-10 -translate-y-1/2 flex items-center justify-center rounded-full text-white transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42] ${
+                isGoldHero || isGoldPage
                   ? 'h-[38px] w-[38px] cursor-pointer bg-[#B38D42] hover:bg-[#9A7635] shadow-[0_0_12px_rgba(179,141,66,0.35)]'
-                  : 'h-9 w-9 bg-[#DE3B34] hover:bg-[#c73731]'
-              } ${isRTL ? (isGoldHero ? 'left-1.5' : 'left-1.5') : isGoldHero ? 'right-1.5' : 'right-1.5'}`}
+                  : 'h-9 w-9 cursor-pointer bg-[#DE3B34] hover:bg-[#c73731]'
+              } ${isRTL ? 'left-1.5' : 'right-1.5'}`}
               aria-label={t.search}
             >
               <svg className={`${isGoldHero ? 'h-3.5 w-3.5' : 'h-4 w-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

@@ -1,5 +1,5 @@
 import { Locale } from '@/lib/translations';
-import { SearchResult } from '@/lib/search-index';
+import { externalSearchResultId, SearchResult } from '@/lib/search-index';
 
 interface ExternalArticle {
   title: string;
@@ -208,7 +208,7 @@ export const searchExternalArticles = async (query: string, locale: Locale, limi
       if (score <= 0) continue;
 
       results.push({
-        id: `ext-${article.url.replace(/[^a-z0-9]/gi, '').slice(0, 32)}`,
+        id: externalSearchResultId(article.url),
         type: 'external',
         title: article.title,
         description:

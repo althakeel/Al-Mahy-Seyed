@@ -1,5 +1,5 @@
 import { Locale } from '@/lib/translations';
-import { SearchResult } from '@/lib/search-index';
+import { externalSearchResultId, SearchResult } from '@/lib/search-index';
 
 const SERPAPI_BASE = 'https://serpapi.com/search.json';
 const CACHE_TTL_MS = 10 * 60 * 1000;
@@ -56,7 +56,7 @@ const organicToResult = (item: SerpApiOrganicResult, locale: Locale): SearchResu
   const source = getSourceName(href, item.source || item.displayed_link);
 
   return {
-    id: `google-${position}-${href.replace(/[^a-z0-9]/gi, '').slice(0, 28)}`,
+    id: externalSearchResultId(href, `google-${position}`),
     type: 'external',
     title,
     description:
@@ -75,7 +75,7 @@ const relatedToResult = (item: SerpApiRelatedQuestion, index: number, locale: Lo
   if (!href?.startsWith('http') || !title) return null;
 
   return {
-    id: `google-rq-${index}-${href.replace(/[^a-z0-9]/gi, '').slice(0, 24)}`,
+    id: externalSearchResultId(href, `google-rq-${index}`),
     type: 'external',
     title,
     description:
