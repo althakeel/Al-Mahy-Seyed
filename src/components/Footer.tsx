@@ -202,7 +202,7 @@ export default function Footer({ locale }: { locale: Locale }) {
           fill
           priority={false}
           className="object-cover object-center"
-          sizes="100vw"
+          sizes="(max-width: 1920px) 100vw, 1920px"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/45" aria-hidden />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" aria-hidden />

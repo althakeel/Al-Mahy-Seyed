@@ -118,60 +118,68 @@ function SectionScaleWatermark() {
 }
 
 function StatCard({ number, label, icon, isArabic = false }: StatProps) {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const hasAnimatedRef = useRef(false);
 
   const targetNumber = parseFloat(number.replace(/[^0-9.]/g, ''));
   const hasPlus = number.includes('+');
   const hasPercent = number.includes('%');
   const hasB = number.includes('B');
 
+  // SSR + first paint show the real value — never start at 0.
+  const [count, setCount] = useState(targetNumber);
+
+  const formatValue = (value: number) => {
+    const numeric = hasB ? value.toFixed(2) : Math.round(value).toLocaleString('en-US');
+    let formatted = hasB ? `${numeric}B` : numeric;
+    if (hasPlus) formatted += '+';
+    if (hasPercent) formatted += '%';
+    return formatted;
+  };
+
   useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const inViewOnMount = el.getBoundingClientRect().top < window.innerHeight * 0.92;
+    if (inViewOnMount) return;
+
+    // Below the fold: reset before the user scrolls here so they see the count-up, not a flash of 0 on load.
+    setCount(0);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (!entry.isIntersecting || hasAnimatedRef.current) return;
+        hasAnimatedRef.current = true;
+
+        const duration = 2000;
+        const steps = 60;
+        const increment = targetNumber / steps;
+        let current = 0;
+
+        const timer = window.setInterval(() => {
+          current += increment;
+          if (current >= targetNumber) {
+            setCount(targetNumber);
+            window.clearInterval(timer);
+          } else {
+            setCount(current);
+          }
+        }, duration / steps);
+
+        observer.disconnect();
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 },
     );
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
+    observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [targetNumber]);
 
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const duration = 2000;
-    const steps = 60;
-    const increment = targetNumber / steps;
-    let current = 0;
-
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= targetNumber) {
-        setCount(targetNumber);
-        clearInterval(timer);
-      } else {
-        setCount(current);
-      }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [isVisible, targetNumber]);
-
-  const displayValue = () => {
-    const numeric = hasB ? count.toFixed(2) : Math.round(count).toLocaleString('en-US');
-    let value = hasB ? `${numeric}B` : numeric;
-    if (hasPlus) value += '+';
-    if (hasPercent) value += '%';
-    return value;
-  };
+  const displayValue = () => formatValue(count);
 
   const labelLines = formatLabelLines(label, isArabic);
   const formattedNumber = displayValue();

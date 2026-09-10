@@ -9,6 +9,9 @@ interface HeroBackgroundSliderProps {
   isRTL: boolean;
 }
 
+/** Cap hero LCP image width — full-bleed but not 4K oversized requests. */
+const HERO_SIZES = '(max-width: 1920px) 100vw, 1920px';
+
 export default function HeroBackgroundSlider({ slides, activeIndex, isRTL }: HeroBackgroundSliderProps) {
   const safeIndex = activeIndex % slides.length;
 
@@ -17,6 +20,8 @@ export default function HeroBackgroundSlider({ slides, activeIndex, isRTL }: Her
       {slides.map((slide, index) => {
         const isActive = index === safeIndex;
         const objectPosition = slide.objectPosition ?? 'center';
+        const isLcpCandidate = index === 0;
+        const sameAsset = slide.mobile === slide.desktop;
 
         return (
           <div
@@ -25,24 +30,40 @@ export default function HeroBackgroundSlider({ slides, activeIndex, isRTL }: Her
               isActive ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <Image
-              src={slide.mobile}
-              alt=""
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className="object-cover md:hidden"
-              style={{ objectPosition }}
-            />
-            <Image
-              src={slide.desktop}
-              alt=""
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className="hidden object-cover md:block"
-              style={{ objectPosition: isRTL ? 'center' : objectPosition }}
-            />
+            {sameAsset ? (
+              <Image
+                src={slide.desktop}
+                alt=""
+                fill
+                priority={isLcpCandidate}
+                loading={isLcpCandidate ? undefined : 'lazy'}
+                sizes={HERO_SIZES}
+                className="object-cover"
+                style={{ objectPosition: isRTL ? 'center' : objectPosition }}
+              />
+            ) : (
+              <>
+                <Image
+                  src={slide.mobile}
+                  alt=""
+                  fill
+                  priority={isLcpCandidate}
+                  loading={isLcpCandidate ? undefined : 'lazy'}
+                  sizes={HERO_SIZES}
+                  className="object-cover md:hidden"
+                  style={{ objectPosition }}
+                />
+                <Image
+                  src={slide.desktop}
+                  alt=""
+                  fill
+                  loading="lazy"
+                  sizes={HERO_SIZES}
+                  className="hidden object-cover md:block"
+                  style={{ objectPosition: isRTL ? 'center' : objectPosition }}
+                />
+              </>
+            )}
           </div>
         );
       })}

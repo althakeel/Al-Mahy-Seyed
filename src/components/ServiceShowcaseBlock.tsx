@@ -141,11 +141,9 @@ export default function ServiceShowcaseBlock({
                   src={item.image}
                   alt={item.alt}
                   fill
-                  priority={index === 0}
-                  quality={100}
-                  unoptimized={item.slug === 'legal-services'}
+                  quality={85}
                   className="object-cover object-center transition-transform duration-700 ease-out scale-[1.12] group-hover:scale-100"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) calc(100vw - 32px), 625px"
                 />
               </div>
             </div>
