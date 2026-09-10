@@ -269,10 +269,10 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
   const navLinks = [
     { href: `/${lang}`, label: t.home, exact: true },
     { href: `/${lang}/services`, label: t.ourServices },
-    // { href: `/${lang}/pricing-table`, label: t.pricing },
-    // { href: `/${lang}/blogs`, label: t.blogs },
-    // { href: `/${lang}/about`, label: t.whoAreWe },
-    // { href: `/${lang}/contact`, label: t.contactUs },
+    { href: `/${lang}/pricing-table`, label: t.pricing },
+    { href: `/${lang}/blogs`, label: t.blogs },
+    { href: `/${lang}/about`, label: t.whoAreWe },
+    { href: `/${lang}/contact`, label: t.contactUs },
   ];
 
   const languageButtonClass = (active: boolean) =>
