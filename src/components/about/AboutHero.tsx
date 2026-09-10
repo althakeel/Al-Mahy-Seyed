@@ -51,7 +51,7 @@ export default function AboutHero({
           style={{
             width: HERO_IMAGE_OVERSCAN,
             height: HERO_IMAGE_OVERSCAN,
-            transform: `translate(-50%, -50%) scale(${HERO_IMAGE_SCALE})`,
+            transform: `translate(-50%, calc(-50% + 6%)) scale(${HERO_IMAGE_SCALE})`,
           }}
         >
           <Image
@@ -60,7 +60,7 @@ export default function AboutHero({
             fill
             priority
             sizes="100vw"
-            className={`object-cover ${isArabic ? 'object-[28%_center]' : 'object-[72%_center]'}`}
+            className={`object-cover ${isArabic ? 'object-[28%_72%]' : 'object-[72%_72%]'}`}
           />
         </div>
 
