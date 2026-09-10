@@ -51,12 +51,6 @@ export default function AboutIntroSection({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#100B0B]/35 via-transparent to-transparent" />
             </div>
-            <span
-              className={`pointer-events-none absolute -bottom-3 h-[72%] w-[72%] rounded-[22px] border border-[#B38D42]/35 ${
-                isArabic ? '-left-3' : '-right-3'
-              }`}
-              aria-hidden="true"
-            />
           </div>
 
           <div className={`flex flex-col justify-center lg:col-span-6 ${isArabic ? 'text-right lg:order-1' : 'text-left'}`}>

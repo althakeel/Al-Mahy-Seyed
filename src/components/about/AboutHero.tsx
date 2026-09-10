@@ -2,10 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Locale } from '@/lib/translations';
 
-const HERO_IMAGE = '/images/about/team-bg-v6.png';
-/** Visual pull-back scale — overscan size compensates so edges stay full-bleed */
-const HERO_IMAGE_SCALE = 0.94;
-const HERO_IMAGE_OVERSCAN = `${(100 / HERO_IMAGE_SCALE).toFixed(4)}%`;
+const HERO_IMAGE = '/assets/bannerSlider/hero-team-group-v6.png';
 
 function ArrowIcon({ className = 'h-3.5 w-3.5' }: { className?: string }) {
   return (
@@ -40,44 +37,24 @@ export default function AboutHero({
   const isArabic = locale === 'ar';
 
   return (
-    <section className="relative min-h-[580px] overflow-hidden bg-[#100B0B] md:min-h-[680px]">
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        {/*
-          scale(0.94) alone leaves ~3% gaps per side (section bg shows through).
-          Overscan the wrapper to 100/0.94% before scaling so the photo stays full-bleed.
-        */}
-        <div
-          className="absolute left-1/2 top-1/2 origin-center"
-          style={{
-            width: HERO_IMAGE_OVERSCAN,
-            height: HERO_IMAGE_OVERSCAN,
-            transform: `translate(-50%, calc(-50% + 6%)) scale(${HERO_IMAGE_SCALE})`,
-          }}
-        >
-          <Image
-            src={HERO_IMAGE}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className={`object-cover ${isArabic ? 'object-[28%_72%]' : 'object-[72%_72%]'}`}
-          />
-        </div>
-
-        {/* Directional overlay: heavy on the text side, open on the team-photo side */}
-        <div
-          className={`absolute inset-0 ${
-            isArabic ? 'bg-gradient-to-l' : 'bg-gradient-to-r'
-          } from-[#100B0B]/97 via-[#160A0A]/65 to-[#160A0A]/12`}
+    <section className="relative flex min-h-[680px] w-full items-center overflow-hidden bg-[#100B0B] md:min-h-[720px]">
+      <div className="absolute inset-0" aria-hidden="true">
+        <Image
+          src={HERO_IMAGE}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: isArabic ? 'center' : 'center 32%' }}
         />
-
-        {/* Bottom fade for depth — slightly stronger for stats readability on the left */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#100B0B]/92 via-[#100B0B]/28 to-transparent" />
+        <div className="absolute inset-0 bg-[#100B0B]/80" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1250px] px-4 pb-14 pt-28 md:pb-16 md:pt-32 lg:px-8">
-        <div className={`max-w-2xl ${isArabic ? 'ms-auto text-right' : 'text-left'}`}>
-          <div className={`mb-5 flex items-center gap-3 ${isArabic ? 'flex-row-reverse justify-end' : ''}`}>
+      <div className="relative z-10 w-full px-4 pb-14 pt-28 md:px-8 md:pb-16 md:pt-32 lg:px-8">
+        <div className="mx-auto w-full max-w-[1250px]">
+          <div className={`max-w-2xl text-left ${isArabic ? 'ml-0 mr-auto' : ''}`}>
+          <div className="mb-5 flex items-center gap-3">
             <span className="h-px w-8 shrink-0 bg-[#B38D42]" aria-hidden="true" />
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B38D42]">{eyebrow}</p>
           </div>
@@ -89,7 +66,7 @@ export default function AboutHero({
             {title}
           </h1>
 
-          <div className={`mt-8 flex flex-wrap gap-3.5 ${isArabic ? 'justify-end' : 'justify-start'}`}>
+          <div className="mt-8 flex flex-wrap justify-start gap-3.5">
             <Link
               href={`/${locale}/contact`}
               className="hero-btn-glow-solid inline-flex h-[52px] cursor-pointer items-center gap-2 rounded-md bg-[#B38D42] px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
@@ -121,6 +98,7 @@ export default function AboutHero({
                 </p>
               </div>
             ))}
+          </div>
           </div>
         </div>
       </div>
