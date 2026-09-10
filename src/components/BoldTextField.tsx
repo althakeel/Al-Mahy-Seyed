@@ -395,7 +395,7 @@ export function FormattedText({
           ol: ({ children }) => <ol className={`${compact ? 'mb-2' : 'mb-4'} list-decimal space-y-1 pl-5`}>{children}</ol>,
           li: ({ children }) => <li className="leading-relaxed">{children}</li>,
           blockquote: ({ children }) => (
-            <blockquote className="my-4 border-l-4 border-[#DE3B34] bg-[#fff7f6] px-4 py-3 text-[#3a3a3a]">{children}</blockquote>
+            <blockquote className="my-4 border-s-4 border-[#B38D42] bg-[#B38D42]/8 px-4 py-3 text-[#160A0A]/85">{children}</blockquote>
           ),
           hr: () => <hr className="my-6 border-[#e5e5e5]" />,
           a: ({ href, children }) => {
@@ -414,7 +414,7 @@ export function FormattedText({
               );
             }
             return (
-              <a href={href} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#DE3B34] underline underline-offset-2">
+              <a href={href} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#B38D42] underline underline-offset-2 transition-colors hover:text-[#9A7635]">
                 {children}
               </a>
             );

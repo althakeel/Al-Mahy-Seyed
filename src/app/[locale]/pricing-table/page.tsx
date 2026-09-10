@@ -1,6 +1,14 @@
+import PricingPackagesCarousel from "@/components/PricingPackagesCarousel";
+import PricingCtaSection from "@/components/pricing/PricingCtaSection";
+import PricingHero from "@/components/pricing/PricingHero";
+import PricingSectionHeading from "@/components/pricing/PricingSectionHeading";
+import {
+  PACKAGE_GRADIENT_DIAMOND,
+  PACKAGE_GRADIENT_GOLDEN,
+  PACKAGE_GRADIENT_VIP,
+} from "@/components/pricing/package-gradients";
 import { Locale } from "@/lib/translations";
 import { Metadata } from "next";
-import PricingPackagesCarousel from "@/components/PricingPackagesCarousel";
 
 type CaseItem = {
   title: string;
@@ -165,7 +173,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "GOLDEN PACKAGE",
         rightSubtitle: "10K MONTHLY",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: [
           { collection: "", finalPayment: "", advancePayment: "Not Included" },
           { collection: "", finalPayment: "", advancePayment: "Per File" },
@@ -186,7 +194,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "VIP PACKAGE",
         rightSubtitle: "15K MONTHLY",
-        headerGradient: "linear-gradient(120deg,#8B7300 0%,#A88D10 34%,#C4A833 62%,#B79614 100%)",
+        headerGradient: PACKAGE_GRADIENT_VIP,
         paymentItems: [
           { collection: "", finalPayment: "", advancePayment: "IN" },
           { collection: "", finalPayment: "", advancePayment: "in" },
@@ -207,7 +215,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "DIAMOND PACKAGE",
         rightSubtitle: "21K MONTHLY",
-        headerGradient: "linear-gradient(120deg,#9D6A43 0%,#B67A4E 38%,#C58C5E 65%,#A87349 100%)",
+        headerGradient: PACKAGE_GRADIENT_DIAMOND,
         paymentItems: [
           { collection: "", finalPayment: "", advancePayment: "IN" },
           { collection: "", finalPayment: "", advancePayment: "in" },
@@ -272,7 +280,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "GOLDEN PACKAGE",
         rightSubtitle: "AED 8K MONTHLY/ 5H",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: [
           { collection: "Included", finalPayment: "Included", advancePayment: "Included" },
           { collection: "Included", finalPayment: "Included", advancePayment: "Included" },
@@ -286,7 +294,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "VIP PACKAGE",
         rightSubtitle: "AED 15K MONTHLY/9H",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: [
           { collection: "Included", finalPayment: "Included", advancePayment: "Included" },
           { collection: "Included", finalPayment: "Included", advancePayment: "Included" },
@@ -300,7 +308,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "DIAMOND PACKAGE",
         rightSubtitle: "AED 25K MONTHLY/ 18H",
-        headerGradient: "linear-gradient(120deg,#9D6A43 0%,#B67A4E 38%,#C58C5E 65%,#A87349 100%)",
+        headerGradient: PACKAGE_GRADIENT_DIAMOND,
         paymentItems: [
           { collection: "Included", finalPayment: "Included", advancePayment: "Included" },
           { collection: "Included", finalPayment: "Included", advancePayment: "Included" },
@@ -342,7 +350,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "PACKAGES",
         rightSubtitle: "VIRTUAL • SHARED • PRIVATE OFFICE • 1-YR CONTRACT",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: buildComparisonPaymentItems("Included"),
         note: "",
       },
@@ -434,7 +442,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "الباقة الذهبية",
         rightSubtitle: "10K شهرياً",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: [
           { collection: "", finalPayment: "", advancePayment: "غير شامل" },
           { collection: "", finalPayment: "", advancePayment: "لكل ملف" },
@@ -455,7 +463,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "باقة VIP",
         rightSubtitle: "15K شهرياً",
-        headerGradient: "linear-gradient(120deg,#8B7300 0%,#A88D10 34%,#C4A833 62%,#B79614 100%)",
+        headerGradient: PACKAGE_GRADIENT_VIP,
         paymentItems: [
           { collection: "", finalPayment: "", advancePayment: "IN" },
           { collection: "", finalPayment: "", advancePayment: "in" },
@@ -476,7 +484,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "باقة الألماس",
         rightSubtitle: "21K شهرياً",
-        headerGradient: "linear-gradient(120deg,#9D6A43 0%,#B67A4E 38%,#C58C5E 65%,#A87349 100%)",
+        headerGradient: PACKAGE_GRADIENT_DIAMOND,
         paymentItems: [
           { collection: "", finalPayment: "", advancePayment: "IN" },
           { collection: "", finalPayment: "", advancePayment: "in" },
@@ -541,7 +549,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "GOLDEN PACKAGE",
         rightSubtitle: "AED 8K MONTHLY/ 5H",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: [
           { collection: "مشمول", finalPayment: "مشمول", advancePayment: "مشمول" },
           { collection: "مشمول", finalPayment: "مشمول", advancePayment: "مشمول" },
@@ -555,7 +563,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "VIP PACKAGE",
         rightSubtitle: "AED 15K MONTHLY/9H",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: [
           { collection: "مشمول", finalPayment: "مشمول", advancePayment: "مشمول" },
           { collection: "مشمول", finalPayment: "مشمول", advancePayment: "مشمول" },
@@ -569,7 +577,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "DIAMOND PACKAGE",
         rightSubtitle: "AED 25K MONTHLY/ 18H",
-        headerGradient: "linear-gradient(120deg,#9D6A43 0%,#B67A4E 38%,#C58C5E 65%,#A87349 100%)",
+        headerGradient: PACKAGE_GRADIENT_DIAMOND,
         paymentItems: [
           { collection: "مشمول", finalPayment: "مشمول", advancePayment: "مشمول" },
           { collection: "مشمول", finalPayment: "مشمول", advancePayment: "مشمول" },
@@ -611,7 +619,7 @@ const content: Record<Locale, PricingContent> = {
       {
         rightTitle: "الباقات",
         rightSubtitle: "مكتب افتراضي • مشترك • خاص • عقد لمدة سنة",
-        headerGradient: "linear-gradient(120deg,#A87900 0%,#C79B1F 35%,#E2C263 62%,#C4910F 100%)",
+        headerGradient: PACKAGE_GRADIENT_GOLDEN,
         paymentItems: buildComparisonPaymentItems("مشمول"),
         note: "",
       },
@@ -644,52 +652,36 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
       : "Hello, I need a custom package for my business.";
   const whatsappHref = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(salesMessage)}`;
 
+  const isArabic = lang === "ar";
+
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800 px-2 pb-0 pt-24 md:px-4 md:pt-28">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-amber-500/10 blur-3xl" />
-        <div className="absolute top-[36%] -left-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
-        <div className="absolute bottom-[18%] -right-20 h-64 w-64 rounded-full bg-amber-400/10 blur-3xl" />
-      </div>
+    <main className="min-h-screen bg-[#100B0B]">
+      <PricingHero
+        isArabic={isArabic}
+        title={isArabic ? "باقات خدماتنا" : "Legal Service Packages"}
+        subtitle={
+          isArabic
+            ? "اختر الباقة المناسبة لاحتياجات عملك"
+            : "Professional legal solutions designed for individuals, startups, and businesses across the UAE."
+        }
+      />
 
-      <div className="relative mx-auto max-w-[1280px]">
-        <div className="mb-10 text-center">
-          <h1 className="text-2xl font-black tracking-[0.03em] text-white md:text-4xl">
-            {lang === "ar" ? "باقات خدماتنا" : "Legal Service Packages"}
-          </h1>
-          <p className="mt-2 text-sm font-medium text-white/85 md:text-base">
-            {lang === "ar"
-              ? "اختر الباقة المناسبة لاحتياجات عملك"
-              : "Professional legal solutions designed for individuals, startups, and businesses across the UAE."}
-          </p>
-        </div>
+      <div className="mx-auto max-w-[1250px] px-4 pb-4 md:px-8">
+        <section className="py-12 md:py-16">
+          <PricingSectionHeading title={page.heading} isArabic={isArabic} />
+          <PricingPackagesCarousel
+            caseTypeLabel={page.caseTypeLabel}
+            colCollection={page.colCollection}
+            colFinal={page.colFinal}
+            colAdvance={page.colAdvance}
+            caseItems={page.caseItems}
+            packages={page.packages}
+            isArabic={isArabic}
+          />
+        </section>
 
-        <h2 className="text-center text-xl font-black tracking-[0.03em] text-[#FFD237] md:text-3xl">
-          {page.heading}
-        </h2>
-        <div className="mx-auto mb-8 mt-4 h-1 w-16 rounded-full bg-[#FFD237]" />
-        <PricingPackagesCarousel
-          caseTypeLabel={page.caseTypeLabel}
-          colCollection={page.colCollection}
-          colFinal={page.colFinal}
-          colAdvance={page.colAdvance}
-          caseItems={page.caseItems}
-          packages={page.packages}
-          isArabic={lang === "ar"}
-        />
-
-        <div className="my-12 flex items-center gap-6 md:my-16 md:gap-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-amber-300/30 to-amber-300/10" />
-          <span className="text-xl text-amber-300 md:text-2xl">✦</span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-amber-300/30 to-amber-300/10" />
-        </div>
-
-        <div className="mt-16">
-          <h2 className="text-center text-xl font-black tracking-[0.03em] text-[#FFD237] md:text-3xl">
-            {page.accountingHeading}
-          </h2>
-          <div className="mx-auto mb-8 mt-4 h-1 w-16 rounded-full bg-[#FFD237]" />
-
+        <section className="border-t border-[#B38D42]/35 py-12 md:py-16">
+          <PricingSectionHeading title={page.accountingHeading} isArabic={isArabic} />
           <PricingPackagesCarousel
             caseTypeLabel={page.accountingCaseTypeLabel}
             colCollection={page.accountingColCollection}
@@ -697,23 +689,13 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
             colAdvance={page.accountingColAdvance}
             caseItems={page.accountingCaseItems}
             packages={page.accountingPackages}
-            isArabic={lang === "ar"}
+            isArabic={isArabic}
             maxWidthClassName="max-w-[920px]"
           />
-        </div>
+        </section>
 
-        <div className="my-12 flex items-center gap-6 md:my-16 md:gap-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-amber-300/30 to-amber-300/10" />
-          <span className="text-xl text-amber-300 md:text-2xl">✦</span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-amber-300/30 to-amber-300/10" />
-        </div>
-
-        <div className="mt-16">
-          <h2 className="text-center text-xl font-black tracking-[0.03em] text-[#FFD237] md:text-3xl">
-            {page.corporateHeading}
-          </h2>
-          <div className="mx-auto mb-8 mt-4 h-1 w-16 rounded-full bg-[#FFD237]" />
-
+        <section className="border-t border-[#B38D42]/35 py-12 md:py-16">
+          <PricingSectionHeading title={page.corporateHeading} isArabic={isArabic} />
           <PricingPackagesCarousel
             caseTypeLabel={page.corporateCaseTypeLabel}
             colCollection={page.corporateColCollection}
@@ -721,42 +703,28 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
             colAdvance={page.corporateColAdvance}
             caseItems={page.corporateCaseItems}
             packages={page.corporatePackages}
-            isArabic={lang === "ar"}
+            isArabic={isArabic}
             noteRowIndex={false}
             inclusionMode
             packageColumns={page.corporatePackageColumns}
           />
-        </div>
-
-        <div className="my-12 flex items-center gap-6 md:my-16 md:gap-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-amber-300/30 to-amber-300/10" />
-          <span className="text-xl text-amber-300 md:text-2xl">✦</span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent via-amber-300/30 to-amber-300/10" />
-        </div>
-
+        </section>
       </div>
 
-      <section className="-mx-2 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-14 text-center md:-mx-4 md:px-10">
-        <h3 className="text-3xl font-black tracking-[0.02em] text-[#FFD237] md:text-[40px]">
-          {lang === "ar" ? "تحتاج إلى باقة مخصصة؟" : "Need a Tailored Legal Solution?"}
-        </h3>
-        <p className="mx-auto mt-5 max-w-3xl text-base font-semibold text-[#F2EBCF] md:text-[24px] md:leading-[1.3]">
-          {lang === "ar"
+      <PricingCtaSection
+        isArabic={isArabic}
+        title={isArabic ? "تحتاج إلى باقة مخصصة؟" : "Need a Tailored Legal Solution?"}
+        description={
+          isArabic
             ? "تواصل معنا للحصول على حل مصمم خصيصاً لاحتياجات عملك."
-            : "Our team will work with you to create a legal service package tailored to your business objectives, industry requirements, and budget."}
-        </p>
-        <a
-          href={whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mx-auto mt-10 inline-flex min-w-[220px] items-center justify-center rounded-full border border-[#D9B44A] bg-[#D9C06F] px-8 py-4 text-lg font-black text-[#111111] shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition hover:bg-[#E2CB7D]"
-        >
-          {lang === "ar" ? "تواصل مع فريق المبيعات" : "Book a Consultation"}
-        </a>
-        <p className="mt-5 text-base font-semibold text-[#F2EBCF]/90 md:text-lg">
-          {lang === "ar" ? "نخدم الشركات والأفراد في جميع أنحاء الإمارات." : "Serving businesses and individuals across the UAE."}
-        </p>
-      </section>
+            : "Our team will work with you to create a legal service package tailored to your business objectives, industry requirements, and budget."
+        }
+        buttonLabel={isArabic ? "تواصل مع فريق المبيعات" : "Book a Consultation"}
+        whatsappHref={whatsappHref}
+        footnote={
+          isArabic ? "نخدم الشركات والأفراد في جميع أنحاء الإمارات." : "Serving businesses and individuals across the UAE."
+        }
+      />
     </main>
   );
 }

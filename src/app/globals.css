@@ -390,7 +390,21 @@ body::-webkit-scrollbar-thumb {
   padding: 1px;
   overflow: hidden;
   isolation: isolate;
-  animation: heroBorderPulse 4.5s ease-in-out infinite;
+  animation: contactFormBorderPulse 5.5s ease-in-out infinite;
+}
+
+@keyframes contactFormBorderPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 8px rgba(179, 141, 66, 0.1),
+      0 0 16px rgba(179, 141, 66, 0.04);
+  }
+  50% {
+    box-shadow:
+      0 0 12px rgba(179, 141, 66, 0.18),
+      0 0 22px rgba(179, 141, 66, 0.08);
+  }
 }
 
 .contact-form-border-wrap::before {
@@ -400,17 +414,17 @@ body::-webkit-scrollbar-thumb {
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    rgba(179, 141, 66, 0.12) 30deg,
-    rgba(232, 213, 168, 0.95) 52deg,
-    rgba(179, 141, 66, 0.55) 68deg,
+    rgba(179, 141, 66, 0.06) 30deg,
+    rgba(232, 213, 168, 0.38) 52deg,
+    rgba(179, 141, 66, 0.22) 68deg,
     transparent 96deg,
     transparent 170deg,
-    rgba(179, 141, 66, 0.1) 210deg,
-    rgba(232, 213, 168, 0.75) 232deg,
-    rgba(179, 141, 66, 0.4) 248deg,
+    rgba(179, 141, 66, 0.05) 210deg,
+    rgba(232, 213, 168, 0.28) 232deg,
+    rgba(179, 141, 66, 0.16) 248deg,
     transparent 276deg
   );
-  animation: heroBorderFlow 5.5s linear infinite;
+  animation: heroBorderFlow 7s linear infinite;
   pointer-events: none;
 }
 
@@ -419,7 +433,7 @@ body::-webkit-scrollbar-thumb {
   z-index: 1;
   overflow: hidden;
   border-radius: 21px;
-  border: 1px solid rgba(179, 141, 66, 0.35);
+  border: 1px solid rgba(179, 141, 66, 0.28);
   background: rgba(22, 10, 10, 0.88);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -435,7 +449,7 @@ body::-webkit-scrollbar-thumb {
   right: -18%;
   width: 55%;
   height: 55%;
-  background: radial-gradient(circle, rgba(179, 141, 66, 0.12), transparent 68%);
+  background: radial-gradient(circle, rgba(179, 141, 66, 0.06), transparent 68%);
   pointer-events: none;
 }
 
@@ -630,6 +644,129 @@ body::-webkit-scrollbar-thumb {
 .blog-html-compact h3 {
   font-size: 1rem;
   margin: 0.35rem 0;
+}
+
+/* ── Blog article long-form prose ── */
+.blog-article-prose .blog-html-content a,
+.blog-article-prose a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.15rem 0;
+  padding: 0.4rem 0.85rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(179, 141, 66, 0.35);
+  background: rgba(179, 141, 66, 0.1);
+  color: #9a7635;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.blog-article-prose .blog-html-content a:hover,
+.blog-article-prose a:hover {
+  border-color: rgba(179, 141, 66, 0.55);
+  background: rgba(179, 141, 66, 0.16);
+  color: #7a5c28;
+}
+
+.blog-article-prose .blog-html-content h2,
+.blog-article-prose h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(179, 141, 66, 0.2);
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #160a0a;
+}
+
+.blog-article-prose .blog-html-content h3,
+.blog-article-prose h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #160a0a;
+}
+
+.blog-article-prose .blog-html-content ul,
+.blog-article-prose ul {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding-inline-start: 0;
+}
+
+.blog-article-prose .blog-html-content ul li,
+.blog-article-prose ul li {
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding-inline-start: 1.35rem;
+  line-height: 1.75;
+}
+
+.blog-article-prose .blog-html-content ul li::before,
+.blog-article-prose ul li::before {
+  content: "";
+  position: absolute;
+  top: 0.65em;
+  inset-inline-start: 0;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background: #b38d42;
+}
+
+.blog-article-prose .blog-html-content ol,
+.blog-article-prose ol {
+  list-style: none;
+  counter-reset: blog-article-counter;
+  margin: 0 0 1.25rem;
+  padding-inline-start: 0;
+}
+
+.blog-article-prose .blog-html-content ol li,
+.blog-article-prose ol li {
+  position: relative;
+  counter-increment: blog-article-counter;
+  margin-bottom: 0.65rem;
+  padding-inline-start: 2rem;
+  line-height: 1.75;
+}
+
+.blog-article-prose .blog-html-content ol li::before,
+.blog-article-prose ol li::before {
+  content: counter(blog-article-counter);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(179, 141, 66, 0.35);
+  background: rgba(179, 141, 66, 0.12);
+  color: #b38d42;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.blog-article-prose .blog-html-content blockquote,
+.blog-article-prose blockquote {
+  margin: 1.25rem 0;
+  padding: 0.85rem 1rem;
+  border-inline-start: 4px solid #b38d42;
+  background: rgba(179, 141, 66, 0.08);
+  color: #160a0a;
+}
+
+.blog-article-prose .blog-html-content a {
+  word-break: break-word;
 }
 
 /* ── Legal practice area cards ── */
