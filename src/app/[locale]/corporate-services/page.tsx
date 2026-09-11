@@ -1,4 +1,8 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata, PAGE_SEO } from '@/lib/site-metadata';
+import { ServicePageSeo } from '@/lib/with-service-seo';
 import { Locale } from '@/lib/translations';
+import { isValidLocale } from '@/lib/utils';
 import CorporateServicesHero from '@/components/corporate-services/CorporateServicesHero';
 import OfficeSolutionsSection from '@/components/corporate-services/OfficeSolutionsSection';
 import CorporateServiceGrid from '@/components/corporate-services/CorporateServiceGrid';
@@ -111,6 +115,16 @@ async function fetchLatestCorporateNews(isArabic: boolean, fallbackItems: NewsIt
   } catch {
     return fallbackItems;
   }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : 'en';
+  return buildPageMetadata(lang, '/corporate-services', PAGE_SEO.corporateServices);
 }
 
 export default async function CorporateServicesPage({
@@ -360,6 +374,8 @@ export default async function CorporateServicesPage({
   const corporateNews = await fetchLatestCorporateNews(isArabic, fallbackNews);
 
   return (
+    <>
+      <ServicePageSeo locale={lang} path="/corporate-services" copy={PAGE_SEO.corporateServices} />
     <div className="min-h-screen bg-white text-[#160A0A]" dir={isArabic ? 'rtl' : 'ltr'} lang={lang}>
       <CorporateServicesHero
         isArabic={isArabic}
@@ -419,5 +435,6 @@ export default async function CorporateServicesPage({
         imagePool={newsFallbackImages}
       />
     </div>
+    </>
   );
 }

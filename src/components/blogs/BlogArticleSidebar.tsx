@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BlogPost } from '@/lib/blogs';
+import { BlogPost, getBlogLocalizedField } from '@/lib/blogs';
 import { Locale } from '@/lib/translations';
 
 function ArrowIcon({ isRTL }: { isRTL: boolean }) {
@@ -70,7 +70,7 @@ export default function BlogArticleSidebar({
                 {String(index + 1).padStart(2, '0')}
               </span>
               <span className="text-sm leading-relaxed text-[#160A0A]/80 transition-colors group-hover:text-[#9A7635]">
-                {lang === 'ar' ? recentBlog.titleAr || recentBlog.title : recentBlog.title}
+                {getBlogLocalizedField(recentBlog, 'title', lang)}
               </span>
             </Link>
           ))}

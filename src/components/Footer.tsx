@@ -99,7 +99,7 @@ function SectionHeading({ title }: { title: string }) {
 
 function FeatureIcon({ children }: { children: React.ReactNode }) {
   return (
-    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full border border-[#B38D42]/70 text-[#B38D42]">
+    <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full border border-[#B38D42]/70 text-[#B38D42] sm:h-11 sm:w-11 [&_svg]:h-3.5 [&_svg]:w-3.5 sm:[&_svg]:h-5 sm:[&_svg]:w-5">
       {children}
     </span>
   );
@@ -226,13 +226,17 @@ export default function Footer({ locale }: { locale: Locale }) {
                 </p>
               </div>
 
-              <div className="grid gap-6 sm:grid-cols-3">
+              <div className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-3 sm:gap-6">
                 {ctaFeatures.map((feature) => (
-                  <div key={feature.title} className="space-y-3">
+                  <div key={feature.title} className="min-w-0 space-y-1.5 sm:space-y-3">
                     <FeatureIcon>{feature.icon}</FeatureIcon>
-                    <div className="space-y-1">
-                      <p className="text-sm font-semibold text-white">{feature.title}</p>
-                      <p className="text-xs leading-relaxed text-white/65">{feature.desc}</p>
+                    <div className="space-y-0.5 sm:space-y-1">
+                      <p className="text-[13px] font-semibold leading-snug text-white sm:text-sm sm:leading-normal">
+                        {feature.title}
+                      </p>
+                      <p className="text-[11px] leading-[1.55] text-white/60 sm:text-xs sm:leading-relaxed sm:text-white/65">
+                        {feature.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -349,29 +353,29 @@ export default function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="relative mt-12 flex flex-col gap-6 border-t border-white/10 pt-8 pb-2 pe-20 text-sm text-white/60 sm:pe-24 lg:flex-row lg:items-center lg:justify-between">
-          <Link href={`/${lang}`} className="flex shrink-0 cursor-pointer items-center">
+        <div className="relative mt-12 flex w-full flex-col items-center gap-5 border-t border-white/10 pt-8 pb-2 text-center text-sm text-white/60 max-lg:px-2 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:pe-24 lg:text-start">
+          <Link href={`/${lang}`} className="mx-auto flex shrink-0 cursor-pointer items-center justify-center lg:mx-0">
             <Image src={Logo} alt="Almahy Legal Services" className="h-10 w-auto" />
           </Link>
 
-          <p className="text-center lg:flex-1">{t.footerText}</p>
+          <p className="w-full max-w-md text-center lg:flex-1">{t.footerText}</p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 text-white/70 lg:justify-end">
-            <Link href={`/${lang}/privacy`} className="cursor-pointer transition hover:text-[#B38D42]">
+          <div className="flex w-full flex-nowrap items-center justify-center gap-x-2 gap-y-0 text-xs text-white/70 sm:gap-x-4 sm:text-sm lg:w-auto lg:justify-end">
+            <Link href={`/${lang}/privacy`} className="shrink-0 cursor-pointer transition hover:text-[#B38D42]">
               {t.footerPrivacy}
             </Link>
-            <span className="text-white/30" aria-hidden>
+            <span className="shrink-0 text-white/30" aria-hidden>
               |
             </span>
-            <Link href={`/${lang}/terms`} className="cursor-pointer transition hover:text-[#B38D42]">
+            <Link href={`/${lang}/terms`} className="shrink-0 cursor-pointer transition hover:text-[#B38D42]">
               {t.footerTerms}
             </Link>
-            <div className="relative flex items-center gap-2 border-white/20 ps-0 lg:border-s lg:ps-4">
+            <div className="relative flex shrink-0 items-center gap-1.5 ps-1 sm:gap-2 lg:border-s lg:border-white/20 lg:ps-4">
               <Link
                 href={getLocalizedPathname(currentPath, 'en')}
                 aria-label="Switch to English"
                 aria-current={lang === 'en' ? 'true' : undefined}
-                className={`cursor-pointer rounded px-3 py-1.5 text-xs font-semibold transition-colors ${
+                className={`cursor-pointer rounded px-2 py-1 text-[11px] font-semibold transition-colors sm:px-3 sm:py-1.5 sm:text-xs ${
                   lang === 'en' ? 'bg-[#B38D42] text-white' : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
               >
@@ -381,7 +385,7 @@ export default function Footer({ locale }: { locale: Locale }) {
                 href={getLocalizedPathname(currentPath, 'ar')}
                 aria-label="Switch to Arabic"
                 aria-current={lang === 'ar' ? 'true' : undefined}
-                className={`cursor-pointer rounded px-3 py-1.5 text-xs font-semibold transition-colors ${
+                className={`cursor-pointer rounded px-2 py-1 text-[11px] font-semibold transition-colors sm:px-3 sm:py-1.5 sm:text-xs ${
                   lang === 'ar' ? 'bg-[#B38D42] text-white' : 'bg-white/10 text-white hover:bg-white/20'
                 }`}
               >

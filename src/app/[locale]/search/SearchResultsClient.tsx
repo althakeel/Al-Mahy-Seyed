@@ -178,9 +178,9 @@ export default function SearchResultsClient({
               </div>
             </div>
           ) : (
-            <p className={`mt-6 text-white/70 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <p className={`mt-6 break-words text-white/70 ${isRTL ? 'text-right' : 'text-left'}`}>
               {t.resultsFor}{' '}
-              <span className="font-semibold text-white">&ldquo;{initialQuery}&rdquo;</span>
+              <span className="font-semibold text-white break-words">&ldquo;{initialQuery}&rdquo;</span>
             </p>
           )}
         </div>

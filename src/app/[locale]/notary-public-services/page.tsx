@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
+import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
+import { ServicePageSeo } from "@/lib/with-service-seo";
 import { Locale } from "@/lib/translations";
+import { isValidLocale } from "@/lib/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : "en";
+  return buildPageMetadata(lang, "/notary-public-services", PAGE_SEO.notaryServices);
+}
 
 export default async function NotaryPublicServicesPage({
   params,
@@ -75,6 +89,8 @@ export default async function NotaryPublicServicesPage({
   ];
 
   return (
+    <>
+      <ServicePageSeo locale={lang} path="/notary-public-services" copy={PAGE_SEO.notaryServices} />
     <div className="min-h-screen bg-slate-950 text-white">
       <section className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-[#160A0A]" />
@@ -152,5 +168,6 @@ export default async function NotaryPublicServicesPage({
         </div>
       </section>
     </div>
+    </>
   );
 }

@@ -216,7 +216,7 @@ export default function SiteSearch({
   return (
     <div ref={containerRef} className={`relative ${className}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <form onSubmit={handleSubmit} className="flex items-center gap-2">
-        <div className={`relative flex-1 ${variant === 'navbar' ? 'w-44 lg:w-52' : 'w-full'}`}>
+        <div className={`relative flex-1 ${variant === 'navbar' ? 'w-36 md:w-40 lg:w-52' : 'w-full'}`}>
           <input
             ref={inputRef}
             type="search"

@@ -41,7 +41,7 @@ export default function AboutSectionWithVideo({ t, isRTL }: AboutSectionWithVide
   const [showVideo, setShowVideo] = useState(false);
 
   return (
-    <section className="flex w-full justify-center bg-[#F3F1EE] px-4 py-16 md:px-6 md:py-20">
+    <section className="flex w-full justify-center overflow-x-hidden bg-[#F3F1EE] px-4 py-16 md:px-6 md:py-20">
       {showVideo ? (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
@@ -107,7 +107,7 @@ export default function AboutSectionWithVideo({ t, isRTL }: AboutSectionWithVide
                   <div className="relative h-full w-full overflow-hidden rounded-full">
                     <Image
                       src="/assets/videotump.webp"
-                      alt="Scales of justice — Almahy Legal Services"
+                      alt="Scales of justice - Almahy Legal Services"
                       fill
                       className="object-cover grayscale-[18%]"
                       sizes="248px"
@@ -148,8 +148,8 @@ export default function AboutSectionWithVideo({ t, isRTL }: AboutSectionWithVide
             </div>
 
             {/* Mobile stats row */}
-            <div className="mt-5 flex w-full max-w-[540px] items-start justify-between gap-4 sm:hidden">
-              <div className={isRTL ? "text-left" : "text-right"}>
+            <div className="mt-5 flex w-full max-w-[540px] min-w-0 items-start justify-between gap-4 pb-2 sm:hidden">
+              <div className={`min-w-0 shrink ${isRTL ? "text-left" : "text-right"}`}>
                 <p className="text-4xl font-bold leading-none text-[#B38D42]" style={{ fontFamily: "Georgia, serif" }}>
                   {t.aboutYearsStat}
                 </p>
@@ -158,11 +158,11 @@ export default function AboutSectionWithVideo({ t, isRTL }: AboutSectionWithVide
                   {t.aboutYearsLabel}
                 </p>
               </div>
-              <div className={`flex items-start gap-2 ${isRTL ? "flex-row-reverse" : ""}`}>
-                <div>
+              <div className={`flex min-w-0 items-start gap-2 ${isRTL ? "flex-row-reverse" : ""}`}>
+                <div className="min-w-0">
                   <TrustedPeopleIcon />
                   <div
-                    className={`mt-1.5 text-[9px] font-semibold uppercase leading-[1.45] tracking-[0.1em] text-[#160A0A] ${
+                    className={`mt-1.5 text-[8px] font-semibold uppercase leading-[1.45] tracking-[0.08em] text-[#160A0A] min-[360px]:text-[9px] min-[360px]:tracking-[0.1em] ${
                       isRTL ? "text-right" : "text-left"
                     }`}
                   >
@@ -176,8 +176,8 @@ export default function AboutSectionWithVideo({ t, isRTL }: AboutSectionWithVide
               </div>
             </div>
 
-            {/* Overlapping testimonial card */}
-            <div className="relative z-[3] -mt-9 w-full max-w-[400px] px-2 sm:-mt-12">
+            {/* Overlapping testimonial card — stack below stats on mobile; overlap from sm+ only */}
+            <div className="relative z-[3] mt-5 w-full max-w-[400px] px-2 sm:-mt-12 sm:mt-0">
               <div className="relative rounded-2xl border border-[rgba(179,141,66,0.18)] bg-[rgba(179,141,66,0.10)] px-6 pb-6 pt-10 shadow-[0_14px_36px_rgba(22,10,10,0.08)] backdrop-blur-[2px]">
                 <div className="absolute left-1/2 top-0 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#B38D42] text-sm font-bold leading-none text-white shadow-md">
                   &ldquo;

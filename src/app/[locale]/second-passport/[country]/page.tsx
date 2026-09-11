@@ -1,3 +1,7 @@
+import type { Metadata } from "next";
+import JsonLd from "@/components/structured-data/JsonLd";
+import { buildAlternates } from "@/lib/site-metadata";
+import { buildFaqSchema } from "@/lib/structured-data-builders";
 import { Locale } from "@/lib/translations";
 import CountryDetailHero from "@/components/second-passport/CountryDetailHero";
 import CountryOverviewSection from "@/components/second-passport/CountryOverviewSection";
@@ -195,7 +199,7 @@ const antiguaExtendedContent = {
     eyebrow: "A World of Privilege, Freedom & Opportunity",
     heroTitle: "Antigua and Barbuda Citizenship by Investment",
     heroLead:
-      "For the few, the exceptional, and the elite — offering 150+ visa-free destinations, family inclusion, and investment routes from USD 230,000.",
+      "For the few, the exceptional, and the elite offering 150+ visa-free destinations, family inclusion, and investment routes from USD 230,000.",
     heroBody:
       "This Caribbean program combines efficient processing, premium mobility, and lifestyle value. Antigua, known as the Land of 365 Beaches, offers a secure and business-friendly environment with attractive tax positioning.",
     ctaPrimary: "Speak with an expert",
@@ -974,6 +978,27 @@ export function generateStaticParams() {
   ];
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; country: string }>;
+}): Promise<Metadata> {
+  const { locale, country } = await params;
+  const lang: Locale = locale === "ar" ? "ar" : "en";
+  const countryKey = (country in countryContent ? country : "antigua-barbuda") as CountrySlug;
+  const content = lang === "ar" ? countryContent[countryKey].ar : countryContent[countryKey].en;
+  const path = `/second-passport/${countryKey}`;
+
+  return {
+    title:
+      lang === "ar"
+        ? `${content.title} | المحي للجواز الثاني`
+        : `${content.title} | Almahy Second Passport`,
+    description: content.subtitle.slice(0, 160),
+    alternates: buildAlternates(lang, path),
+  };
+}
+
 export default async function SecondPassportCountryPage({
   params,
 }: {
@@ -1028,6 +1053,11 @@ export default async function SecondPassportCountryPage({
   const faqItems = extended.faqs.map((q) => ({ q, a: faqAnswer }));
 
   return (
+    <>
+      <JsonLd
+        id={`country-faq-schema-${countryKey}`}
+        data={buildFaqSchema(faqItems.map((item) => ({ question: item.q, answer: item.a })))}
+      />
     <div
       dir={isArabic ? "rtl" : "ltr"}
       className={`min-h-screen bg-white text-[#160A0A] ${isArabic ? "text-right" : "text-left"}`}
@@ -1102,6 +1132,7 @@ export default async function SecondPassportCountryPage({
         whatsappUrl={whatsappStartUrl}
       />
     </div>
+    </>
   );
 }
 

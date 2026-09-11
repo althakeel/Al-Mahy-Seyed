@@ -1,5 +1,5 @@
-import { BlogPost } from '@/lib/blogs';
-import { listBlogsFromMongo } from '@/lib/blogs-server';
+import { BlogPost, getBlogLocalizedField } from '@/lib/blogs';
+import { listBlogSummariesFromMongo } from '@/lib/blogs-server';
 import { searchExternalArticles } from '@/lib/external-search';
 import { searchGoogleWeb } from '@/lib/serpapi-search';
 import { Locale } from '@/lib/translations';
@@ -13,10 +13,9 @@ const normalize = (value: string) =>
     .trim();
 
 const scoreBlogMatch = (query: string, blog: BlogPost, locale: Locale): number => {
-  const title = locale === 'ar' ? blog.titleAr || blog.title : blog.title;
-  const description =
-    locale === 'ar' ? blog.shortDescriptionAr || blog.shortDescription : blog.shortDescription;
-  const content = locale === 'ar' ? blog.contentAr || blog.content : blog.content;
+  const title = getBlogLocalizedField(blog, 'title', locale);
+  const description = getBlogLocalizedField(blog, 'shortDescription', locale);
+  const content = getBlogLocalizedField(blog, 'content', locale);
 
   const q = normalize(query);
   if (!q) return 0;
@@ -42,9 +41,8 @@ const searchBlogs = (query: string, locale: Locale, blogs: BlogPost[]): SearchRe
     const score = scoreBlogMatch(query, blog, locale);
     if (score <= 0) continue;
 
-    const title = locale === 'ar' ? blog.titleAr || blog.title : blog.title;
-    const description =
-      locale === 'ar' ? blog.shortDescriptionAr || blog.shortDescription : blog.shortDescription;
+    const title = getBlogLocalizedField(blog, 'title', locale);
+    const description = getBlogLocalizedField(blog, 'shortDescription', locale);
 
     results.push({
       id: `blog-${blog.id}`,
@@ -75,7 +73,7 @@ export const searchSite = async (
 
   try {
     const [blogs, external, google] = await Promise.all([
-      listBlogsFromMongo(),
+      listBlogSummariesFromMongo(),
       searchExternalArticles(trimmed, locale, 6),
       searchGoogleWeb(trimmed, locale, 10),
     ]);

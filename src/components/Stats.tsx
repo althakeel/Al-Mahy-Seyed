@@ -296,7 +296,7 @@ export default function Stats({ locale }: { locale: Locale }) {
         </div>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-1 gap-5 min-[768px]:grid-cols-2 min-[768px]:gap-x-6 min-[768px]:gap-y-5 min-[1200px]:grid-cols-3 min-[1200px]:gap-x-7 min-[1200px]:gap-y-6">
+        <div className="grid grid-cols-1 gap-5 min-[768px]:grid-cols-2 min-[768px]:gap-x-4 min-[768px]:gap-y-5 min-[1200px]:grid-cols-3 min-[1200px]:gap-x-7 min-[1200px]:gap-y-6">
           {pageContent.stats.map((stat, index) => (
             <StatCard
               key={index}

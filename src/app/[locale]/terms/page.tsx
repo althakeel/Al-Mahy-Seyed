@@ -1,4 +1,17 @@
+import type { Metadata } from "next";
+import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
 import { Locale } from "@/lib/translations";
+import { isValidLocale } from "@/lib/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : "en";
+  return buildPageMetadata(lang, "/terms", PAGE_SEO.terms);
+}
 
 export default async function TermsPage({
   params,

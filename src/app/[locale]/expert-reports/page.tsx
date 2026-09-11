@@ -1,4 +1,8 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata, PAGE_SEO } from '@/lib/site-metadata';
+import { ServicePageSeo } from '@/lib/with-service-seo';
 import { Locale } from '@/lib/translations';
+import { isValidLocale } from '@/lib/utils';
 import ExpertReportsHero from '@/components/expert-reports/ExpertReportsHero';
 import ExpertReportsServicesSection from '@/components/expert-reports/ExpertReportsServicesSection';
 import ExpertReportsDeliverablesGrid from '@/components/expert-reports/ExpertReportsDeliverablesGrid';
@@ -24,6 +28,16 @@ const galleryImages = [
     alt: 'Arbitration',
   },
 ];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : 'en';
+  return buildPageMetadata(lang, '/expert-reports', PAGE_SEO.expertReports);
+}
 
 export default async function ExpertReportsPage({
   params,
@@ -108,6 +122,8 @@ export default async function ExpertReportsPage({
   const heroHighlights = c.deliverList.slice(0, 3);
 
   return (
+    <>
+      <ServicePageSeo locale={lang} path="/expert-reports" copy={PAGE_SEO.expertReports} />
     <div
       className={`min-h-screen bg-white text-[#160A0A] ${isArabic ? 'text-right' : 'text-left'}`}
       dir={isArabic ? 'rtl' : 'ltr'}
@@ -148,5 +164,6 @@ export default async function ExpertReportsPage({
 
       <ExpertReportsInlineCta text={c.cta} />
     </div>
+    </>
   );
 }

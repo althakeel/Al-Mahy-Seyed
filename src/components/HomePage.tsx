@@ -43,14 +43,14 @@ export default function HomePage({ locale }: HomePageProps) {
   return (
     <div dir={isRTL ? "rtl" : "ltr"} lang={lang} className="w-full overflow-x-hidden">
       {/* HERO SECTION */}
-      <section className="relative flex min-h-[680px] w-full items-center overflow-hidden bg-[#100B0B] md:min-h-[720px]">
+      <section className="relative flex min-h-[680px] w-full items-center overflow-hidden bg-[#100B0B] max-md:min-h-[580px] md:min-h-[720px]">
         <HeroBackgroundSlider slides={heroSlides} activeIndex={0} isRTL={isRTL} />
 
         <div className="absolute inset-0" style={{ background: heroOverlayGradient }} aria-hidden="true" />
         <div className="absolute inset-0 bg-[rgba(10,6,6,0.22)] min-[901px]:hidden" aria-hidden="true" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#100B0B] to-transparent" aria-hidden="true" />
 
-        <div className="relative z-10 w-full px-4 py-28 md:px-8 md:py-32">
+        <div className="relative z-10 w-full px-4 py-24 max-md:py-24 md:px-8 md:py-32">
           <div className="mx-auto grid w-full max-w-[1250px] grid-cols-1 items-center gap-8 min-[901px]:grid-cols-[minmax(0,1fr)_380px] min-[901px]:gap-10">
             {/* Left copy */}
             <div
@@ -93,11 +93,11 @@ export default function HomePage({ locale }: HomePageProps) {
                   : "Trusted legal consultation, corporate services, notary support, and practical solutions for individuals and businesses across the UAE."}
               </p>
 
-              <div className={`mt-8 flex flex-wrap gap-3.5 ${isRTL ? "justify-end" : "justify-start"}`}>
+              <div className={`mt-8 flex flex-wrap gap-3.5 max-sm:flex-col max-sm:items-stretch ${isRTL ? "justify-end max-sm:items-stretch" : "justify-start"}`}>
                 <Link
                   href={`/${lang}/services`}
                   translate="no"
-                  className="notranslate hero-btn-glow-solid inline-flex h-[52px] items-center gap-2 rounded-md bg-[#B38D42] px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
+                  className="notranslate hero-btn-glow-solid inline-flex h-[52px] max-sm:w-full max-sm:justify-center items-center gap-2 rounded-md bg-[#B38D42] px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
                 >
                   <span translate="no" className="notranslate">
                     {isRTL ? "اعرف المزيد" : "Learn More"}
@@ -107,7 +107,7 @@ export default function HomePage({ locale }: HomePageProps) {
                 <Link
                   href={`/${lang}/contact`}
                   translate="no"
-                  className="notranslate hero-btn-glow-outline inline-flex h-[52px] items-center gap-2 rounded-md bg-transparent px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[rgba(179,141,66,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
+                  className="notranslate hero-btn-glow-outline inline-flex h-[52px] max-sm:w-full max-sm:justify-center items-center gap-2 rounded-md bg-transparent px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[rgba(179,141,66,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
                 >
                   <span translate="no" className="notranslate">
                     {isRTL ? "تواصل معنا" : "Contact Us"}

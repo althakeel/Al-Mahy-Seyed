@@ -214,7 +214,7 @@ export const searchExternalArticles = async (query: string, locale: Locale, limi
         description:
           locale === 'ar'
             ? `${article.summary} — مصدر: ${article.source}`
-            : `${article.summary} — Source: ${article.source}`,
+            : `${article.summary} - Source: ${article.source}`,
         href: article.url,
         score,
         isExternal: true,

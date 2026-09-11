@@ -1,9 +1,23 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata, PAGE_SEO } from '@/lib/site-metadata';
+import { ServicePageSeo } from '@/lib/with-service-seo';
 import { Locale } from '@/lib/translations';
+import { isValidLocale } from '@/lib/utils';
 import AccountingServicesHero from '@/components/accounting-services/AccountingServicesHero';
 import AccountingIntroSection from '@/components/accounting-services/AccountingIntroSection';
 import AccountingDeliverablesGrid from '@/components/accounting-services/AccountingDeliverablesGrid';
 import AccountingWhyChooseSection from '@/components/accounting-services/AccountingWhyChooseSection';
 import AccountingCtaSection from '@/components/accounting-services/AccountingCtaSection';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : 'en';
+  return buildPageMetadata(lang, '/accounting-services', PAGE_SEO.accountingServices);
+}
 
 export default async function AccountingServicesPage({
   params,
@@ -113,6 +127,8 @@ export default async function AccountingServicesPage({
     : 'Whether you are launching a startup or managing an established business, our accounting professionals are ready to help with bookkeeping, tax compliance, payroll, and financial reporting across the UAE.';
 
   return (
+    <>
+      <ServicePageSeo locale={lang} path="/accounting-services" copy={PAGE_SEO.accountingServices} />
     <div
       className={`min-h-screen bg-white text-[#160A0A] ${isArabic ? 'text-right' : 'text-left'}`}
       dir={isArabic ? 'rtl' : 'ltr'}
@@ -163,5 +179,6 @@ export default async function AccountingServicesPage({
         contactLabel={isArabic ? 'تواصل معنا' : 'Contact Us'}
       />
     </div>
+    </>
   );
 }

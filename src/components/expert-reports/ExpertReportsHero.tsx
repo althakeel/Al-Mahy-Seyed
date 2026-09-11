@@ -51,7 +51,7 @@ export default function ExpertReportsHero({
         fill
         priority
         className={`object-cover ${isArabic ? 'object-[25%_center]' : 'object-[75%_center]'}`}
-        sizes="100vw"
+        sizes="(max-width: 1920px) 100vw, 1920px"
       />
       <div
         className={`absolute inset-0 ${isArabic ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-[#100B0B]/90 via-[#100B0B]/55 to-[#100B0B]/15`}
@@ -72,7 +72,7 @@ export default function ExpertReportsHero({
             dangerouslySetInnerHTML={{ __html: subtitle }}
           />
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="mt-6 grid gap-3 sm:grid-cols-1 md:grid-cols-3">
             {highlights.map((item, index) => (
               <div
                 key={item}

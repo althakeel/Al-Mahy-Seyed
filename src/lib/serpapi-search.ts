@@ -61,7 +61,7 @@ const organicToResult = (item: SerpApiOrganicResult, locale: Locale): SearchResu
     title,
     description:
       item.snippet?.trim() ||
-      (locale === 'ar' ? `نتيجة من Google — ${source}` : `Google search result — ${source}`),
+      (locale === 'ar' ? `نتيجة من Google - ${source}` : `Google search result - ${source}`),
     href,
     score: Math.max(20, 110 - position * 10),
     isExternal: true,

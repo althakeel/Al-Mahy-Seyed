@@ -7,7 +7,13 @@ import { FormattedText } from '@/components/BoldTextField';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Locale } from '@/lib/translations';
-import { BlogPost, loadBlogBySlugFromServer, loadBlogsFromServer } from '@/lib/blogs';
+import {
+  BlogPost,
+  getBlogLocalizedField,
+  isBlogFieldAvailableInArabic,
+  loadBlogBySlugFromServer,
+  loadRecentBlogsFromServer,
+} from '@/lib/blogs';
 
 export default function BlogDetailsPage() {
   const params = useParams();
@@ -24,9 +30,12 @@ export default function BlogDetailsPage() {
       setIsLoading(true);
       setBlog(null);
       try {
-        const [post, allBlogs] = await Promise.all([loadBlogBySlugFromServer(slug), loadBlogsFromServer()]);
+        const [post, recent] = await Promise.all([
+          loadBlogBySlugFromServer(slug),
+          loadRecentBlogsFromServer(slug, 4),
+        ]);
         setBlog(post);
-        setRecentBlogs(allBlogs.filter((item) => item.slug !== slug).slice(0, 4));
+        setRecentBlogs(recent);
       } finally {
         setIsLoading(false);
       }
@@ -56,14 +65,15 @@ export default function BlogDetailsPage() {
     lang === 'ar'
       ? blog?.bannerImageAr || blog?.bannerImage || blog?.imageAr || blog?.image || ''
       : blog?.bannerImage || blog?.image || '';
-  const title = lang === 'ar' ? blog?.titleAr || blog?.title || '' : blog?.title || '';
-  const shortDescription =
-    lang === 'ar' ? blog?.shortDescriptionAr || blog?.shortDescription || '' : blog?.shortDescription || '';
-  const content = lang === 'ar' ? blog?.contentAr || blog?.content || '' : blog?.content || '';
+  const title = blog ? getBlogLocalizedField(blog, 'title', lang) : '';
+  const shortDescription = blog ? getBlogLocalizedField(blog, 'shortDescription', lang) : '';
+  const content = blog ? getBlogLocalizedField(blog, 'content', lang) : '';
+  const contentUsesArabic = blog ? isBlogFieldAvailableInArabic(blog, 'content') : true;
+  const shortDescriptionUsesArabic = blog ? isBlogFieldAvailableInArabic(blog, 'shortDescription') : true;
 
   return (
     <main className="min-h-screen bg-[#F1EFF0]" dir={isRTL ? 'rtl' : 'ltr'}>
-      <section className="mx-auto max-w-[1250px] px-4 pb-20 pt-28 md:px-8 md:pt-32">
+      <section className="mx-auto max-w-[1250px] px-4 pb-28 pt-28 max-lg:pb-28 md:px-8 md:pt-32 lg:pb-20">
         {isLoading ? (
           <div className="flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center gap-4 text-center">
             <div
@@ -78,8 +88,8 @@ export default function BlogDetailsPage() {
             <p className={`mt-12 text-[#160A0A]/60 ${isRTL ? 'text-right' : 'text-left'}`}>{text.notFound}</p>
           </>
         ) : (
-          <article className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-x-12 xl:grid-cols-[minmax(0,1fr)_320px]">
-            <div>
+          <article className="grid min-w-0 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-x-12 xl:grid-cols-[minmax(0,1fr)_320px]">
+            <div className="min-w-0">
               <BlogArticleBackLink href={`/${locale}/blogs`} label={text.back} isRTL={isRTL} />
 
               <div className="mt-8">
@@ -89,10 +99,14 @@ export default function BlogDetailsPage() {
                   date={blog.date}
                   title={title}
                   shortDescription={shortDescription}
+                  shortDescriptionUsesArabic={shortDescriptionUsesArabic}
                   bannerImage={bannerImage}
                 />
 
-                <div className={`blog-article-prose mt-10 md:mt-12 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <div
+                  dir={contentUsesArabic ? (isRTL ? 'rtl' : 'ltr') : 'ltr'}
+                  className={`blog-article-prose mt-10 md:mt-12 ${contentUsesArabic && isRTL ? 'text-right' : 'text-left'}`}
+                >
                   <FormattedText text={content} className="max-w-[680px] text-[16px] leading-[1.85] text-[#160A0A]/85" />
                 </div>
               </div>

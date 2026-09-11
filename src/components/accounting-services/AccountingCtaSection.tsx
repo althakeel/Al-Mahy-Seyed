@@ -36,7 +36,7 @@ export default function AccountingCtaSection({
           alt=""
           fill
           className="object-cover opacity-30"
-          sizes="100vw"
+          sizes="(max-width: 1920px) 100vw, 1920px"
         />
         <div className="absolute inset-0 bg-[#100B0B]/75" aria-hidden="true" />
         <div

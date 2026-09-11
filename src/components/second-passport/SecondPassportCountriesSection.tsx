@@ -52,7 +52,7 @@ function CountryCard({
         featured ? 'md:col-span-2' : ''
       } ${isArabic ? 'text-right' : 'text-left'}`}
     >
-      <div className={`relative overflow-hidden ${featured ? 'aspect-[21/10]' : 'aspect-[16/10]'}`}>
+      <div className={`relative overflow-hidden ${featured ? 'aspect-[16/10] md:aspect-[21/10]' : 'aspect-[16/10]'}`}>
         <Image
           src={country.image}
           alt={country.name}

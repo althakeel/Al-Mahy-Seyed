@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
+import JsonLd from "@/components/structured-data/JsonLd";
+import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
+import { buildBreadcrumbSchema } from "@/lib/structured-data-builders";
 import { translations, Locale } from "@/lib/translations";
+import { isValidLocale } from "@/lib/utils";
 import ContactHero from "@/components/contact/ContactHero";
 import ContactFormSection from "@/components/contact/ContactFormSection";
 import ContactOfficeSection from "@/components/contact/ContactOfficeSection";
@@ -30,6 +35,16 @@ const officeIcons = {
     </svg>
   ),
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : "en";
+  return buildPageMetadata(lang, "/contact", PAGE_SEO.contact);
+}
 
 export default async function ContactPage({
   params,
@@ -70,7 +85,20 @@ export default async function ContactPage({
     },
   ];
 
+  const seoContent = lang === "ar" ? PAGE_SEO.contact.ar : PAGE_SEO.contact.en;
+
   return (
+    <>
+      <JsonLd
+        id="contact-breadcrumb-schema"
+        data={buildBreadcrumbSchema([
+          { name: isAr ? "الرئيسية" : "Home", path: `/${lang}` },
+          {
+            name: seoContent.title.split("|")[0]?.trim() || seoContent.title,
+            path: `/${lang}/contact`,
+          },
+        ])}
+      />
     <div dir={dir} className="bg-[#100B0B] text-white">
       <ContactHero
         isArabic={isAr}
@@ -114,5 +142,6 @@ export default async function ContactPage({
         />
       </section>
     </div>
+    </>
   );
 }

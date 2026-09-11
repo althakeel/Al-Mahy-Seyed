@@ -49,8 +49,8 @@ function basicProfile(
     Partial<TeamMemberProfile>,
 ): TeamMemberProfile {
   return {
-    casesHandledDisplayEn: "—",
-    casesHandledDisplayAr: "—",
+    casesHandledDisplayEn: "-",
+    casesHandledDisplayAr: "-",
     casesInProgressEn: "Available for client consultations and ongoing support.",
     casesInProgressAr: "متاح لاستشارات العملاء والدعم المستمر.",
     casesDetailEn: `${partial.nameEn} is part of the Almahy Legal Services team, supporting clients across the UAE.`,

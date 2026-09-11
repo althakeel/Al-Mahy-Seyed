@@ -64,9 +64,9 @@ export default function BlogsExploreCard({
         </div>
 
         <div
-          className={`flex shrink-0 items-center gap-4 rounded-2xl border border-[#B38D42]/15 bg-[#F1EFF0] px-5 py-4 ${isRTL ? 'flex-row-reverse' : ''}`}
+          className={`mx-auto flex w-full max-w-fit shrink-0 items-center justify-center gap-4 rounded-2xl border border-[#B38D42]/15 bg-[#F1EFF0] px-5 py-4 lg:mx-0 lg:w-auto lg:justify-start ${isRTL ? 'flex-row-reverse' : ''}`}
         >
-          <div className={isRTL ? 'text-right' : 'text-left'}>
+          <div className={`text-center ${isRTL ? 'lg:text-right' : 'lg:text-left'}`}>
             <p className="text-3xl font-bold leading-none text-[#160A0A]">{articleCount}</p>
             <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38D42]">
               {articlesCountLabel}

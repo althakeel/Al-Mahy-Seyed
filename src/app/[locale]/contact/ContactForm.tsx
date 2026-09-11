@@ -192,7 +192,7 @@ export default function ContactForm({
               </button>
 
               {countryOpen && (
-                <div className={`absolute z-30 mt-2 w-72 max-w-[80vw] overflow-hidden rounded-lg border ${menuClass}`}>
+                <div className={`absolute z-30 mt-2 w-72 max-w-[80vw] overflow-hidden rounded-lg border ${menuClass} ${isAr ? 'end-0 start-auto' : 'start-0'}`}>
                   <div className="p-2">
                     <input
                       type="text"
@@ -334,7 +334,7 @@ export default function ContactForm({
           <button
             type="submit"
             disabled={status === "sending"}
-            className={`inline-flex h-[52px] cursor-pointer items-center justify-center gap-2 rounded-md px-7 text-[12px] font-semibold uppercase tracking-[0.14em] transition disabled:cursor-not-allowed disabled:opacity-60 ${
+            className={`inline-flex h-[52px] max-md:w-full cursor-pointer items-center justify-center gap-2 rounded-md px-7 text-[12px] font-semibold uppercase tracking-[0.14em] transition disabled:cursor-not-allowed disabled:opacity-60 ${
               light
                 ? "bg-[#B38D42] text-white hover:bg-[#9A7635]"
                 : "hero-btn-glow-solid bg-[#B38D42] text-white hover:border-[#9A7635] hover:bg-[#9A7635]"

@@ -7,6 +7,7 @@ import favicon from "./Favicon.png";
 import WhatsappBottomChat from "@/components/WhatsappBottomChat";
 import AnalyticsClickTracking from "@/components/AnalyticsClickTracking";
 import { Locale } from "@/lib/translations";
+import { PAGE_SEO, getSiteUrl } from "@/lib/site-metadata";
 import { getLocaleDirection, isValidLocale } from "@/lib/utils";
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
@@ -19,8 +20,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Almahy Legal Service",
-  description: "Professional accounting services",
+  metadataBase: new URL(getSiteUrl()),
+  title: PAGE_SEO.home.en.title,
+  description: PAGE_SEO.home.en.description,
   icons: {
     icon: favicon.src,
     shortcut: favicon.src,

@@ -67,7 +67,7 @@ function TeamCard({
       <Link
         href={`/${locale}/about/team/${member.slug}`}
         className={`${cardClassName} cursor-pointer`}
-        aria-label={name ? `${name} — ${role}` : label}
+        aria-label={name ? `${name} - ${role}` : label}
       >
         {body}
       </Link>
@@ -97,14 +97,14 @@ export default function TeamMosaic({ members, locale }: TeamMosaicProps) {
       </div>
 
       {trailingMembers.length > 0 ? (
-        <div className="mt-4 flex flex-wrap justify-center gap-4 sm:gap-5 lg:mt-5">
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:mt-5 lg:flex lg:flex-wrap lg:justify-center">
           {trailingMembers.map((member) => (
             <TeamCard
               key={`${member.order}-${member.slug ?? "pending"}`}
               member={member}
               locale={locale}
               isRTL={isRTL}
-              className="w-full max-w-[280px] sm:w-[calc(50%-10px)] md:w-[calc(33.333%-14px)] lg:w-[calc(25%-15px)] lg:max-w-none"
+              className="lg:w-[calc(25%-15px)] lg:max-w-none"
             />
           ))}
         </div>

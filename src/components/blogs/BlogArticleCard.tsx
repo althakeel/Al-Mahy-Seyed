@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FormattedText } from '@/components/BoldTextField';
-import { BlogPost } from '@/lib/blogs';
+import { BlogPost, getBlogLocalizedField, getBlogLocalizedImage } from '@/lib/blogs';
 import { Locale } from '@/lib/translations';
 
 function ArrowIcon({ className = 'h-3.5 w-3.5', isRTL = false }: { className?: string; isRTL?: boolean }) {
@@ -34,10 +34,9 @@ export default function BlogArticleCard({
   isRTL,
   className = '',
 }: BlogArticleCardProps) {
-  const cardImage = lang === 'ar' ? blog.imageAr || blog.image : blog.image;
-  const cardTitle = lang === 'ar' ? blog.titleAr || blog.title : blog.title;
-  const cardShortDescription =
-    lang === 'ar' ? blog.shortDescriptionAr || blog.shortDescription : blog.shortDescription;
+  const cardImage = getBlogLocalizedImage(blog, lang);
+  const cardTitle = getBlogLocalizedField(blog, 'title', lang);
+  const cardShortDescription = getBlogLocalizedField(blog, 'shortDescription', lang);
   const href = `/${locale}/blogs/${blog.slug}`;
 
   return (
@@ -55,7 +54,10 @@ export default function BlogArticleCard({
         />
       </Link>
 
-      <div className={`flex flex-1 flex-col px-5 pb-5 pt-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+      <div
+        dir={isRTL ? 'rtl' : undefined}
+        className={`flex flex-1 flex-col px-5 pb-5 pt-4 ${isRTL ? 'text-right' : 'text-left'}`}
+      >
         <Link href={href}>
           <h3
             className="mb-2 line-clamp-2 text-base font-bold leading-snug text-[#160A0A] transition-colors group-hover:text-[#9A7635] md:text-[17px]"
@@ -66,7 +68,7 @@ export default function BlogArticleCard({
         </Link>
 
         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38D42]">{blog.date}</p>
-        <div className={`mb-3 h-px w-8 bg-[#B38D42] ${isRTL ? 'mr-0 ml-auto' : ''}`} aria-hidden="true" />
+        <div className={`mb-3 h-px w-8 bg-[#B38D42] ${isRTL ? 'ml-auto' : ''}`} aria-hidden="true" />
 
         <div className="mb-4 flex-1 text-sm leading-relaxed text-[#160A0A]/65">
           <FormattedText text={cardShortDescription} compact />
@@ -74,7 +76,8 @@ export default function BlogArticleCard({
 
         <Link
           href={href}
-          className={`inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38D42] transition-all hover:gap-3 hover:text-[#9A7635] ${isRTL ? 'mr-auto' : ''}`}
+          dir={isRTL ? 'ltr' : undefined}
+          className={`inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38D42] transition-all hover:gap-3 hover:text-[#9A7635] ${isRTL ? 'ml-auto' : ''}`}
         >
           {readMoreLabel}
           <ArrowIcon isRTL={isRTL} />

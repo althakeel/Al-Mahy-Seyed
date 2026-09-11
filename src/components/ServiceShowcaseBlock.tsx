@@ -179,51 +179,67 @@ export default function ServiceShowcaseBlock({
               {item.description}
             </p>
 
-            <div
-              className={`mt-8 flex flex-col gap-6 sm:flex-row sm:items-start ${
-                isArabic ? 'text-right' : ''
-              }`}
-            >
-              {item.features.map((feature, featureIndex) => (
-                <div
-                  key={feature.label}
-                  className={`flex flex-1 items-stretch ${
-                    featureIndex > 0
-                      ? 'sm:border-s sm:border-[#160A0A]/15 sm:ps-5 md:ps-8'
-                      : ''
+            <div className={isArabic ? 'text-right' : ''}>
+              <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-5 sm:flex sm:flex-row sm:items-start sm:gap-6">
+                {item.features.map((feature, featureIndex) => (
+                  <div
+                    key={feature.label}
+                    className={`flex min-w-0 flex-1 items-stretch ${
+                      featureIndex > 0
+                        ? 'sm:border-s sm:border-[#160A0A]/15 sm:ps-5 md:ps-8'
+                        : ''
+                    }`}
+                  >
+                    <div className={`space-y-2 sm:space-y-3 ${isArabic ? 'sm:ms-auto sm:text-right' : ''}`}>
+                      <span
+                        className={`flex h-9 w-9 items-center justify-center rounded-full bg-[#B38D42]/15 text-[#B38D42] sm:h-12 sm:w-12 [&_svg]:h-4 [&_svg]:w-4 sm:[&_svg]:h-5 sm:[&_svg]:w-5 ${
+                          isArabic ? 'sm:ms-auto' : ''
+                        }`}
+                      >
+                        <FeatureIcon type={feature.icon} />
+                      </span>
+                      <p className="text-[11px] font-bold leading-snug text-[#160A0A] sm:text-sm">{feature.label}</p>
+                    </div>
+                  </div>
+                ))}
+
+                <Link
+                  href={`/${locale}/${item.slug}`}
+                  className={`hero-btn-glow-solid sm:hidden inline-flex h-[48px] w-full cursor-pointer items-center justify-center gap-1.5 self-center rounded-md bg-[#B38D42] px-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42] ${
+                    isArabic ? 'flex-row-reverse' : ''
                   }`}
                 >
-                  <div className={`space-y-3 ${isArabic ? 'ms-auto text-right' : ''}`}>
-                    <span
-                      className={`flex h-12 w-12 items-center justify-center rounded-full bg-[#B38D42]/15 text-[#B38D42] ${
-                        isArabic ? 'ms-auto' : ''
-                      }`}
-                    >
-                      <FeatureIcon type={feature.icon} />
-                    </span>
-                    <p className="text-sm font-bold leading-snug text-[#160A0A]">{feature.label}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  {isArabic ? 'اعرف المزيد' : 'Learn More'}
+                  <svg
+                    className={`h-3 w-3 ${isArabic ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
 
-            <Link
-              href={`/${locale}/${item.slug}`}
-              className={`hero-btn-glow-solid mt-8 inline-flex h-[52px] cursor-pointer items-center gap-2 rounded-md bg-[#B38D42] px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42] ${
-                isArabic ? 'flex-row-reverse' : ''
-              }`}
-            >
-              {isArabic ? 'اعرف المزيد' : 'Learn More'}
-              <svg
-                className={`h-3.5 w-3.5 ${isArabic ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
+              <Link
+                href={`/${locale}/${item.slug}`}
+                className={`hero-btn-glow-solid mt-8 hidden h-[52px] cursor-pointer items-center gap-2 rounded-md bg-[#B38D42] px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42] sm:inline-flex ${
+                  isArabic ? 'flex-row-reverse' : ''
+                }`}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
+                {isArabic ? 'اعرف المزيد' : 'Learn More'}
+                <svg
+                  className={`h-3.5 w-3.5 ${isArabic ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

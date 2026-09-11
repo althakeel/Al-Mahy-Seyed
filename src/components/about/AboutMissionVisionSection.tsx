@@ -49,7 +49,7 @@ export default function AboutMissionVisionSection({
           alt=""
           fill
           className="object-cover object-center opacity-[0.58] transition duration-700 ease-out group-hover:scale-[1.06]"
-          sizes="100vw"
+          sizes="(max-width: 1920px) 100vw, 1920px"
         />
         <div className="absolute inset-0 bg-[#100B0B]/32" />
         <div
@@ -70,7 +70,10 @@ export default function AboutMissionVisionSection({
                 isArabic ? 'text-right' : 'text-left'
               }`}
             >
-              <div className={`mb-4 flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <div
+                dir={isArabic ? 'ltr' : undefined}
+                className={`mb-4 flex items-center gap-4 ${isArabic ? 'flex-row-reverse justify-start' : ''}`}
+              >
                 <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#B38D42]/55 bg-[#B38D42]/18 text-[#B38D42]">
                   {block.icon}
                 </span>

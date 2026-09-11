@@ -120,7 +120,7 @@ export default function Dashboard() {
 
   const loadPublishedBlogs = async (showErrorFeedback = false) => {
     try {
-      const response = await fetch('/api/blogs', { cache: 'no-store' });
+      const response = await fetch('/api/blogs?full=1', { cache: 'no-store' });
       const result = await response.json().catch(() => ({})) as {
         success?: boolean;
         blogs?: BlogPost[];

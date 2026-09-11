@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
+import { buildAlternates } from "@/lib/site-metadata";
 import { Locale } from "@/lib/translations";
 import { getAllTeamSlugs, getTeamMemberBySlug } from "@/lib/teamMembers";
 
@@ -20,9 +21,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!member) return { title: "Team Member | Almahy" };
 
   const isArabic = locale === "ar";
+  const path = `/about/team/${slug}`;
   return {
     title: `${isArabic ? member.nameAr : member.nameEn} | Almahy Legal Services`,
     description: isArabic ? member.casesDetailAr : member.casesDetailEn,
+    alternates: buildAlternates(isArabic ? "ar" : "en", path),
   };
 }
 

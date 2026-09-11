@@ -74,18 +74,18 @@ interface ServicesStickyNavProps {
 export default function ServicesStickyNav({ services }: ServicesStickyNavProps) {
   return (
     <section className="relative isolate z-[100] w-full border-b border-[#160A0A]/10 bg-white">
-      <div className="mx-auto flex max-w-[1250px] flex-wrap lg:flex-nowrap">
+      <div className="mx-auto grid max-w-[1250px] grid-cols-2 lg:flex lg:flex-nowrap">
         {services.map((service, index) => (
           <a
             key={service.slug}
             href={`#${service.slug}`}
             style={{ zIndex: index + 1 }}
-            className="group relative flex min-h-[56px] w-1/2 min-w-0 basis-1/2 cursor-pointer items-center justify-center gap-1.5 overflow-hidden px-2 py-3 text-center transition-colors hover:text-[#B38D42] sm:w-1/3 sm:basis-1/3 lg:w-auto lg:flex-1 lg:basis-0 lg:[&:not(:last-child)]:border-e lg:[&:not(:last-child)]:border-[#160A0A]/10"
+            className="group relative flex min-h-[62px] min-w-0 cursor-pointer flex-col items-center justify-center gap-1 border-[#160A0A]/10 px-1.5 py-2.5 text-center transition-colors odd:border-e even:border-e-0 [&:nth-child(-n+4)]:border-b lg:min-h-[56px] lg:flex-1 lg:flex-row lg:gap-1.5 lg:border-b-0 lg:px-2 lg:py-3 lg:[&:not(:last-child)]:border-e"
           >
-            <span className="pointer-events-none shrink-0">
+            <span className="pointer-events-none shrink-0 max-lg:[&_svg]:h-4 max-lg:[&_svg]:w-4">
               <ServiceNavIcon slug={service.slug} />
             </span>
-            <span className="pointer-events-none min-w-0 break-words text-[9px] font-bold uppercase leading-tight tracking-[0.04em] text-[#160A0A]/80 group-hover:text-[#B38D42] xl:text-[10px] 2xl:text-[11px]">
+            <span className="pointer-events-none min-w-0 max-w-[92%] text-[8.5px] font-bold uppercase leading-[1.25] tracking-[0.03em] text-[#160A0A]/80 group-hover:text-[#B38D42] min-[390px]:text-[9px] lg:max-w-none lg:text-[10px] lg:leading-tight lg:tracking-[0.04em] xl:text-[10px] 2xl:text-[11px]">
               {service.title}
             </span>
           </a>

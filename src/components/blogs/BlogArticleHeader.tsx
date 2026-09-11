@@ -6,6 +6,7 @@ interface BlogArticleHeaderProps {
   date: string;
   title: string;
   shortDescription: string;
+  shortDescriptionUsesArabic?: boolean;
   bannerImage?: string;
 }
 
@@ -15,8 +16,11 @@ export default function BlogArticleHeader({
   date,
   title,
   shortDescription,
+  shortDescriptionUsesArabic = true,
   bannerImage,
 }: BlogArticleHeaderProps) {
+  const shortDescriptionIsRtl = isRTL && shortDescriptionUsesArabic;
+
   return (
     <header className={isRTL ? 'text-right' : 'text-left'}>
       <div className={`mb-4 flex flex-wrap items-center gap-2 ${isRTL ? 'justify-end' : ''}`}>
@@ -34,11 +38,13 @@ export default function BlogArticleHeader({
         {title}
       </h1>
 
-      <FormattedText
-        text={shortDescription}
-        compact
-        className="mt-5 max-w-[680px] text-base leading-8 text-[#160A0A]/70"
-      />
+      <div dir={shortDescriptionIsRtl ? 'rtl' : 'ltr'} className={shortDescriptionIsRtl ? 'text-right' : 'text-left'}>
+        <FormattedText
+          text={shortDescription}
+          compact
+          className="mt-5 max-w-[680px] text-base leading-8 text-[#160A0A]/70"
+        />
+      </div>
 
       {bannerImage ? (
         <div className="mt-8 w-full max-w-[720px] overflow-hidden rounded-[16px] border border-[#B38D42]/20 bg-[#E8E4E0] shadow-[0_12px_32px_rgba(20,15,7,0.06)]">

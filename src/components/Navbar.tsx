@@ -35,7 +35,7 @@ function isNavLinkActive(pathname: string | null, href: string, exact = false) {
 }
 
 function navLinkClass(isActive: boolean) {
-  return `text-sm font-medium transition-colors whitespace-nowrap ${
+  return `text-xs font-medium transition-colors whitespace-nowrap lg:text-sm ${
     isActive ? 'text-[#B38D42]' : 'text-white hover:text-[#B38D42]'
   }`;
 }
@@ -300,11 +300,11 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
             href={`/${lang}`}
             className={`flex items-center gap-2 md:gap-3 cursor-pointer ${lang === 'ar' ? 'order-1' : 'order-1'}`}
           >
-            <Image src={Logo} alt="Almahy Legal Services Logo" width={150} height={100} className="object-contain md:w-[150px] md:h-[55px]" priority />
+            <Image src={Logo} alt="Almahy Legal Services Logo" width={150} height={100} className="h-10 w-auto object-contain sm:h-11 md:h-[55px] md:w-[150px]" priority />
           </Link>
 
           {/* Center: Navigation Links */}
-          <div className={`hidden md:flex items-center gap-6 lg:gap-10 order-2 ${lang === 'ar' ? 'justify-end' : 'justify-start'}`} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+          <div className={`hidden md:flex items-center gap-3 md:max-w-[48%] lg:max-w-none lg:gap-10 order-2 ${lang === 'ar' ? 'justify-end' : 'justify-start'}`} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -318,7 +318,7 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
           </div>
 
           {/* Right: Search, Language Switcher, Account */}
-          <div className={`flex items-center gap-3 md:gap-4 ${lang === 'ar' ? 'order-3' : 'order-3'}`}>
+          <div className={`flex items-center gap-2 md:gap-3 lg:gap-4 ${lang === 'ar' ? 'order-3' : 'order-3'}`}>
             <SiteSearch locale={lang} variant="navbar" accentColor={NAV_ACCENT} className="cursor-pointer"/>
 
             <div className="hidden md:flex items-center rounded-full border border-[#B38D42] bg-[#170C0C]/95 p-1 backdrop-blur">
@@ -380,7 +380,7 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 1115 0" />
                     </svg>
                   )}
-                  <span className="hidden xs:inline md:inline">{lang === 'en' ? `Hi, ${currentUserLabel}` : `${currentUserLabel} ،مرحباً`}</span>
+                  <span className="hidden sm:inline">{lang === 'en' ? `Hi, ${currentUserLabel}` : `${currentUserLabel} ،مرحباً`}</span>
                   <svg className={`h-4 w-4 transition-transform ${accountMenuOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.512a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                   </svg>
@@ -445,11 +445,8 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden backdrop-blur-lg border-t -mx-4 -mr-4 px-4" style={{backgroundColor: `rgba(24, 24, 24, ${isScrolled ? 0.95 : 0.85})`, borderTopColor: `rgba(128, 128, 128, ${isScrolled ? 1 : 0.5})`}}>
+          <div className="md:hidden backdrop-blur-lg border-t -mx-4 px-4" style={{backgroundColor: `rgba(24, 24, 24, ${isScrolled ? 0.95 : 0.85})`, borderTopColor: `rgba(128, 128, 128, ${isScrolled ? 1 : 0.5})`}}>
             <div className="py-3 space-y-2">
-              <div className="px-2 pb-2">
-                <SiteSearch locale={lang} variant="hero" showPopular={false} className="[&_input]:text-sm [&_input]:py-2.5 cursor-pointer" />
-              </div>
               {navLinks.map((link) => (
                 <Link
                   key={link.href}

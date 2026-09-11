@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 import "../globals.css";
 import Navbar from "@/components/Navbar";
@@ -6,11 +5,6 @@ import Footer from "@/components/Footer";
 import SearchStructuredData from "@/components/SearchStructuredData";
 import { Locale } from "@/lib/translations";
 import { isValidLocale } from "@/lib/utils";
-
-export const metadata: Metadata = {
-  title: "Almahy Legal Service",
-  description: "Professional accounting services",
-};
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "ar" }];

@@ -80,6 +80,12 @@ export default function WhatsappBottomChat() {
   }, [prefilledMessage]);
 
   useEffect(() => {
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+    if (!isDesktop) {
+      setOpen(false);
+      return;
+    }
+
     setOpen(true);
     const id = window.setTimeout(() => setOpen(false), AUTO_CLOSE_MS);
     closeTimerRef.current = id;
@@ -88,11 +94,11 @@ export default function WhatsappBottomChat() {
   }, [pathname]);
 
   return (
-    <div className="pointer-events-none fixed bottom-7 right-7 z-[90]">
+    <div className="pointer-events-none fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] end-4 z-[90] max-sm:end-3 md:bottom-7 md:end-7">
       <div
         onMouseEnter={cancelCloseTimer}
         onMouseLeave={() => open && startCloseTimer()}
-        className={`mb-3 w-[320px] min-h-[340px] max-w-[calc(100vw-24px)] overflow-hidden rounded-2xl bg-[#ECE5DD] shadow-[0_24px_55px_rgba(0,0,0,0.28)] transition-all duration-500 ease-out ${
+        className={`mb-3 w-[min(320px,calc(100vw-1.5rem))] min-h-[340px] max-h-[70vh] overflow-hidden overflow-y-auto rounded-2xl bg-[#ECE5DD] shadow-[0_24px_55px_rgba(0,0,0,0.28)] transition-all duration-500 ease-out md:max-h-none md:w-[320px] ${
           open ? 'pointer-events-auto translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'
         }`}
       >

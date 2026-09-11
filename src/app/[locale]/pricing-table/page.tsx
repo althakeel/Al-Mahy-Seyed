@@ -7,8 +7,10 @@ import {
   PACKAGE_GRADIENT_GOLDEN,
   PACKAGE_GRADIENT_VIP,
 } from "@/components/pricing/package-gradients";
+import type { Metadata } from "next";
+import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
 import { Locale } from "@/lib/translations";
-import { Metadata } from "next";
+import { isValidLocale } from "@/lib/utils";
 
 type CaseItem = {
   title: string;
@@ -634,11 +636,8 @@ const content: Record<Locale, PricingContent> = {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const lang: Locale = locale === "ar" ? "ar" : "en";
-
-  return {
-    title: lang === "ar" ? "باقات الخدمات القانونية | Almahy" : "Legal Services Packages | Almahy",
-  };
+  const lang: Locale = isValidLocale(locale) ? locale : "en";
+  return buildPageMetadata(lang, "/pricing-table", PAGE_SEO.pricingTable);
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
@@ -655,7 +654,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const isArabic = lang === "ar";
 
   return (
-    <main className="min-h-screen bg-[#100B0B]">
+    <main className="min-h-screen overflow-x-hidden bg-[#100B0B] max-lg:overflow-x-hidden">
       <PricingHero
         isArabic={isArabic}
         title={isArabic ? "باقات خدماتنا" : "Legal Service Packages"}

@@ -1,4 +1,8 @@
+import type { Metadata } from 'next';
+import { buildPageMetadata, PAGE_SEO } from '@/lib/site-metadata';
+import { ServicePageSeo } from '@/lib/with-service-seo';
 import { Locale } from '@/lib/translations';
+import { isValidLocale } from '@/lib/utils';
 import { getLegalAreas, getLegalServicesCopy } from '@/lib/legal-services-content';
 import LegalServicesHero from '@/components/legal-services/LegalServicesHero';
 import LegalPracticeNav from '@/components/legal-services/LegalPracticeNav';
@@ -58,6 +62,16 @@ async function fetchLatestLegalNews(isArabic: boolean, fallbackItems: NewsItem[]
   }
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : 'en';
+  return buildPageMetadata(lang, '/legal-services', PAGE_SEO.legalServices);
+}
+
 export default async function LegalServicesPage({
   params,
 }: {
@@ -115,6 +129,8 @@ export default async function LegalServicesPage({
     : `${legalAreas.length} practice areas across litigation, advisory, and compliance in the UAE.`;
 
   return (
+    <>
+      <ServicePageSeo locale={lang} path="/legal-services" copy={PAGE_SEO.legalServices} />
     <div className="min-h-screen bg-white text-[#160A0A]" dir={isArabic ? 'rtl' : 'ltr'} lang={lang}>
       <LegalServicesHero locale={lang} copy={copy} />
 
@@ -150,5 +166,6 @@ export default async function LegalServicesPage({
         isArabic={isArabic}
       />
     </div>
+    </>
   );
 }

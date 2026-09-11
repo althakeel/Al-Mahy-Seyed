@@ -1,5 +1,19 @@
-import { translations, Locale } from "@/lib/translations";
+import type { Metadata } from "next";
 import Image from "next/image";
+import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
+import { ServicePageSeo } from "@/lib/with-service-seo";
+import { translations, Locale } from "@/lib/translations";
+import { isValidLocale } from "@/lib/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : "en";
+  return buildPageMetadata(lang, "/professional-services", PAGE_SEO.professionalServices);
+}
 
 export default async function ProfessionalServicesPage({
   params,
@@ -96,6 +110,8 @@ export default async function ProfessionalServicesPage({
   const pageContent = content[lang];
 
   return (
+    <>
+      <ServicePageSeo locale={lang} path="/professional-services" copy={PAGE_SEO.professionalServices} />
     <div className="w-full bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
       <section className="relative w-full overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -229,5 +245,6 @@ export default async function ProfessionalServicesPage({
         </div>
       </section>
     </div>
+    </>
   );
 }

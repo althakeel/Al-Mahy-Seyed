@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
+import JsonLd from "@/components/structured-data/JsonLd";
+import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
+import { buildBreadcrumbSchema, buildLocalBusinessSchema } from "@/lib/structured-data-builders";
 import { translations, Locale } from "@/lib/translations";
+import { isValidLocale } from "@/lib/utils";
 import { getTeamCards } from "@/data/team";
 import AboutHero from "@/components/about/AboutHero";
 import AboutIntroSection from "@/components/about/AboutIntroSection";
@@ -6,6 +11,16 @@ import AboutMissionVisionSection from "@/components/about/AboutMissionVisionSect
 import AboutBenefitsSection from "@/components/about/AboutBenefitsSection";
 import AboutTeamSection from "@/components/about/AboutTeamSection";
 import AboutCtaSection from "@/components/about/AboutCtaSection";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : "en";
+  return buildPageMetadata(lang, "/about", PAGE_SEO.about);
+}
 
 export default async function AboutPage({
   params,
@@ -31,7 +46,7 @@ export default async function AboutPage({
       title: lang === "en" ? "38 years in UAE practice" : "38 عاماً من الممارسة في الإمارات",
       desc:
         lang === "en"
-          ? "We know how Dubai courts, free zones, and licensing authorities actually work — not just the theory."
+          ? "We know how Dubai courts, free zones, and licensing authorities actually work not just the theory."
           : "نعرف كيف تعمل محاكم دبي والمناطق الحرة وجهات الترخيص فعلياً، وليس فقط من الناحية النظرية.",
     },
     {
@@ -47,7 +62,7 @@ export default async function AboutPage({
       title: lang === "en" ? "Clear next steps, every file" : "خطوات واضحة في كل ملف",
       desc:
         lang === "en"
-          ? "You get plain updates on what was filed, what is pending, and what you need to decide — without legal fog."
+          ? "You get plain updates on what was filed, what is pending, and what you need to decide without legal fog."
           : "تحصل على تحديثات واضحة عما تم تقديمه وما هو قيد الانتظار وما تحتاج إلى تقريره، بلا غموض قانوني.",
     },
     {
@@ -55,8 +70,8 @@ export default async function AboutPage({
       title: lang === "en" ? "Built for busy clients" : "مصممون للعملاء المشغولين",
       desc:
         lang === "en"
-          ? "WhatsApp, calls, and office meetings — we move at the pace of your business, not the other way around."
-          : "واتساب والمكالمات واجتماعات المكتب — نتحرك بإيقاع عملك، وليس العكس.",
+          ? "WhatsApp, calls, and office meetings we move at the pace of your business, not the other way around."
+          : "واتساب والمكالمات واجتماعات المكتب نتحرك بإيقاع عملك، وليس العكس.",
     },
   ];
 
@@ -71,6 +86,15 @@ export default async function AboutPage({
       : ["ملتزمون بتقديم الأفضل", "خدمات صادقة وشفافة", "ثقة عالية ونزاهة", "خدمة"];
 
   return (
+    <>
+      <JsonLd id="about-local-business-schema" data={buildLocalBusinessSchema(lang)} />
+      <JsonLd
+        id="about-breadcrumb-schema"
+        data={buildBreadcrumbSchema([
+          { name: isAr ? "الرئيسية" : "Home", path: `/${lang}` },
+          { name: isAr ? "من نحن" : "About Us", path: `/${lang}/about` },
+        ])}
+      />
     <div className="min-h-screen" dir={isAr ? "rtl" : "ltr"} lang={lang}>
       <AboutHero
         locale={lang}
@@ -145,5 +169,6 @@ export default async function AboutPage({
         callLabel={isAr ? "اتصل بنا" : "Call Us"}
       />
     </div>
+    </>
   );
 }

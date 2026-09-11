@@ -46,8 +46,8 @@ export async function POST(request: Request) {
     const rows: Array<[string, string, string | null]> = [
       ['Name', name, null],
       ['Email', email, `mailto:${email}`],
-      ['Phone', phone || '—', phone ? `tel:${phone.replace(/\s+/g, '')}` : null],
-      ['Topic', topic || '—', null],
+      ['Phone', phone || '-', phone ? `tel:${phone.replace(/\s+/g, '')}` : null],
+      ['Topic', topic || '-', null],
     ];
 
     const submittedAt = new Date().toLocaleString('en-GB', {
@@ -131,7 +131,7 @@ export async function POST(request: Request) {
       from: resendFromEmail,
       to: CONTACT_TO_EMAIL,
       replyTo: email,
-      subject: `New contact inquiry from ${name}${topic ? ` — ${topic}` : ''}`,
+      subject: `New contact inquiry from ${name}${topic ? ` - ${topic}` : ''}`,
       html,
     });
 

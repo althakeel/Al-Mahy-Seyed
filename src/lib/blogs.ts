@@ -1,3 +1,77 @@
+import { Locale } from '@/lib/translations';
+
+const stripHtml = (value: string): string =>
+  value
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const PLACEHOLDER_ARABIC_PATTERNS = [
+  /^-?\s*list\s*item\.?$/i,
+  /^placeholder$/i,
+  /^n\/a$/i,
+  /^-$/,
+];
+
+const isPlaceholderOnlyText = (plain: string): boolean => {
+  if (!plain) return true;
+  if (PLACEHOLDER_ARABIC_PATTERNS.some((pattern) => pattern.test(plain))) return true;
+
+  const withoutListItems = plain.replace(/-?\s*list\s*item\.?/gi, ' ').replace(/\s+/g, ' ').trim();
+  return !withoutListItems;
+};
+
+export const hasMeaningfulLocalizedText = (value?: string | null): value is string => {
+  if (!value?.trim()) return false;
+  const plain = stripHtml(value);
+  if (!plain) return false;
+  return !isPlaceholderOnlyText(plain);
+};
+
+const excerptPlainText = (value: string, maxLen = 220): string => {
+  const plain = stripHtml(value).replace(/\s+/g, ' ').trim();
+  if (!plain) return '';
+  if (plain.length <= maxLen) return plain;
+  return `${plain.slice(0, maxLen).trim()}...`;
+};
+
+export const getBlogLocalizedField = (
+  blog: BlogPost,
+  field: 'title' | 'shortDescription' | 'content',
+  lang: Locale,
+): string => {
+  const englishValue = blog[field]?.trim() || '';
+  if (lang !== 'ar') return englishValue;
+
+  const arabicKey = `${field}Ar` as const;
+  const arabicValue = blog[arabicKey]?.trim();
+  if (hasMeaningfulLocalizedText(arabicValue)) return arabicValue;
+
+  if (field === 'shortDescription' && hasMeaningfulLocalizedText(blog.contentAr)) {
+    return excerptPlainText(blog.contentAr);
+  }
+
+  if (field === 'content' && hasMeaningfulLocalizedText(blog.contentAr)) {
+    return blog.contentAr.trim();
+  }
+
+  return englishValue;
+};
+
+export const getBlogLocalizedImage = (blog: BlogPost, lang: Locale): string => {
+  if (lang === 'ar' && blog.imageAr?.trim()) return blog.imageAr.trim();
+  return blog.image.trim();
+};
+
+export const isBlogFieldAvailableInArabic = (
+  blog: BlogPost,
+  field: 'title' | 'shortDescription' | 'content',
+): boolean => {
+  const arabicKey = `${field}Ar` as const;
+  return hasMeaningfulLocalizedText(blog[arabicKey]);
+};
+
 export interface BlogPost {
   id: string;
   slug: string;
@@ -37,14 +111,37 @@ export const slugify = (value: string): string =>
 
 export const loadBlogsFromServer = async (): Promise<BlogPost[]> => {
   try {
-    const response = await fetch('/api/blogs', { cache: 'no-store' });
+    const response = await fetch('/api/blogs');
     const result = await response.json() as { success?: boolean; blogs?: BlogPost[] };
 
     if (!response.ok || !result.success || !Array.isArray(result.blogs)) {
       throw new Error('Failed to load blogs');
     }
 
-    return result.blogs.sort((a, b) => b.createdAt - a.createdAt);
+    return result.blogs;
+  } catch {
+    return [];
+  }
+};
+
+export const loadRecentBlogsFromServer = async (
+  excludeSlug?: string,
+  limit = 4,
+): Promise<BlogPost[]> => {
+  try {
+    const params = new URLSearchParams({ limit: String(limit) });
+    if (excludeSlug) {
+      params.set('exclude', excludeSlug);
+    }
+
+    const response = await fetch(`/api/blogs/recent?${params.toString()}`);
+    const result = await response.json() as { success?: boolean; blogs?: BlogPost[] };
+
+    if (!response.ok || !result.success || !Array.isArray(result.blogs)) {
+      throw new Error('Failed to load recent blogs');
+    }
+
+    return result.blogs;
   } catch {
     return [];
   }
@@ -52,7 +149,7 @@ export const loadBlogsFromServer = async (): Promise<BlogPost[]> => {
 
 export const loadBlogBySlugFromServer = async (slug: string): Promise<BlogPost | null> => {
   try {
-    const response = await fetch(`/api/blogs/slug/${encodeURIComponent(slug)}`, { cache: 'no-store' });
+    const response = await fetch(`/api/blogs/slug/${encodeURIComponent(slug)}`);
     const result = await response.json() as { success?: boolean; blog?: BlogPost };
 
     if (!response.ok || !result.success || !result.blog) {
@@ -95,7 +192,7 @@ export const deleteBlogFromServer = async (blogId: string) => {
 
 export const loadBlogsPageBannerConfigFromServer = async (): Promise<BlogsPageBannerConfig> => {
   try {
-    const response = await fetch('/api/blogs/banner-config', { cache: 'no-store' });
+    const response = await fetch('/api/blogs/banner-config');
     const result = await response.json() as { success?: boolean; config?: BlogsPageBannerConfig };
 
     if (!response.ok || !result.success || !result.config) {

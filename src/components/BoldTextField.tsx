@@ -391,8 +391,8 @@ export function FormattedText({
           strong: ({ children }) => <strong className="font-bold text-inherit">{children}</strong>,
           em: ({ children }) => <em className="italic">{children}</em>,
           del: ({ children }) => <del className="line-through opacity-80">{children}</del>,
-          ul: ({ children }) => <ul className={`${compact ? 'mb-2' : 'mb-4'} list-disc space-y-1 pl-5`}>{children}</ul>,
-          ol: ({ children }) => <ol className={`${compact ? 'mb-2' : 'mb-4'} list-decimal space-y-1 pl-5`}>{children}</ol>,
+          ul: ({ children }) => <ul className={`${compact ? 'mb-2' : 'mb-4'} list-disc space-y-1 ps-5`}>{children}</ul>,
+          ol: ({ children }) => <ol className={`${compact ? 'mb-2' : 'mb-4'} list-decimal space-y-1 ps-5`}>{children}</ol>,
           li: ({ children }) => <li className="leading-relaxed">{children}</li>,
           blockquote: ({ children }) => (
             <blockquote className="my-4 border-s-4 border-[#B38D42] bg-[#B38D42]/8 px-4 py-3 text-[#160A0A]/85">{children}</blockquote>

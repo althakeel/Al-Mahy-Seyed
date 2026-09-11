@@ -289,16 +289,19 @@ export default function PricingPackagesCarousel({
             />
             <div aria-hidden="true" className="gold-reflection pointer-events-none absolute inset-y-0 -left-1/4 w-1/4" />
             <p className="text-[20px] font-extrabold uppercase tracking-[0.08em]">{pkg.rightTitle}</p>
-            <p className="text-[13px] font-bold uppercase tracking-[0.16em] text-white/95">{pkg.rightSubtitle}</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/95 sm:text-[13px] sm:tracking-[0.16em]">{pkg.rightSubtitle}</p>
           </div>
 
-          <div className="overflow-x-auto lg:overflow-visible">
-            <div className="min-w-[640px] lg:min-w-0">
+          <div className="max-lg:relative max-lg:overflow-x-auto max-lg:scroll-smooth max-lg:pb-2 lg:overflow-visible">
+            <p className="mb-2 px-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38D42]/80 lg:hidden">
+              {isArabic ? '← مرر لعرض الجدول →' : '← Scroll to view table →'}
+            </p>
+            <div className="min-w-[580px] sm:min-w-[640px] lg:min-w-0">
               <div className="grid gap-0 lg:grid-cols-[1.65fr_1.35fr]">
               <div className="border-b border-[#B38D42]/40 bg-[#100B0B] px-5 py-4 text-center text-sm font-extrabold uppercase tracking-[0.12em] text-[#B38D42] lg:border-e lg:border-[#B38D42]/40">
                 {caseTypeLabel}
               </div>
-              <div className="grid grid-cols-3 border-b border-[#B38D42]/40 bg-[#100B0B]/80 text-center text-[11px] font-bold uppercase tracking-[0.08em] text-white/90">
+              <div className="grid grid-cols-3 border-b border-[#B38D42]/40 bg-[#100B0B]/80 text-center text-[10px] font-bold uppercase tracking-[0.06em] text-white/90 sm:text-[11px] sm:tracking-[0.08em]">
                 <div className="border-e border-[#B38D42]/35">{renderColumnHeader(resolvedColumns[0])}</div>
                 <div className="border-e border-[#B38D42]/35">{renderColumnHeader(resolvedColumns[1])}</div>
                 <div>{renderColumnHeader(resolvedColumns[2])}</div>
@@ -311,8 +314,8 @@ export default function PricingPackagesCarousel({
                     onMouseEnter={() => setHoveredRowKey(`${item.title}-${index}`)}
                     onMouseLeave={() => setHoveredRowKey(null)}
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-[16px] font-bold leading-6 text-white md:text-[17px]">{item.title}:</h3>
+                    <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                      <h3 className="min-w-0 text-[15px] font-bold leading-6 text-white sm:text-[16px] md:text-[17px]">{item.title}:</h3>
                       {!inclusionMode ? (
                         <button
                           type="button"

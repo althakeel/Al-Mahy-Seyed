@@ -1,10 +1,51 @@
 import { WithId } from 'mongodb';
-import { BlogPost, BlogsBannerCard, BlogsPageBannerConfig, slugify } from '@/lib/blogs';
+import {
+  applyArabicTranslationToBlog,
+  blogNeedsArabicBackfill,
+  translateBlogFieldsToArabic,
+} from '@/lib/blog-arabic-backfill';
+import {
+  BlogPost,
+  BlogsBannerCard,
+  BlogsPageBannerConfig,
+  hasMeaningfulLocalizedText,
+  slugify,
+} from '@/lib/blogs';
 import { getMongoDb } from '@/lib/mongodb';
 
 const BLOGS_COLLECTION = 'blogs';
 const SITE_CONTENT_COLLECTION = 'siteContent';
 const BLOGS_BANNER_KEY = 'blogsPageBanner';
+const BLOGS_CACHE_TTL_MS = 60_000;
+
+const BLOG_SUMMARY_PROJECTION = {
+  _id: 0,
+  id: 1,
+  slug: 1,
+  title: 1,
+  titleAr: 1,
+  shortDescription: 1,
+  shortDescriptionAr: 1,
+  date: 1,
+  image: 1,
+  imageAr: 1,
+  createdAt: 1,
+} as const;
+
+type BlogsCacheEntry = {
+  expiresAt: number;
+  blogs: BlogPost[];
+};
+
+type BannerCacheEntry = {
+  expiresAt: number;
+  config: BlogsPageBannerConfig;
+};
+
+let blogSummariesCache: BlogsCacheEntry | null = null;
+let blogFullCache: BlogsCacheEntry | null = null;
+let bannerConfigCache: BannerCacheEntry | null = null;
+let indexesEnsured = false;
 
 interface BlogDocument extends BlogPost {
   updatedAt?: number;
@@ -26,15 +67,17 @@ const emptyBannerCard = (): BlogsBannerCard => ({
   subAr: '',
 });
 
-const normalizeBlogPost = (blog: BlogPost): BlogPost => ({
+export const normalizeBlogPost = (blog: BlogPost): BlogPost => ({
   ...blog,
   slug: slugify(blog.slug || blog.title || blog.id),
   title: blog.title.trim(),
-  titleAr: blog.titleAr?.trim() || undefined,
+  titleAr: hasMeaningfulLocalizedText(blog.titleAr) ? blog.titleAr.trim() : undefined,
   shortDescription: blog.shortDescription.trim(),
-  shortDescriptionAr: blog.shortDescriptionAr?.trim() || undefined,
+  shortDescriptionAr: hasMeaningfulLocalizedText(blog.shortDescriptionAr)
+    ? blog.shortDescriptionAr.trim()
+    : undefined,
   content: blog.content.trim(),
-  contentAr: blog.contentAr?.trim() || undefined,
+  contentAr: hasMeaningfulLocalizedText(blog.contentAr) ? blog.contentAr.trim() : undefined,
   image: blog.image.trim(),
   imageAr: blog.imageAr?.trim() || undefined,
   bannerImage: blog.bannerImage?.trim() || undefined,
@@ -65,6 +108,32 @@ const toBlogPost = (blog: WithId<BlogDocument> | BlogDocument): BlogPost => norm
   createdAt: blog.createdAt,
 });
 
+export const invalidateBlogsCache = () => {
+  blogSummariesCache = null;
+  blogFullCache = null;
+  bannerConfigCache = null;
+};
+
+const ensureBlogIndexes = async (db: Awaited<ReturnType<typeof getMongoDb>>) => {
+  if (indexesEnsured) {
+    return;
+  }
+
+  indexesEnsured = true;
+  const collection = db.collection<BlogDocument>(BLOGS_COLLECTION);
+
+  try {
+    await Promise.all([
+      collection.createIndex({ slug: 1 }),
+      collection.createIndex({ createdAt: -1 }),
+      collection.createIndex({ id: 1 }),
+    ]);
+  } catch (error) {
+    indexesEnsured = false;
+    console.warn('Failed to ensure blog indexes:', error);
+  }
+};
+
 const buildUniqueSlug = async (slug: string, blogId: string) => {
   const db = await getMongoDb();
   const collection = db.collection<BlogDocument>(BLOGS_COLLECTION);
@@ -80,21 +149,116 @@ const buildUniqueSlug = async (slug: string, blogId: string) => {
   return candidate;
 };
 
-export const listBlogsFromMongo = async (): Promise<BlogPost[]> => {
+const readCachedBlogs = (cache: BlogsCacheEntry | null): BlogPost[] | null => {
+  if (!cache || cache.expiresAt <= Date.now()) {
+    return null;
+  }
+
+  return cache.blogs;
+};
+
+export const listBlogSummariesFromMongo = async (): Promise<BlogPost[]> => {
+  const cached = readCachedBlogs(blogSummariesCache);
+  if (cached) {
+    return cached;
+  }
+
   const db = await getMongoDb();
+  await ensureBlogIndexes(db);
+
+  const blogs = await db
+    .collection<BlogDocument>(BLOGS_COLLECTION)
+    .find({}, { projection: BLOG_SUMMARY_PROJECTION })
+    .sort({ createdAt: -1 })
+    .toArray();
+
+  const normalized = blogs.map((blog) =>
+    toBlogPost({
+      ...blog,
+      content: '',
+      contentAr: undefined,
+      bannerImage: undefined,
+      bannerImageAr: undefined,
+    }),
+  );
+
+  blogSummariesCache = {
+    blogs: normalized,
+    expiresAt: Date.now() + BLOGS_CACHE_TTL_MS,
+  };
+
+  return normalized;
+};
+
+export const listRecentBlogSummariesFromMongo = async (
+  excludeSlug?: string,
+  limit = 4,
+): Promise<BlogPost[]> => {
+  const summaries = await listBlogSummariesFromMongo();
+  return summaries.filter((blog) => blog.slug !== excludeSlug).slice(0, limit);
+};
+
+export const listBlogsFromMongo = async (): Promise<BlogPost[]> => {
+  const cached = readCachedBlogs(blogFullCache);
+  if (cached) {
+    return cached;
+  }
+
+  const db = await getMongoDb();
+  await ensureBlogIndexes(db);
+
   const blogs = await db
     .collection<BlogDocument>(BLOGS_COLLECTION)
     .find({})
     .sort({ createdAt: -1 })
     .toArray();
 
-  return blogs.map(toBlogPost);
+  const normalized = blogs.map(toBlogPost);
+  blogFullCache = {
+    blogs: normalized,
+    expiresAt: Date.now() + BLOGS_CACHE_TTL_MS,
+  };
+
+  return normalized;
+};
+
+export const backfillBlogArabicIfNeeded = async (blog: BlogPost): Promise<BlogPost> => {
+  if (!blogNeedsArabicBackfill(blog)) {
+    return blog;
+  }
+
+  const translation = await translateBlogFieldsToArabic(blog);
+  if (!translation) {
+    return blog;
+  }
+
+  const updatedBlog = applyArabicTranslationToBlog(blog, translation);
+  if (!blogNeedsArabicBackfill(updatedBlog)) {
+    return saveBlogToMongo(updatedBlog, 'arabic-backfill');
+  }
+
+  return updatedBlog;
 };
 
 export const getBlogBySlugFromMongo = async (slug: string): Promise<BlogPost | null> => {
   const db = await getMongoDb();
+  await ensureBlogIndexes(db);
+
   const blog = await db.collection<BlogDocument>(BLOGS_COLLECTION).findOne({ slug });
-  return blog ? toBlogPost(blog) : null;
+  if (!blog) {
+    return null;
+  }
+
+  const normalizedBlog = toBlogPost(blog);
+  if (blogNeedsArabicBackfill(normalizedBlog)) {
+    void backfillBlogArabicIfNeeded(normalizedBlog)
+      .then(() => invalidateBlogsCache())
+      .catch((error) => {
+        console.error(`Arabic backfill failed for blog "${slug}":`, error);
+      });
+  }
+
+  return normalizedBlog;
 };
 
 export const getBlogByIdFromMongo = async (id: string): Promise<BlogPost | null> => {
@@ -126,29 +290,40 @@ export const saveBlogToMongo = async (blog: BlogPost, updatedBy?: string): Promi
     { upsert: true }
   );
 
+  invalidateBlogsCache();
   return savedBlog;
 };
 
 export const deleteBlogFromMongo = async (blogId: string) => {
   const db = await getMongoDb();
   await db.collection<BlogDocument>(BLOGS_COLLECTION).deleteOne({ id: blogId });
+  invalidateBlogsCache();
 };
 
 export const loadBlogsPageBannerConfigFromMongo = async (): Promise<BlogsPageBannerConfig> => {
+  if (bannerConfigCache && bannerConfigCache.expiresAt > Date.now()) {
+    return bannerConfigCache.config;
+  }
+
   const db = await getMongoDb();
   const document = await db.collection<BlogsBannerDocument>(SITE_CONTENT_COLLECTION).findOne({ key: BLOGS_BANNER_KEY });
 
-  if (!document) {
-    return {
-      bannerUrl: '',
-      card: emptyBannerCard(),
-    };
-  }
+  const config: BlogsPageBannerConfig = !document
+    ? {
+        bannerUrl: '',
+        card: emptyBannerCard(),
+      }
+    : {
+        bannerUrl: document.bannerUrl || '',
+        card: normalizeBannerCard(document.card),
+      };
 
-  return {
-    bannerUrl: document.bannerUrl || '',
-    card: normalizeBannerCard(document.card),
+  bannerConfigCache = {
+    config,
+    expiresAt: Date.now() + BLOGS_CACHE_TTL_MS,
   };
+
+  return config;
 };
 
 export const saveBlogsPageBannerConfigToMongo = async (payload: {
@@ -177,5 +352,6 @@ export const saveBlogsPageBannerConfigToMongo = async (payload: {
     { upsert: true }
   );
 
+  invalidateBlogsCache();
   return nextConfig;
 };

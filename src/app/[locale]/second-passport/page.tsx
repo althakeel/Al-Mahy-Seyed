@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
+import JsonLd from '@/components/structured-data/JsonLd';
+import { buildPageMetadata, PAGE_SEO } from '@/lib/site-metadata';
+import { buildFaqSchema } from '@/lib/structured-data-builders';
+import { ServicePageSeo } from '@/lib/with-service-seo';
 import { Locale } from '@/lib/translations';
+import { isValidLocale } from '@/lib/utils';
 import SecondPassportHero from '@/components/second-passport/SecondPassportHero';
 import SecondPassportCountriesSection from '@/components/second-passport/SecondPassportCountriesSection';
 import SecondPassportWhySection from '@/components/second-passport/SecondPassportWhySection';
@@ -107,6 +113,16 @@ async function fetchLatestNews(isArabic: boolean, fallbackItems: NewsItem[]): Pr
   } catch {
     return fallbackItems;
   }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const lang: Locale = isValidLocale(locale) ? locale : 'en';
+  return buildPageMetadata(lang, '/second-passport', PAGE_SEO.secondPassport);
 }
 
 export default async function SecondPassportPage({
@@ -250,6 +266,12 @@ export default async function SecondPassportPage({
   const newsItems = await fetchLatestNews(isArabic, fallbackNewsItems);
 
   return (
+    <>
+      <JsonLd
+        id="second-passport-faq-schema"
+        data={buildFaqSchema(faqItems.map((item) => ({ question: item.q, answer: item.a })))}
+      />
+      <ServicePageSeo locale={lang} path="/second-passport" copy={PAGE_SEO.secondPassport} />
     <div
       dir={isArabic ? 'rtl' : 'ltr'}
       className={`min-h-screen bg-[#F1EFF0] text-[#160A0A] ${isArabic ? 'text-right' : 'text-left'}`}
@@ -329,5 +351,6 @@ export default async function SecondPassportPage({
         ctaLabel={isArabic ? 'احجز استشارة' : 'Book a Consultation'}
       />
     </div>
+    </>
   );
 }

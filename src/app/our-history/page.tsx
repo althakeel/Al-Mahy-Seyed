@@ -46,7 +46,7 @@ const milestones: Milestone[] = [
     label: "June 2020",
     title: "2020 – Present: Continued Excellence and Global Impact",
     body:
-      "Today we deliver tailored strategies across the Gulf, Africa, and Europe. Our cross-border counsel blends local insight with global reach across arbitration, IP, corporate law, and investments—earning trust from multinationals and individuals navigating complex legal challenges at scale.",
+      "Today we deliver tailored strategies across the Gulf, Africa, and Europe. Our cross-border counsel blends local insight with global reach across arbitration, IP, corporate law, and investments earning trust from multinationals and individuals navigating complex legal challenges at scale.",
     side: "left",
   },
 ];
@@ -54,7 +54,7 @@ const milestones: Milestone[] = [
 export const metadata: Metadata = {
   title: "Our History | Almahy Legal Services",
   description:
-    "Explore Almahy Legal Services' history—from founding roots to regional expansion, innovation, and global impact across disputes and corporate matters.",
+    "Explore Almahy Legal Services' history from founding roots to regional expansion, innovation, and global impact across disputes and corporate matters.",
 };
 
 function TimelineDot({ label }: { label: string }) {

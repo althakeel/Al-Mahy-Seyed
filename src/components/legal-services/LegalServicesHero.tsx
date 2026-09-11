@@ -35,7 +35,7 @@ export default function LegalServicesHero({ locale, copy }: LegalServicesHeroPro
         fill
         priority
         className={`object-cover ${isArabic ? 'object-[20%_center]' : 'object-[80%_center]'}`}
-        sizes="100vw"
+        sizes="(max-width: 1920px) 100vw, 1920px"
       />
       <div
         className={`absolute inset-0 ${
@@ -66,7 +66,7 @@ export default function LegalServicesHero({ locale, copy }: LegalServicesHeroPro
           </div>
 
           <div
-            className={`flex flex-wrap gap-3.5 lg:col-span-4 ${
+            className={`flex flex-wrap gap-3.5 max-sm:flex-col max-sm:items-stretch lg:col-span-4 ${
               isArabic ? 'justify-start lg:justify-start' : 'justify-start lg:justify-end'
             }`}
           >
@@ -74,14 +74,14 @@ export default function LegalServicesHero({ locale, copy }: LegalServicesHeroPro
               href="https://wa.me/971504096028?text=Hello%2C%20I%20need%20legal%20services"
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-btn-glow-solid inline-flex h-[52px] cursor-pointer items-center gap-2 rounded-md bg-[#B38D42] px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
+              className="hero-btn-glow-solid inline-flex h-[52px] max-sm:w-full max-sm:justify-center cursor-pointer items-center gap-2 rounded-md bg-[#B38D42] px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:border-[#9A7635] hover:bg-[#9A7635] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
             >
               {copy.bookConsultation}
               <ArrowIcon className={`h-3.5 w-3.5 ${isArabic ? 'rotate-180' : ''}`} />
             </a>
             <a
               href="#practice-areas"
-              className="hero-btn-glow-outline inline-flex h-[52px] cursor-pointer items-center gap-2 rounded-md bg-transparent px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[rgba(179,141,66,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
+              className="hero-btn-glow-outline inline-flex h-[52px] max-sm:w-full max-sm:justify-center cursor-pointer items-center gap-2 rounded-md bg-transparent px-7 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-200 hover:bg-[rgba(179,141,66,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B38D42]"
             >
               {copy.practiceAreasTitle}
               <ArrowIcon className={`h-4 w-4 text-[#B38D42] ${isArabic ? 'rotate-180' : ''}`} />

@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server';
 import { BlogPost } from '@/lib/blogs';
-import { listBlogsFromMongo, saveBlogToMongo } from '@/lib/blogs-server';
+import {
+  listBlogSummariesFromMongo,
+  listBlogsFromMongo,
+  normalizeBlogPost,
+  saveBlogToMongo,
+} from '@/lib/blogs-server';
+
+const PUBLIC_CACHE_HEADERS = {
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+};
 
 const getDevelopmentFallbackUrl = () => {
   if (process.env.NODE_ENV !== 'development') return null;
@@ -14,7 +23,9 @@ const loadDevelopmentFallbackBlogs = async (): Promise<BlogPost[] | null> => {
   try {
     const response = await fetch(fallbackUrl, { cache: 'no-store' });
     const result = (await response.json()) as { success?: boolean; blogs?: BlogPost[] };
-    return response.ok && result.success && Array.isArray(result.blogs) ? result.blogs : null;
+    return response.ok && result.success && Array.isArray(result.blogs)
+      ? result.blogs.map(normalizeBlogPost)
+      : null;
   } catch (error) {
     console.error('Development blogs fallback failed:', error);
     return null;
@@ -43,10 +54,14 @@ const saveBlogViaDevelopmentFallback = async (
   }
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const blogs = await listBlogsFromMongo();
-    return NextResponse.json({ success: true, blogs });
+    const includeFullContent = new URL(request.url).searchParams.get('full') === '1';
+    const blogs = includeFullContent ? await listBlogsFromMongo() : await listBlogSummariesFromMongo();
+    return NextResponse.json(
+      { success: true, blogs },
+      includeFullContent ? undefined : { headers: PUBLIC_CACHE_HEADERS },
+    );
   } catch (error) {
     console.error('Blogs GET error:', error);
     const fallbackBlogs = await loadDevelopmentFallbackBlogs();

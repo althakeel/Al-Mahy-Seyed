@@ -10,7 +10,7 @@ export default function AboutHeroBackground() {
         alt=""
         fill
         priority
-        sizes="100vw"
+        sizes="(max-width: 1920px) 100vw, 1920px"
         className="object-cover object-center"
       />
       <div className="absolute inset-0 bg-[#160A0A]/20" />
