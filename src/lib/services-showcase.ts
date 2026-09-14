@@ -18,7 +18,7 @@ const serviceImages: Record<string, string> = {
   'legal-services': '/assets/services/legal-services-team.jpg',
   'corporate-services': '/assets/services/corporate-team.webp',
   'notary-public-services': '/assets/services/notory.webp',
-  'accounting-services': '/assets/services/accounting.webp',
+  'accounting-services': '/assets/services/accounting.jpg',
   'second-passport': '/assets/services/passport.webp',
   'expert-reports': '/assets/services/reports.webp',
 };

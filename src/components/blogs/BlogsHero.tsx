@@ -16,6 +16,9 @@ export default function BlogsHero({ isRTL, bannerUrl, bannerAlt, eyebrow, title,
           alt={bannerAlt}
           className="absolute left-0 h-[118%] w-full max-w-none object-cover brightness-[1.1] opacity-75"
           style={{ objectPosition: 'center 28%', top: '12%' }}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
       </div>
       <div

@@ -307,16 +307,6 @@ export default function Stats({ locale }: { locale: Locale }) {
             />
           ))}
         </div>
-
-        {/* Bottom section ornament */}
-        <div className="stat-section-ornament px-4" aria-hidden="true">
-          <span className="line" />
-          <span className="diamond-pair">
-            <span />
-            <span />
-          </span>
-          <span className="line" />
-        </div>
       </div>
     </section>
   );

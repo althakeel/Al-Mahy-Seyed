@@ -15,6 +15,9 @@ import {
 const FEATURED_BLOG_SLUG =
   'understanding-the-latest-tax-law-changes-in-the-uae-what-residents-non-residents-and-businesses-should-know';
 
+/** Static hero image — same on first paint and after data load (no API swap flash). */
+const BLOGS_HERO_BANNER = '/assets/banner/blogs-hero.jpg';
+
 export default function BlogsPage() {
   const params = useParams();
   const locale = (params?.locale as string) || 'en';
@@ -24,8 +27,6 @@ export default function BlogsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [bannerCardTitle, setBannerCardTitle] = useState('');
   const [bannerCardSub, setBannerCardSub] = useState('');
-  const [bannerUrl, setBannerUrl] = useState('');
-  const fallbackBanner = '/assets/banner/blogs-background.webp';
 
   useEffect(() => {
     const loadServerData = async () => {
@@ -37,7 +38,6 @@ export default function BlogsPage() {
         ]);
 
         setBlogs(serverBlogs);
-        setBannerUrl(bannerConfig.bannerUrl);
         setBannerCardTitle(lang === 'ar' ? bannerConfig.card.titleAr : bannerConfig.card.titleEn);
         setBannerCardSub(lang === 'ar' ? bannerConfig.card.subAr : bannerConfig.card.subEn);
       } finally {
@@ -69,7 +69,6 @@ export default function BlogsPage() {
     [lang],
   );
 
-  const effectiveBanner = bannerUrl || fallbackBanner;
   const orderedBlogs = useMemo(
     () =>
       [...blogs].sort((first, second) => {
@@ -84,7 +83,7 @@ export default function BlogsPage() {
     <main className="min-h-screen" dir={isRTL ? 'rtl' : 'ltr'}>
       <BlogsHero
         isRTL={isRTL}
-        bannerUrl={effectiveBanner}
+        bannerUrl={BLOGS_HERO_BANNER}
         bannerAlt={bannerCardTitle || tx.bannerTitle}
         eyebrow={tx.label}
         title={bannerCardTitle || tx.bannerTitle}

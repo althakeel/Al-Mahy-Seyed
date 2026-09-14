@@ -94,7 +94,7 @@ export default function WhatsappBottomChat() {
   }, [pathname]);
 
   return (
-    <div className="pointer-events-none fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] end-4 z-[90] max-sm:end-3 md:bottom-7 md:end-7">
+    <div className="pointer-events-none fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] end-4 z-[160] max-sm:end-3 md:bottom-7 md:end-7">
       <div
         onMouseEnter={cancelCloseTimer}
         onMouseLeave={() => open && startCloseTimer()}

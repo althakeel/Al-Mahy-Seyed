@@ -14,7 +14,7 @@ export default function ServicesSection({ locale }: ServicesSectionProps) {
 
   return (
     <section className="w-full bg-[#F1EFF0]">
-      <div className="bg-[#F1EFF0] py-14 md:py-5">
+      <div className="bg-[#F1EFF0] py-5 md:py-5">
         <div className="mx-auto max-w-[1250px] px-4 text-center md:px-8">
           <div className="inline-flex items-center gap-3">
             <span className="h-px w-10 bg-[#B38D42]" aria-hidden />

@@ -247,12 +247,12 @@ export default function GoogleReviews({ locale }: { locale: Locale }) {
         </div>
 
         {/* Footer tagline */}
-        <div className="mt-8 flex items-center justify-center gap-4 md:mt-9">
-          <span className="h-px w-16 bg-[#B38D42]/45 md:w-24" aria-hidden="true" />
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#B38D42]">
+        <div className="mt-8 flex items-center justify-center gap-2 md:mt-9 md:gap-4">
+          <span className="h-px w-8 shrink-0 bg-[#B38D42]/45 md:w-24" aria-hidden="true" />
+          <p className="shrink-0 whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.1em] text-[#B38D42] md:text-[11px] md:tracking-[0.22em]">
             {pageContent.footerTagline}
           </p>
-          <span className="h-px w-16 bg-[#B38D42]/45 md:w-24" aria-hidden="true" />
+          <span className="h-px w-8 shrink-0 bg-[#B38D42]/45 md:w-24" aria-hidden="true" />
         </div>
 
         <div className="mt-6 flex flex-col items-center md:mt-6">
