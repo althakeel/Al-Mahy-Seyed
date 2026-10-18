@@ -681,20 +681,6 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
         </section>
 
         <section className="border-t border-[#B38D42]/35 py-12 md:py-16">
-          <PricingSectionHeading title={page.accountingHeading} isArabic={isArabic} />
-          <PricingPackagesCarousel
-            caseTypeLabel={page.accountingCaseTypeLabel}
-            colCollection={page.accountingColCollection}
-            colFinal={page.accountingColFinal}
-            colAdvance={page.accountingColAdvance}
-            caseItems={page.accountingCaseItems}
-            packages={page.accountingPackages}
-            isArabic={isArabic}
-            maxWidthClassName="max-w-[920px]"
-          />
-        </section>
-
-        <section className="border-t border-[#B38D42]/35 py-12 md:py-16">
           <PricingSectionHeading title={page.corporateHeading} isArabic={isArabic} />
           <PricingPackagesCarousel
             caseTypeLabel={page.corporateCaseTypeLabel}
