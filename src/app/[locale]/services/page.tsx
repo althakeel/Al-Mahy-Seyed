@@ -3,6 +3,7 @@ import { Locale } from "@/lib/translations";
 import { getServiceShowcaseItems } from "@/lib/services-showcase";
 import ServiceShowcaseBlock from "@/components/ServiceShowcaseBlock";
 import ServicesPageHero from "@/components/ServicesPageHero";
+import OurClientsGrid from "../../../components/OurClientsGrid";
 import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
 import { ServicePageSeo } from "@/lib/with-service-seo";
 import { isValidLocale } from "@/lib/utils";
@@ -49,6 +50,7 @@ export default async function ServicesPage({
           />
         ))}
       </div>
+      <OurClientsGrid />
     </div>
     </>
   );

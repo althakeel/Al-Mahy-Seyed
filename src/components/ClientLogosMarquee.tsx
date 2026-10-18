@@ -1,14 +1,19 @@
 "use client";
 
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { useState, type CSSProperties } from "react";
 import { Locale } from "@/lib/translations";
+import { newClientLogos } from "../assets/logos/new-client-logos";
 
 interface ClientLogosMarqueeProps {
   locale: Locale;
 }
 
 const MARQUEE_DURATION = "72s";
+const NEW_MARQUEE_DURATION = `${(
+  Number.parseFloat(MARQUEE_DURATION) *
+  (newClientLogos.length / 33)
+).toFixed(1)}s`;
 const LOGO_SIZES = "150px";
 
 const clientLogos = [
@@ -54,12 +59,12 @@ function LogoCard({
   delayMs,
   duplicate = false,
 }: {
-  src: string;
+  src: string | StaticImageData;
   alt: string;
   delayMs: number;
   duplicate?: boolean;
 }) {
-  const [imgSrc, setImgSrc] = useState(src);
+  const [imgSrc, setImgSrc] = useState<string | StaticImageData>(src);
 
   return (
     <li
@@ -141,6 +146,34 @@ export default function ClientLogosMarquee({ locale }: ClientLogosMarqueeProps) 
               />
             ))}
           </ul>
+        </div>
+
+        <div className="relative mt-4 h-[92px] overflow-hidden md:mt-5 md:h-[96px]" dir="ltr">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent md:w-24" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent md:w-24" />
+
+          <div
+            className="flex w-max animate-marquee-right"
+            style={{ animationDuration: NEW_MARQUEE_DURATION, willChange: "transform" }}
+          >
+            {[false, true].map((duplicate) => (
+              <ul
+                key={duplicate ? "duplicate" : "primary"}
+                className="flex shrink-0 items-center gap-4 pr-4 md:gap-5 md:pr-5"
+                aria-hidden={duplicate || undefined}
+              >
+                {newClientLogos.map(({ src, alt }, index) => (
+                  <LogoCard
+                    key={`${duplicate ? "duplicate" : "primary"}-${index}`}
+                    src={src}
+                    alt={alt}
+                    delayMs={(index % 10) * 320}
+                    duplicate={duplicate}
+                  />
+                ))}
+              </ul>
+            ))}
+          </div>
         </div>
       </div>
     </section>
