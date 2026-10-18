@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import { buildPageMetadata, PAGE_SEO } from "@/lib/site-metadata";
 import { Locale } from "@/lib/translations";
 import { isValidLocale } from "@/lib/utils";
+import { SHOW_PRICING } from "@/lib/feature-flags";
 
 type CaseItem = {
   title: string;
@@ -665,37 +666,39 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
         }
       />
 
-      <div className="mx-auto max-w-[1250px] px-4 pb-4 md:px-8">
-        <section className="py-12 md:py-16">
-          <PricingSectionHeading title={page.heading} isArabic={isArabic} />
-          <PricingPackagesCarousel
-            caseTypeLabel={page.caseTypeLabel}
-            colCollection={page.colCollection}
-            colFinal={page.colFinal}
-            colAdvance={page.colAdvance}
-            paymentColumnOrder={["advancePayment", "finalPayment", "collection"]}
-            caseItems={page.caseItems}
-            packages={page.packages}
-            isArabic={isArabic}
-          />
-        </section>
+      {SHOW_PRICING ? (
+        <div className="mx-auto max-w-[1250px] px-4 pb-4 md:px-8">
+          <section className="py-12 md:py-16">
+            <PricingSectionHeading title={page.heading} isArabic={isArabic} />
+            <PricingPackagesCarousel
+              caseTypeLabel={page.caseTypeLabel}
+              colCollection={page.colCollection}
+              colFinal={page.colFinal}
+              colAdvance={page.colAdvance}
+              paymentColumnOrder={["advancePayment", "finalPayment", "collection"]}
+              caseItems={page.caseItems}
+              packages={page.packages}
+              isArabic={isArabic}
+            />
+          </section>
 
-        <section className="border-t border-[#B38D42]/35 py-12 md:py-16">
-          <PricingSectionHeading title={page.corporateHeading} isArabic={isArabic} />
-          <PricingPackagesCarousel
-            caseTypeLabel={page.corporateCaseTypeLabel}
-            colCollection={page.corporateColCollection}
-            colFinal={page.corporateColFinal}
-            colAdvance={page.corporateColAdvance}
-            caseItems={page.corporateCaseItems}
-            packages={page.corporatePackages}
-            isArabic={isArabic}
-            noteRowIndex={false}
-            inclusionMode
-            packageColumns={page.corporatePackageColumns}
-          />
-        </section>
-      </div>
+          <section className="border-t border-[#B38D42]/35 py-12 md:py-16">
+            <PricingSectionHeading title={page.corporateHeading} isArabic={isArabic} />
+            <PricingPackagesCarousel
+              caseTypeLabel={page.corporateCaseTypeLabel}
+              colCollection={page.corporateColCollection}
+              colFinal={page.corporateColFinal}
+              colAdvance={page.corporateColAdvance}
+              caseItems={page.corporateCaseItems}
+              packages={page.corporatePackages}
+              isArabic={isArabic}
+              noteRowIndex={false}
+              inclusionMode
+              packageColumns={page.corporatePackageColumns}
+            />
+          </section>
+        </div>
+      ) : null}
 
       <PricingCtaSection
         isArabic={isArabic}

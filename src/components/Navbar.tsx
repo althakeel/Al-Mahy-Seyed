@@ -18,6 +18,7 @@ import { getLocalizedPathname } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
 import { ensureDashboardAccessRequest, normalizeEmail } from '@/lib/admin-access';
+import { SHOW_PRICING } from '@/lib/feature-flags';
 import SiteSearch from '@/components/SiteSearch';
 
 const NAV_ACCENT = '#B38D42';
@@ -274,6 +275,9 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
     { href: `/${lang}/about`, label: t.whoAreWe },
     { href: `/${lang}/contact`, label: t.contactUs },
   ];
+  const visibleNavLinks = navLinks.filter(
+    (link) => SHOW_PRICING || link.href !== `/${lang}/pricing-table`,
+  );
 
   const languageButtonClass = (active: boolean) =>
     active
@@ -305,7 +309,7 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
 
           {/* Center: Navigation Links */}
           <div className={`hidden md:flex items-center gap-3 md:max-w-[48%] lg:max-w-none lg:gap-10 order-2 ${lang === 'ar' ? 'justify-end' : 'justify-start'}`} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-            {navLinks.map((link) => (
+            {visibleNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -447,7 +451,7 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
         {mobileMenuOpen && (
           <div className="md:hidden backdrop-blur-lg border-t -mx-4 px-4" style={{backgroundColor: `rgba(24, 24, 24, ${isScrolled ? 0.95 : 0.85})`, borderTopColor: `rgba(128, 128, 128, ${isScrolled ? 1 : 0.5})`}}>
             <div className="py-3 space-y-2">
-              {navLinks.map((link) => (
+              {visibleNavLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
