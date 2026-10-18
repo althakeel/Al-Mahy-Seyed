@@ -673,6 +673,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
             colCollection={page.colCollection}
             colFinal={page.colFinal}
             colAdvance={page.colAdvance}
+            paymentColumnOrder={["advancePayment", "finalPayment", "collection"]}
             caseItems={page.caseItems}
             packages={page.packages}
             isArabic={isArabic}

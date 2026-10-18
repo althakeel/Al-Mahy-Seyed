@@ -14,6 +14,8 @@ type PaymentItem = {
   advancePayment: string;
 };
 
+type PaymentColumn = keyof PaymentItem;
+
 type PackagePlan = {
   rightTitle: string;
   rightSubtitle: string;
@@ -40,6 +42,7 @@ type PricingPackagesCarouselProps = {
   noteRowIndex?: number | false;
   inclusionMode?: boolean;
   packageColumns?: [ColumnHeader, ColumnHeader, ColumnHeader];
+  paymentColumnOrder?: [PaymentColumn, PaymentColumn, PaymentColumn];
 };
 
 export default function PricingPackagesCarousel({
@@ -54,6 +57,7 @@ export default function PricingPackagesCarousel({
   noteRowIndex = 1,
   inclusionMode = false,
   packageColumns,
+  paymentColumnOrder = ['collection', 'finalPayment', 'advancePayment'],
 }: PricingPackagesCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stageHeight, setStageHeight] = useState(0);
@@ -259,11 +263,17 @@ export default function PricingPackagesCarousel({
     </div>
   );
 
-  const resolvedColumns: [ColumnHeader, ColumnHeader, ColumnHeader] = packageColumns ?? [
-    { title: colCollection },
-    { title: colFinal },
-    { title: colAdvance },
-  ];
+  const paymentColumnTitles: Record<PaymentColumn, string> = {
+    collection: colCollection,
+    finalPayment: colFinal,
+    advancePayment: colAdvance,
+  };
+  const resolvedColumns: [ColumnHeader, ColumnHeader, ColumnHeader] = packageColumns ??
+    paymentColumnOrder.map((column) => ({ title: paymentColumnTitles[column] })) as [
+      ColumnHeader,
+      ColumnHeader,
+      ColumnHeader,
+    ];
 
   const renderPackageCard = (pkg: PackagePlan, packageIndex: number) => {
     const tableRows = caseItems.map((item, index) => ({
@@ -343,9 +353,9 @@ export default function PricingPackagesCarousel({
                     </div>
                   ) : payment ? (
                     <div className="grid grid-cols-3 border-t border-[#B38D42]/35 bg-[#160A0A] text-center text-[12px] font-semibold text-white/90 even:bg-[#100B0B]/35">
-                      <div className="flex min-h-12 items-center justify-center border-e border-[#B38D42]/35 px-2 py-2">{renderPaymentValue(payment.collection)}</div>
-                      <div className="flex min-h-12 items-center justify-center border-e border-[#B38D42]/35 px-2 py-2">{renderPaymentValue(payment.finalPayment)}</div>
-                      <div className="flex min-h-12 items-center justify-center px-2 py-2">{renderPaymentValue(payment.advancePayment)}</div>
+                      <div className="flex min-h-12 items-center justify-center border-e border-[#B38D42]/35 px-2 py-2">{renderPaymentValue(payment[paymentColumnOrder[0]])}</div>
+                      <div className="flex min-h-12 items-center justify-center border-e border-[#B38D42]/35 px-2 py-2">{renderPaymentValue(payment[paymentColumnOrder[1]])}</div>
+                      <div className="flex min-h-12 items-center justify-center px-2 py-2">{renderPaymentValue(payment[paymentColumnOrder[2]])}</div>
                     </div>
                   ) : null}
                 </div>
