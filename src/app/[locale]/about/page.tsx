@@ -43,7 +43,7 @@ export default async function AboutPage({
   const whyChooseCards = [
     {
       number: "01",
-      title: lang === "en" ? "38 years in UAE practice" : "38 عاماً من الممارسة في الإمارات",
+      title: lang === "en" ? "15+ years in UAE practice" : "15+ عاماً من الممارسة في الإمارات",
       desc:
         lang === "en"
           ? "We know how Dubai courts, free zones, and licensing authorities actually work not just the theory."

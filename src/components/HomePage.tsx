@@ -34,7 +34,7 @@ export default function HomePage({ locale }: HomePageProps) {
   const currentSlide = heroSlides[0];
   const headlineLines = currentSlide.headline;
 
-  const yearsCount = 38;
+  const yearsCount = "15+";
 
   const heroOverlayGradient = isRTL
     ? "linear-gradient(270deg, rgba(10,6,6,0.94) 0%, rgba(10,6,6,0.82) 43%, rgba(10,6,6,0.58) 70%, rgba(10,6,6,0.42) 100%)"

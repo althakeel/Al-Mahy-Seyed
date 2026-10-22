@@ -99,14 +99,14 @@ export const translations = {
     aboutHeadline: "We’re Advocates for Justice and Right",
     aboutHeadlineLine1: "We’re Advocates for",
     aboutHeadlineLine2: "Justice and Right",
-    aboutYearsStat: "38+",
+    aboutYearsStat: "15+",
     aboutYearsLabel: "Years Of Experience",
     aboutTrustedLine1: "Trusted By",
     aboutTrustedLine2: "Businesses",
     aboutTrustedLine3: "Individuals",
     aboutTrustedLine4: "Investors",
     aboutDescription:
-      "Almahy for Legal Services is a leading law firm in Dubai with over 38 years of experience providing legal consultation, corporate services, notary services, and comprehensive legal solutions. Serving individuals, businesses, and investors across the UAE, we combine local expertise with a global network of legal professionals to deliver trusted, client-focused legal support.",
+      "Almahy for Legal Services is a leading law firm in Dubai with over 15 years of experience providing legal consultation, corporate services, notary services, and comprehensive legal solutions. Serving individuals, businesses, and investors across the UAE, we combine local expertise with a global network of legal professionals to deliver trusted, client-focused legal support.",
     
   },
   ar: {
@@ -217,7 +217,7 @@ export const translations = {
     aboutTrustedLine3: "الأفراد",
     aboutTrustedLine4: "المستثمرين",
     aboutDescription:
-      "الخدمات القانونية لماهي هي شركة محاماة رائدة في دبي بخبرة تزيد عن 38 عامًا، تقدم الاستشارات القانونية وخدمات الشركات والتوثيق وحلولاً قانونية شاملة. نخدم الأفراد والشركات والمستثمرين في جميع أنحاء الإمارات، ونجمع بين الخبرة المحلية وشبكة عالمية من المحامين لتقديم دعم قانوني موثوق يركز على العميل.",
+      "الخدمات القانونية لماهي هي شركة محاماة رائدة في دبي بخبرة تزيد عن 15 عامًا، تقدم الاستشارات القانونية وخدمات الشركات والتوثيق وحلولاً قانونية شاملة. نخدم الأفراد والشركات والمستثمرين في جميع أنحاء الإمارات، ونجمع بين الخبرة المحلية وشبكة عالمية من المحامين لتقديم دعم قانوني موثوق يركز على العميل.",
   },
 };
 

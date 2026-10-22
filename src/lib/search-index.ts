@@ -36,8 +36,8 @@ const STATIC_ENTRIES: StaticSearchEntry[] = [
     path: '',
     titleEn: 'Home',
     titleAr: 'الرئيسية',
-    descriptionEn: 'Almahy for Legal Services trusted law firm in Dubai with 38 years of excellence.',
-    descriptionAr: 'المحي للخدمات القانونية شركة محاماة موثوقة في دبي بخبرة 38 عامًا.',
+    descriptionEn: 'Almahy for Legal Services trusted law firm in Dubai with 15+ years of excellence.',
+    descriptionAr: 'المحي للخدمات القانونية شركة محاماة موثوقة في دبي بخبرة تزيد عن 15 عامًا.',
     keywords: ['law firm', 'dubai', 'uae', 'legal'],
   },
   {

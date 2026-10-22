@@ -30,12 +30,12 @@ export const PAGE_SEO = {
     en: {
       title: 'About Us | Almahy Legal Services Dubai',
       description:
-        'Meet Almahy Legal Services — 38+ years of legal expertise in Dubai. Our mission, vision, global network, and team serving UAE and international clients.',
+        'Meet Almahy Legal Services — 15+ years of legal expertise in Dubai. Our mission, vision, global network, and team serving UAE and international clients.',
     },
     ar: {
       title: 'من نحن | المحي للخدمات القانونية دبي',
       description:
-        'تعرف على المحي للخدمات القانونية — أكثر من 38 عامًا من الخبرة في دبي. رسالتنا ورؤيتنا وشبكتنا العالمية وفريقنا في الإمارات.',
+        'تعرف على المحي للخدمات القانونية — أكثر من 15 عامًا من الخبرة في دبي. رسالتنا ورؤيتنا وشبكتنا العالمية وفريقنا في الإمارات.',
     },
   },
   services: {

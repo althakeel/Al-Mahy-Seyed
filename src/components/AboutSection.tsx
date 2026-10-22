@@ -20,7 +20,7 @@ export default function AboutSection() {
         </div>
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">We're Advocates for Justice and Right</h2>
         <p className="text-gray-700 text-base leading-relaxed mb-8">
-          AlMahy Legal Services is a premier law firm with over 38 years of legal experience and a global network of 5000 qualified lawyers, making us a trusted name in the legal services industry worldwide. Based in the United Arab Emirates, we have established ourselves as a leading force in the legal sector, providing a diverse range of high-quality legal services to our esteemed clients.
+          AlMahy Legal Services is a premier law firm with over 15 years of legal experience and a global network of 5000 qualified lawyers, making us a trusted name in the legal services industry worldwide. Based in the United Arab Emirates, we have established ourselves as a leading force in the legal sector, providing a diverse range of high-quality legal services to our esteemed clients.
         </p>
         <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col md:flex-row items-center gap-4">
           <div className="flex-1">

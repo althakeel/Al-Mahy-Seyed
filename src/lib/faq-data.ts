@@ -11,7 +11,7 @@ export const homepageFaqData: Record<Locale, FaqItem[]> = {
     {
       question: 'Why should I choose Almahy for Legal Services?',
       answer:
-        'We combine 38 years of legal expertise with practical solutions, personalized advice, and dedicated client support.',
+        'We combine 15+ years of legal expertise with practical solutions, personalized advice, and dedicated client support.',
     },
     {
       question: 'How can I schedule a consultation with your legal team?',
@@ -55,7 +55,7 @@ export const homepageFaqData: Record<Locale, FaqItem[]> = {
   ar: [
     {
       question: 'لماذا يجب أن أختار المحامy للخدمات القانونية؟',
-      answer: 'نجمع بين 38 عامًا من الخبرة القانونية والحلول العملية والإرشاد المخصص ودعم العملاء المتفاني.',
+      answer: 'نجمع بين أكثر من 15 عامًا من الخبرة القانونية والحلول العملية والإرشاد المخصص ودعم العملاء المتفاني.',
     },
     {
       question: 'كيف يمكنني حجز استشارة مع فريقكم القانوني؟',

@@ -135,11 +135,11 @@ function WhoWeArePage() {
               The lawyers are both experienced and highly skilled.
             </h2>
             <p className="max-w-xl text-sm text-white/75 sm:text-base">
-              For 38+ years we have combined courtroom advocacy, negotiation, and cross-border coordination to deliver results our clients trust.
+              For 15+ years we have combined courtroom advocacy, negotiation, and cross-border coordination to deliver results our clients trust.
             </p>
             <div className="mt-6 inline-flex flex-col rounded-2xl bg-[#a46f3c] px-6 py-5 text-[#1b1c21] shadow-lg shadow-[#a46f3c]/30 sm:flex-row sm:items-center sm:gap-5">
               <div>
-                <p className="text-3xl font-semibold">38+ Years</p>
+                <p className="text-3xl font-semibold">15+ Years</p>
                 <p className="text-sm font-semibold uppercase tracking-[0.14em]">Of Experience</p>
               </div>
               <div className="flex items-center gap-1 text-[#1b1c21]">
