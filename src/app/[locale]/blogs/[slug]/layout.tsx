@@ -22,7 +22,7 @@ export async function generateMetadata({
 
   if (!blog) {
     return {
-      title: lang === 'ar' ? 'المقال غير موجود | المحي' : 'Article Not Found | Almahy',
+      title: lang === 'ar' ? 'المقال غير موجود | الماحي' : 'Article Not Found | Almahy',
       robots: { index: false, follow: false },
     };
   }
@@ -32,7 +32,7 @@ export async function generateMetadata({
   const path = `/blogs/${blog.slug}`;
 
   return {
-    title: lang === 'ar' ? `${title} | المحي للخدمات القانونية` : `${title} | Almahy Legal Blog`,
+    title: lang === 'ar' ? `${title} | مكتب الماحي للخدمات القانونية` : `${title} | Almahy Legal Blog`,
     description,
     alternates: buildAlternates(lang, path),
     openGraph: {

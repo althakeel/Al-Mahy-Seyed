@@ -16,7 +16,7 @@ export default function SearchStructuredData({ locale }: SearchStructuredDataPro
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: locale === 'ar' ? 'المحي للخدمات القانونية' : 'Almahy Legal Services',
+    name: locale === 'ar' ? 'مكتب الماحي للخدمات القانونية' : 'Almahy Legal Services',
     url: `${baseUrl}/${locale}`,
     potentialAction: {
       '@type': 'SearchAction',

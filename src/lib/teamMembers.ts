@@ -81,7 +81,7 @@ export const teamMembers: TeamMemberProfile[] = [
   {
     slug: "dr-almahy",
     nameEn: "Almahy Mohamed",
-    nameAr: "المحي محمد",
+    nameAr: "الماحي محمد",
     positionEn: "FOUNDER & MANAGING PARTNER",
     positionAr: "المؤسس والمدير العام",
     photo: cardPhoto("dr-almahy", "/images/team/team-13.webp"),
@@ -92,7 +92,7 @@ export const teamMembers: TeamMemberProfile[] = [
     casesDetailEn:
       "Almahy Mohamed has led 900+ mandates across civil litigation, commercial disputes, corporate advisory, and arbitration. His caseload includes company formation disputes, board governance matters, banking claims, labor conflicts, and complex enforcement files across UAE courts and authorities.",
     casesDetailAr:
-      "قاد المحي محمد أكثر من 900 ملف في التقاضي المدني والنزاعات التجارية والاستشارات المؤسسية والتحكيم، وتشمل قضاياه نزاعات تأسيس الشركات وحوكمة مجالس الإدارة ومطالبات مصرفية ونزاعات عمل وملفات تنفيذ معقدة أمام محاكم وجهات الإمارات.",
+      "قاد الماحي محمد أكثر من 900 ملف في التقاضي المدني والنزاعات التجارية والاستشارات المؤسسية والتحكيم، وتشمل قضاياه نزاعات تأسيس الشركات وحوكمة مجالس الإدارة ومطالبات مصرفية ونزاعات عمل وملفات تنفيذ معقدة أمام محاكم وجهات الإمارات.",
     practiceAreasEn: ["Corporate Law", "Civil Litigation", "Arbitration", "Business Setup", "Banking Disputes"],
     practiceAreasAr: ["قانون الشركات", "التقاضي المدني", "التحكيم", "تأسيس الأعمال", "النزاعات المصرفية"],
     highlightsEn: [
@@ -110,7 +110,7 @@ export const teamMembers: TeamMemberProfile[] = [
       "His academic and professional development includes programs from Egyptian, American, and international legal institutions, with a focus on arbitration practice, private law, legal skills, and professional standards.",
     ],
     overviewAr: [
-      "تستند الخبرة المهنية للأستاذ المحي محمد إلى تعليم قانوني رسمي وتدريب متخصص في القانون الخاص والتحكيم ودراسات الترجمة والتعليم القانوني المستمر.",
+      "تستند الخبرة المهنية للأستاذ الماحي محمد إلى تعليم قانوني رسمي وتدريب متخصص في القانون الخاص والتحكيم ودراسات الترجمة والتعليم القانوني المستمر.",
       "تشمل مسيرته الأكاديمية والمهنية برامج من مؤسسات قانونية مصرية وأمريكية ودولية، مع تركيز على ممارسات التحكيم والقانون الخاص والمهارات القانونية والمعايير المهنية.",
     ],
     credentialsEn: [

@@ -25,11 +25,11 @@ export async function generateMetadata({ params, searchParams }: SearchPageProps
   return {
     title:
       lang === 'ar'
-        ? `نتائج البحث عن "${query}" | المحي للخدمات القانونية`
+        ? `نتائج البحث عن "${query}" | مكتب الماحي للخدمات القانونية`
         : `Search results for "${query}" | Almahy Legal Services`,
     description:
       lang === 'ar'
-        ? `نتائج البحث عن ${query} في خدمات المحي القانونية والمقالات والصفحات.`
+        ? `نتائج البحث عن ${query} في خدمات الماحي القانونية والمقالات والصفحات.`
         : `Find legal services, articles, and pages related to ${query} at Almahy Legal Services in Dubai.`,
     robots: { index: true, follow: true },
     alternates: buildAlternates(lang, searchPath),

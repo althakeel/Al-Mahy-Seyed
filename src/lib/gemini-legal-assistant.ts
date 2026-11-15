@@ -25,11 +25,11 @@ interface GeminiResponse {
 
 const buildSystemPrompt = (locale: Locale) =>
   locale === 'ar'
-    ? `أنت مساعد قانوني ذكي لشركة المحي للخدمات القانونية في دبي والإمارات، بخبرة تزيد عن 15 عامًا.
+    ? `أنت مساعد قانوني ذكي لمكتب الماحي للخدمات القانونية في دبي والإمارات، بخبرة تزيد عن 15 عامًا.
 قدّم معلومات قانونية عامة مفيدة حول القوانين والإجراءات في الإمارات.
 استخدم نتائج البحث على الويب لتقديم معلومات محدثة عند الإمكان.
 لا تقدّم استشارة قانونية ملزمة — أوضح دائمًا أن الإجابة للتوعية فقط.
-اقترح خدمات المحي ذات الصلة عند الحاجة.
+اقترح خدمات الماحي ذات الصلة عند الحاجة.
 كن مختصرًا (120–200 كلمة)، واضحًا، وعمليًا.`
     : `You are the AI legal assistant for Almahy for Legal Services, a trusted UAE law firm in Dubai with 15+ years of experience.
 Provide helpful general information about UAE laws, procedures, and legal topics.
@@ -55,7 +55,7 @@ const buildUserPrompt = (query: string, locale: Locale, related: SearchResult[])
 نتائج ذات صلة:
 ${context}
 
-أجب على السؤال بشكل مفيد مع الإشارة إلى المصادر الخارجية عند الحاجة. اذكر في النهاية التواصل مع المحي للاستشارة القانونية.`
+أجب على السؤال بشكل مفيد مع الإشارة إلى المصادر الخارجية عند الحاجة. اذكر في النهاية التواصل مع الماحي للاستشارة القانونية.`
     : `User question: ${query}
 
 Related results:
@@ -93,7 +93,7 @@ export const getLegalAiAnswer = async (
 
   const disclaimer =
     locale === 'ar'
-      ? 'هذه المعلومات للتوعية العامة فقط وليست استشارة قانونية. للحصول على مشورة قانونية متخصصة، يرجى التواصل مع فريق المحي.'
+      ? 'هذه المعلومات للتوعية العامة فقط وليست استشارة قانونية. للحصول على مشورة قانونية متخصصة، يرجى التواصل مع فريق الماحي.'
       : 'This information is for general guidance only and does not constitute legal advice. For professional legal advice, please contact Almahy Legal Services.';
 
   try {

@@ -21,7 +21,7 @@ export const PAGE_SEO = {
         'Legal consultation, corporate & notary services, accounting, second passport programs, and expert reports in Dubai, UAE. Trusted legal advisors since 1987.',
     },
     ar: {
-      title: 'المحي للخدمات القانونية | استشارات قانونية دبي',
+      title: 'مكتب الماحي للخدمات القانونية | استشارات قانونية دبي',
       description:
         'استشارات قانونية، خدمات شركات وتوثيق، محاسبة، جواز سفر ثانٍ، وتقارير خبراء في دبي والإمارات. خبرة قانونية موثوقة منذ 1987.',
     },
@@ -33,9 +33,9 @@ export const PAGE_SEO = {
         'Meet Almahy Legal Services — 15+ years of legal expertise in Dubai. Our mission, vision, global network, and team serving UAE and international clients.',
     },
     ar: {
-      title: 'من نحن | المحي للخدمات القانونية دبي',
+      title: 'من نحن | مكتب الماحي للخدمات القانونية دبي',
       description:
-        'تعرف على المحي للخدمات القانونية — أكثر من 15 عامًا من الخبرة في دبي. رسالتنا ورؤيتنا وشبكتنا العالمية وفريقنا في الإمارات.',
+        'تعرف على مكتب الماحي للخدمات القانونية — أكثر من 15 عامًا من الخبرة في دبي. رسالتنا ورؤيتنا وشبكتنا العالمية وفريقنا في الإمارات.',
     },
   },
   services: {
@@ -45,9 +45,9 @@ export const PAGE_SEO = {
         'Explore Almahy legal, corporate, notary, accounting, second passport, and expert report services for individuals and businesses in Dubai and the UAE.',
     },
     ar: {
-      title: 'خدماتنا | المحي للخدمات القانونية الإمارات',
+      title: 'خدماتنا | مكتب الماحي للخدمات القانونية الإمارات',
       description:
-        'استكشف خدمات المحي القانونية والشركات والتوثيق والمحاسبة والجواز الثاني والتقارير الخبراء للأفراد والشركات في دبي والإمارات.',
+        'استكشف خدمات الماحي القانونية والشركات والتوثيق والمحاسبة والجواز الثاني والتقارير الخبراء للأفراد والشركات في دبي والإمارات.',
     },
   },
   legalServices: {
@@ -129,9 +129,9 @@ export const PAGE_SEO = {
         'Contact Almahy Legal Services in Dubai for consultations, appointments, and office directions. Phone, email, WhatsApp — DIFC, Sheikh Zayed Road.',
     },
     ar: {
-      title: 'تواصل معنا | المحي للخدمات القانونية دبي',
+      title: 'تواصل معنا | مكتب الماحي للخدمات القانونية دبي',
       description:
-        'تواصل مع المحي للخدمات القانونية في دبي للاستشارات والمواعيد. هاتف وبريد وواتساب — مركز دبي المالي، شارع الشيخ زayed.',
+        'تواصل مع مكتب الماحي للخدمات القانونية في دبي للاستشارات والمواعيد. هاتف وبريد وواتساب — مركز دبي المالي، شارع الشيخ زayed.',
     },
   },
   blogs: {
@@ -141,9 +141,9 @@ export const PAGE_SEO = {
         'Legal insights and UAE regulatory updates from Almahy — expert articles on corporate law, tax, immigration, and business compliance in Dubai.',
     },
     ar: {
-      title: 'مدونة قانونية | أخبار وتحديثات المحي الإمارات',
+      title: 'مدونة قانونية | أخبار وتحديثات الماحي الإمارات',
       description:
-        'رؤى قانونية وتحديثات تنظيمية من المحي — مقالات خبراء في قانون الشركات والضرائب والهجرة والامتثال التجاري في دبي.',
+        'رؤى قانونية وتحديثات تنظيمية من الماحي — مقالات خبراء في قانون الشركات والضرائب والهجرة والامتثال التجاري في دبي.',
     },
   },
   pricingTable: {
@@ -153,9 +153,9 @@ export const PAGE_SEO = {
         'Transparent legal services packages and pricing from Almahy in Dubai — litigation, corporate, notary, accounting, and advisory fee structures.',
     },
     ar: {
-      title: 'باقات الخدمات القانونية | المحي دبي',
+      title: 'باقات الخدمات القانونية | الماحي دبي',
       description:
-        'باقات وأسعار خدمات قانونية شفافة من المحي في دبي — هيكل رسوم التقاضي والشركات والتوثيق والمحاسبة والاستشارات.',
+        'باقات وأسعار خدمات قانونية شفافة من الماحي في دبي — هيكل رسوم التقاضي والشركات والتوثيق والمحاسبة والاستشارات.',
     },
   },
   search: {
@@ -165,9 +165,9 @@ export const PAGE_SEO = {
         'Search Almahy Legal Services for legal services, corporate solutions, blogs, and expert guidance in Dubai and the UAE.',
     },
     ar: {
-      title: 'بحث | المحي للخدمات القانونية دبي',
+      title: 'بحث | مكتب الماحي للخدمات القانونية دبي',
       description:
-        'ابحث في خدمات المحي القانونية ومقالاتنا وصفحاتنا في دبي والإمارات.',
+        'ابحث في خدمات الماحي القانونية ومقالاتنا وصفحاتنا في دبي والإمارات.',
     },
   },
   privacy: {
@@ -177,9 +177,9 @@ export const PAGE_SEO = {
         'Almahy Legal Services privacy policy — how we collect, use, and protect your personal data in compliance with UAE regulations.',
     },
     ar: {
-      title: 'سياسة الخصوصية | المحي للخدمات القانونية',
+      title: 'سياسة الخصوصية | مكتب الماحي للخدمات القانونية',
       description:
-        'سياسة خصوصية المحي للخدمات القانونية — كيف نجمع ونستخدم ونحمي بياناتك الشخصية وفقًا للوائح الإمارات.',
+        'سياسة خصوصية مكتب الماحي للخدمات القانونية — كيف نجمع ونستخدم ونحمي بياناتك الشخصية وفقًا للوائح الإمارات.',
     },
   },
   terms: {
@@ -189,9 +189,9 @@ export const PAGE_SEO = {
         'Terms of service for Almahy Legal Services website — usage conditions, disclaimers, and legal information for clients in the UAE.',
     },
     ar: {
-      title: 'شروط الخدمة | المحي للخدمات القانونية',
+      title: 'شروط الخدمة | مكتب الماحي للخدمات القانونية',
       description:
-        'شروط استخدام موقع المحي للخدمات القانونية — شروط الاستخدام وإخلاء المسؤولية والمعلومات القانونية للعملاء في الإمارات.',
+        'شروط استخدام موقع مكتب الماحي للخدمات القانونية — شروط الاستخدام وإخلاء المسؤولية والمعلومات القانونية للعملاء في الإمارات.',
     },
   },
   taxServices: {
@@ -213,9 +213,9 @@ export const PAGE_SEO = {
         'Professional advisory services from Almahy in Dubai — business consulting, compliance, and specialized legal support for UAE enterprises.',
     },
     ar: {
-      title: 'خدمات مهنية | المحي القانونية دبي',
+      title: 'خدمات مهنية | الماحي القانونية دبي',
       description:
-        'خدمات استشارية مهنية من المحي في دبي — استشارات أعمال وامتثال ودعم قانوني متخصص للمؤسسات في الإمارات.',
+        'خدمات استشارية مهنية من الماحي في دبي — استشارات أعمال وامتثال ودعم قانوني متخصص للمؤسسات في الإمارات.',
     },
   },
 } as const satisfies Record<string, PageSeoCopy>;
@@ -256,7 +256,7 @@ export const buildPageMetadata = (
       title: content.title,
       description: content.description,
       url: `${getSiteUrl()}${buildLocalePath(locale, path)}`,
-      siteName: locale === 'ar' ? 'المحي للخدمات القانونية' : 'Almahy Legal Services',
+      siteName: locale === 'ar' ? 'مكتب الماحي للخدمات القانونية' : 'Almahy Legal Services',
       locale: locale === 'ar' ? 'ar_AE' : 'en_AE',
       alternateLocale: locale === 'ar' ? ['en_AE'] : ['ar_AE'],
       type: 'website',

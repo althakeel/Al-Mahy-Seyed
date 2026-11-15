@@ -18,7 +18,7 @@ export const team: TeamMemberCard[] = [
   {
     order: 1,
     nameEn: "Almahy Mohamed",
-    nameAr: "المحي محمد",
+    nameAr: "الماحي محمد",
     roleEn: "Founder & Managing Partner",
     roleAr: "المؤسس والمدير العام",
     image: "/images/team/team-13.webp",

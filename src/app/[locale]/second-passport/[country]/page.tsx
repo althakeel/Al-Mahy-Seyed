@@ -992,7 +992,7 @@ export async function generateMetadata({
   return {
     title:
       lang === "ar"
-        ? `${content.title} | المحي للجواز الثاني`
+        ? `${content.title} | الماحي للجواز الثاني`
         : `${content.title} | Almahy Second Passport`,
     description: content.subtitle.slice(0, 160),
     alternates: buildAlternates(lang, path),
@@ -1135,4 +1135,3 @@ export default async function SecondPassportCountryPage({
     </>
   );
 }
-

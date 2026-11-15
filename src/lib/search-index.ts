@@ -37,7 +37,7 @@ const STATIC_ENTRIES: StaticSearchEntry[] = [
     titleEn: 'Home',
     titleAr: 'الرئيسية',
     descriptionEn: 'Almahy for Legal Services trusted law firm in Dubai with 15+ years of excellence.',
-    descriptionAr: 'المحي للخدمات القانونية شركة محاماة موثوقة في دبي بخبرة تزيد عن 15 عامًا.',
+    descriptionAr: 'مكتب الماحي للخدمات القانونية شركة محاماة موثوقة في دبي بخبرة تزيد عن 15 عامًا.',
     keywords: ['law firm', 'dubai', 'uae', 'legal'],
   },
   {
@@ -137,7 +137,7 @@ const STATIC_ENTRIES: StaticSearchEntry[] = [
     titleEn: 'Who We Are',
     titleAr: 'من نحن',
     descriptionEn: 'Learn about Almahy Legal Services our mission, vision, and experienced legal team.',
-    descriptionAr: 'تعرف على المحي للخدمات القانونية مهمتنا ورؤيتنا وفريقنا القانوني ذو الخبرة.',
+    descriptionAr: 'تعرف على مكتب الماحي للخدمات القانونية ورسالتنا ورؤيتنا وفريقنا القانوني ذي الخبرة.',
     keywords: ['about', 'team', 'history'],
   },
   {
@@ -147,7 +147,7 @@ const STATIC_ENTRIES: StaticSearchEntry[] = [
     titleEn: 'Contact Us',
     titleAr: 'اتصل بنا',
     descriptionEn: 'Get in touch with Almahy Legal Services for a consultation in Dubai.',
-    descriptionAr: 'تواصل مع المحي للخدمات القانونية لحجز استشارة في دبي.',
+    descriptionAr: 'تواصل مع مكتب الماحي للخدمات القانونية لحجز استشارة في دبي.',
     keywords: ['contact', 'consultation', 'phone', 'email'],
   },
   {
