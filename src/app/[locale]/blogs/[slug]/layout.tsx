@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import JsonLd from '@/components/structured-data/JsonLd';
 import { getBlogLocalizedField } from '@/lib/blogs';
-import { getBlogBySlugFromMongo } from '@/lib/blogs-server';
+import { getBlogBySlugFromMongo, isPublicBlogSlug } from '@/lib/blogs-server';
 import { buildAlternates, getSiteUrl } from '@/lib/site-metadata';
 import { buildArticleSchema, buildBreadcrumbSchema } from '@/lib/structured-data-builders';
 import { Locale } from '@/lib/translations';
 import { isValidLocale } from '@/lib/utils';
+import { notFound } from 'next/navigation';
 
 const excerpt = (value: string, max = 155) => {
   const plain = value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
@@ -54,7 +55,9 @@ export default async function BlogArticleLayout({
 }>) {
   const { locale, slug } = await params;
   const lang: Locale = isValidLocale(locale) ? locale : 'en';
-  const blog = await getBlogBySlugFromMongo(decodeURIComponent(slug));
+  const decodedSlug = decodeURIComponent(slug);
+  if (!isPublicBlogSlug(decodedSlug)) notFound();
+  const blog = await getBlogBySlugFromMongo(decodedSlug);
 
   if (!blog) {
     return children;

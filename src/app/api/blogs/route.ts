@@ -3,6 +3,7 @@ import { BlogPost } from '@/lib/blogs';
 import {
   listBlogSummariesFromMongo,
   listBlogsFromMongo,
+  isPublicBlogSlug,
   normalizeBlogPost,
   saveBlogToMongo,
 } from '@/lib/blogs-server';
@@ -24,7 +25,7 @@ const loadDevelopmentFallbackBlogs = async (): Promise<BlogPost[] | null> => {
     const response = await fetch(fallbackUrl, { cache: 'no-store' });
     const result = (await response.json()) as { success?: boolean; blogs?: BlogPost[] };
     return response.ok && result.success && Array.isArray(result.blogs)
-      ? result.blogs.map(normalizeBlogPost)
+      ? result.blogs.map(normalizeBlogPost).filter((blog) => isPublicBlogSlug(blog.slug))
       : null;
   } catch (error) {
     console.error('Development blogs fallback failed:', error);
@@ -57,7 +58,9 @@ const saveBlogViaDevelopmentFallback = async (
 export async function GET(request: Request) {
   try {
     const includeFullContent = new URL(request.url).searchParams.get('full') === '1';
-    const blogs = includeFullContent ? await listBlogsFromMongo() : await listBlogSummariesFromMongo();
+    const blogs = includeFullContent
+      ? (await listBlogsFromMongo()).filter((blog) => isPublicBlogSlug(blog.slug))
+      : await listBlogSummariesFromMongo();
     return NextResponse.json(
       { success: true, blogs },
       includeFullContent ? undefined : { headers: PUBLIC_CACHE_HEADERS },

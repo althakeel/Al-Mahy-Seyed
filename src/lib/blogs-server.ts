@@ -17,6 +17,10 @@ const BLOGS_COLLECTION = 'blogs';
 const SITE_CONTENT_COLLECTION = 'siteContent';
 const BLOGS_BANNER_KEY = 'blogsPageBanner';
 const BLOGS_CACHE_TTL_MS = 60_000;
+export const HIDDEN_PUBLIC_BLOG_SLUG =
+  'opening-a-uae-bank-account-as-a-non-resident-a-complete-guide';
+
+export const isPublicBlogSlug = (slug: string) => slug !== HIDDEN_PUBLIC_BLOG_SLUG;
 
 const BLOG_SUMMARY_PROJECTION = {
   _id: 0,
@@ -172,15 +176,17 @@ export const listBlogSummariesFromMongo = async (): Promise<BlogPost[]> => {
     .sort({ createdAt: -1 })
     .toArray();
 
-  const normalized = blogs.map((blog) =>
-    toBlogPost({
-      ...blog,
-      content: '',
-      contentAr: undefined,
-      bannerImage: undefined,
-      bannerImageAr: undefined,
-    }),
-  );
+  const normalized = blogs
+    .map((blog) =>
+      toBlogPost({
+        ...blog,
+        content: '',
+        contentAr: undefined,
+        bannerImage: undefined,
+        bannerImageAr: undefined,
+      }),
+    )
+    .filter((blog) => isPublicBlogSlug(blog.slug));
 
   blogSummariesCache = {
     blogs: normalized,
@@ -241,6 +247,10 @@ export const backfillBlogArabicIfNeeded = async (blog: BlogPost): Promise<BlogPo
 };
 
 export const getBlogBySlugFromMongo = async (slug: string): Promise<BlogPost | null> => {
+  if (!isPublicBlogSlug(slug)) {
+    return null;
+  }
+
   const db = await getMongoDb();
   await ensureBlogIndexes(db);
 
