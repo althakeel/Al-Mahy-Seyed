@@ -12,9 +12,6 @@ import {
   loadBlogsPageBannerConfigFromServer,
 } from '@/lib/blogs';
 
-const FEATURED_BLOG_SLUG =
-  'understanding-the-latest-tax-law-changes-in-the-uae-what-residents-non-residents-and-businesses-should-know';
-
 /** Static hero image — same on first paint and after data load (no API swap flash). */
 const BLOGS_HERO_BANNER = '/assets/banner/blogs-hero.jpg';
 
@@ -71,11 +68,9 @@ export default function BlogsPage() {
 
   const orderedBlogs = useMemo(
     () =>
-      [...blogs].sort((first, second) => {
-        if (first.slug === FEATURED_BLOG_SLUG) return -1;
-        if (second.slug === FEATURED_BLOG_SLUG) return 1;
-        return second.createdAt - first.createdAt;
-      }),
+      [...blogs].sort((first, second) =>
+        second.date.localeCompare(first.date) || second.createdAt - first.createdAt
+      ),
     [blogs],
   );
 

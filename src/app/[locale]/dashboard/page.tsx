@@ -41,6 +41,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [activeSection, setActiveSection] = useState<'dashboard' | 'blogs' | 'access'>('dashboard');
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [blogSortOrder, setBlogSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [accessRole, setAccessRole] = useState<'admin' | 'editor' | null>(null);
   const [accessUsers, setAccessUsers] = useState<DashboardAccessRecord[]>([]);
   const [inviteEmail, setInviteEmail] = useState('');
@@ -131,7 +132,9 @@ export default function Dashboard() {
         throw new Error(result?.message || 'Failed to load blogs.');
       }
 
-      const sortedBlogs = result.blogs.sort((a, b) => b.createdAt - a.createdAt);
+      const sortedBlogs = [...result.blogs].sort(
+        (a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt
+      );
       setBlogs(sortedBlogs);
       return sortedBlogs;
     } catch (error) {
@@ -771,6 +774,26 @@ export default function Dashboard() {
     setBlogBannerImage('');
     setBlogBannerImageAr('');
   };
+
+  const removeBlogImage = (target: 'card' | 'banner' | 'cardAr' | 'bannerAr') => {
+    if (target === 'card') {
+      setBlogImage('');
+    } else if (target === 'banner') {
+      setBlogBannerImage('');
+    } else if (target === 'cardAr') {
+      setBlogImageAr('');
+    } else {
+      setBlogBannerImageAr('');
+    }
+
+    setBlogFeedback(null);
+  };
+
+  const displayedBlogs = [...blogs].sort((a, b) =>
+    blogSortOrder === 'newest'
+      ? b.date.localeCompare(a.date) || b.createdAt - a.createdAt
+      : a.date.localeCompare(b.date) || a.createdAt - b.createdAt
+  );
 
   const handlePageBannerUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -1688,24 +1711,56 @@ export default function Dashboard() {
                       <div className="rounded-xl border border-[#CECDCB] p-2 w-fit">
                         <p className="mb-1 text-xs text-slate-500">{locale === 'ar' ? 'معاينة صورة البطاقة' : 'Card preview'}</p>
                         <img src={blogImage} alt="Blog card preview" className="h-[140px] w-[220px] rounded-lg object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeBlogImage('card')}
+                          disabled={isUploadingImage}
+                          className="mt-2 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-50 transition-colors disabled:opacity-60"
+                        >
+                          {locale === 'ar' ? 'إزالة الصورة' : 'Remove Image'}
+                        </button>
                       </div>
                     ) : null}
                     {blogBannerImage ? (
                       <div className="rounded-xl border border-[#CECDCB] p-2 w-fit">
                         <p className="mb-1 text-xs text-slate-500">{locale === 'ar' ? 'معاينة صورة البانر' : 'Banner preview'}</p>
                         <img src={blogBannerImage} alt="Blog banner preview" className="h-[140px] w-[260px] rounded-lg object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeBlogImage('banner')}
+                          disabled={isUploadingBannerImage}
+                          className="mt-2 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-50 transition-colors disabled:opacity-60"
+                        >
+                          {locale === 'ar' ? 'إزالة الصورة' : 'Remove Image'}
+                        </button>
                       </div>
                     ) : null}
                     {blogImageAr ? (
                       <div className="rounded-xl border border-[#CECDCB] p-2 w-fit">
                         <p className="mb-1 text-xs text-slate-500">{locale === 'ar' ? 'معاينة صورة البطاقة العربية' : 'Arabic card preview'}</p>
                         <img src={blogImageAr} alt="Blog Arabic card preview" className="h-[140px] w-[220px] rounded-lg object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeBlogImage('cardAr')}
+                          disabled={isUploadingImageAr}
+                          className="mt-2 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-50 transition-colors disabled:opacity-60"
+                        >
+                          {locale === 'ar' ? 'إزالة الصورة' : 'Remove Image'}
+                        </button>
                       </div>
                     ) : null}
                     {blogBannerImageAr ? (
                       <div className="rounded-xl border border-[#CECDCB] p-2 w-fit">
                         <p className="mb-1 text-xs text-slate-500">{locale === 'ar' ? 'معاينة صورة البانر العربية' : 'Arabic banner preview'}</p>
                         <img src={blogBannerImageAr} alt="Blog Arabic banner preview" className="h-[140px] w-[260px] rounded-lg object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => removeBlogImage('bannerAr')}
+                          disabled={isUploadingBannerImageAr}
+                          className="mt-2 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-50 transition-colors disabled:opacity-60"
+                        >
+                          {locale === 'ar' ? 'إزالة الصورة' : 'Remove Image'}
+                        </button>
                       </div>
                     ) : null}
                   </div>
@@ -1801,7 +1856,16 @@ export default function Dashboard() {
                 <h2 className="text-xl font-bold text-[#160A0A]">
                   {locale === 'ar' ? 'المقالات المنشورة' : 'Published Blogs'}
                 </h2>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <select
+                    value={blogSortOrder}
+                    onChange={(event) => setBlogSortOrder(event.target.value as 'newest' | 'oldest')}
+                    aria-label={locale === 'ar' ? 'ترتيب المقالات' : 'Sort blogs'}
+                    className="rounded-lg border border-[#CECDCB] bg-white px-3 py-2 text-xs font-semibold text-[#160A0A] outline-none focus:border-[#DE3B34]"
+                  >
+                    <option value="newest">{locale === 'ar' ? 'الأحدث أولاً' : 'Newest First'}</option>
+                    <option value="oldest">{locale === 'ar' ? 'الأقدم أولاً' : 'Oldest First'}</option>
+                  </select>
                   <button
                     type="button"
                     onClick={() => setIsCreateBlogFormOpen(true)}
@@ -1856,7 +1920,7 @@ export default function Dashboard() {
                 </p>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {blogs.map((blog) => (
+                  {displayedBlogs.map((blog) => (
                     <article key={blog.id} className="rounded-xl border border-[#CECDCB] p-4">
                       <div className="mb-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div className="overflow-hidden rounded-lg border border-[#CECDCB]">

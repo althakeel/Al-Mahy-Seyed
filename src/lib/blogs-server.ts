@@ -173,7 +173,7 @@ export const listBlogSummariesFromMongo = async (): Promise<BlogPost[]> => {
   const blogs = await db
     .collection<BlogDocument>(BLOGS_COLLECTION)
     .find({}, { projection: BLOG_SUMMARY_PROJECTION })
-    .sort({ createdAt: -1 })
+    .sort({ date: -1, createdAt: -1 })
     .toArray();
 
   const normalized = blogs
@@ -216,7 +216,7 @@ export const listBlogsFromMongo = async (): Promise<BlogPost[]> => {
   const blogs = await db
     .collection<BlogDocument>(BLOGS_COLLECTION)
     .find({})
-    .sort({ createdAt: -1 })
+    .sort({ date: -1, createdAt: -1 })
     .toArray();
 
   const normalized = blogs.map(toBlogPost);
