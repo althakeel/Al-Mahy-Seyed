@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import HomePage from '@/components/HomePage';
+import LatestLegalNews from '@/components/legal-news/LatestLegalNews';
 import JsonLd from '@/components/structured-data/JsonLd';
 import { homepageFaqData } from '@/lib/faq-data';
 import { buildPageMetadata, PAGE_SEO } from '@/lib/site-metadata';
@@ -27,7 +28,7 @@ export default async function Home({
     <>
       <JsonLd id="home-local-business-schema" data={buildLocalBusinessSchema(lang)} />
       <JsonLd id="home-faq-schema" data={buildFaqSchema(homepageFaqData[lang])} />
-      <HomePage locale={lang} />
+      <HomePage locale={lang} latestNews={<LatestLegalNews locale={lang} />} />
     </>
   );
 }

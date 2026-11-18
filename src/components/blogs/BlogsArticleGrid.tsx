@@ -5,7 +5,8 @@ import { Locale } from '@/lib/translations';
 const GRID_COLS_LG = 3;
 
 interface BlogsArticleGridProps {
-  blogs: BlogPost[];
+  blogs: (BlogPost & { categoryLabel?: string })[];
+  section?: 'blogs' | 'legal-news';
   locale: string;
   lang: Locale;
   isRTL: boolean;
@@ -36,6 +37,7 @@ function BlogCardSkeleton({ index }: { index: number }) {
 
 export default function BlogsArticleGrid({
   blogs,
+  section,
   locale,
   lang,
   isRTL,
@@ -58,6 +60,8 @@ export default function BlogsArticleGrid({
             <BlogArticleCard
               key={blog.id}
               blog={blog}
+              section={section}
+              categoryLabel={blog.categoryLabel}
               locale={locale}
               lang={lang}
               readMoreLabel={readMoreLabel}
@@ -72,6 +76,8 @@ export default function BlogsArticleGrid({
             <BlogArticleCard
               key={blog.id}
               blog={blog}
+              section={section}
+              categoryLabel={blog.categoryLabel}
               locale={locale}
               lang={lang}
               readMoreLabel={readMoreLabel}

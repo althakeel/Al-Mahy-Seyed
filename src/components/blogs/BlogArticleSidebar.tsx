@@ -20,6 +20,7 @@ interface BlogArticleSidebarProps {
   isRTL: boolean;
   lang: Locale;
   locale: string;
+  section?: 'blogs' | 'legal-news';
   publishedLabel: string;
   date: string;
   recentLabel: string;
@@ -33,6 +34,7 @@ export default function BlogArticleSidebar({
   isRTL,
   lang,
   locale,
+  section = 'blogs',
   publishedLabel,
   date,
   recentLabel,
@@ -63,7 +65,7 @@ export default function BlogArticleSidebar({
           {recentBlogs.map((recentBlog, index) => (
             <Link
               key={recentBlog.id}
-              href={`/${locale}/blogs/${recentBlog.slug}`}
+              href={`/${locale}/${section}/${recentBlog.slug}`}
               className={`group flex gap-3 py-4 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}
             >
               <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#B38D42]/30 bg-[#B38D42]/10 text-[10px] font-bold text-[#B38D42]">

@@ -23,9 +23,10 @@ function ArrowIcon({ className = "h-4 w-4" }: { className?: string }) {
 
 interface HomePageProps {
   locale: Locale;
+  latestNews?: React.ReactNode;
 }
 
-export default function HomePage({ locale }: HomePageProps) {
+export default function HomePage({ locale, latestNews }: HomePageProps) {
   const lang = locale;
   const isRTL = lang === "ar";
   const t = translations[lang];
@@ -175,6 +176,8 @@ export default function HomePage({ locale }: HomePageProps) {
       <Stats locale={lang} />
 
       <GoogleReviews locale={lang} />
+
+      {latestNews}
 
       <FAQ locale={lang} />
     </div>

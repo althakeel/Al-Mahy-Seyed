@@ -1,5 +1,8 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, limit, query, setDoc, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { isPrimaryAdminEmail, normalizeEmail } from '@/lib/dashboard-identity';
+
+export { getPrimaryAdminEmail, isPrimaryAdminEmail, normalizeEmail } from '@/lib/dashboard-identity';
 
 export type DashboardAccessRole = 'admin' | 'editor';
 export type DashboardAccessStatus = 'pending' | 'active';
@@ -7,6 +10,7 @@ export type DashboardAccessStatus = 'pending' | 'active';
 export interface DashboardPermissions {
   dashboard: boolean;
   blogs: boolean;
+  legalNews?: boolean;
   transactions: boolean;
   calls: boolean;
 }
@@ -107,8 +111,6 @@ export const getCachedDashboardUsers = () => {
   });
 };
 
-export const normalizeEmail = (email: string) => email.trim().toLowerCase();
-
 export const normalizeUsername = (username: string) => username.trim().toLowerCase().replace(/\s+/g, '');
 
 const normalizeRecordUsername = (record: DashboardAccessRecord): DashboardAccessRecord => {
@@ -161,13 +163,6 @@ const submitDashboardAccessRequest = async (email: string, username?: string) =>
     }
     throw error;
   }
-};
-
-export const getPrimaryAdminEmail = () => normalizeEmail(process.env.NEXT_PUBLIC_PRIMARY_ADMIN_EMAIL || 'althakeel.com@gmail.com');
-
-export const isPrimaryAdminEmail = (email: string) => {
-  const primaryAdminEmail = getPrimaryAdminEmail();
-  return Boolean(primaryAdminEmail) && normalizeEmail(email) === primaryAdminEmail;
 };
 
 export const ensurePrimaryAdminAccess = async (email: string) => {

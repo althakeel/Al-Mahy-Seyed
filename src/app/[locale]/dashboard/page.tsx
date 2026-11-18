@@ -11,6 +11,7 @@ import {
   approveDashboardAccess,
   BLOGS_ONLY_PERMISSIONS,
   DashboardAccessRecord,
+  DashboardPermissions,
   FULL_PERMISSIONS,
   getCachedDashboardAccess,
   getCachedDashboardUsers,
@@ -32,6 +33,7 @@ import {
   slugify,
 } from '@/lib/blogs';
 import BoldTextField from '@/components/BoldTextField';
+import LegalNewsManager from '@/components/legal-news/LegalNewsManager';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -39,7 +41,7 @@ export default function Dashboard() {
   const locale = params?.locale as string || 'en';
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState<'dashboard' | 'blogs' | 'access'>('dashboard');
+  const [activeSection, setActiveSection] = useState<'dashboard' | 'blogs' | 'legal-news' | 'access'>('dashboard');
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [blogSortOrder, setBlogSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [accessRole, setAccessRole] = useState<'admin' | 'editor' | null>(null);
@@ -79,7 +81,7 @@ export default function Dashboard() {
   const [isAddingKhaleejBlogs, setIsAddingKhaleejBlogs] = useState(false);
   const [refreshingBlogId, setRefreshingBlogId] = useState<string | null>(null);
   const [blogFeedback, setBlogFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  const [allowedSections, setAllowedSections] = useState({
+  const [allowedSections, setAllowedSections] = useState<DashboardPermissions>({
     dashboard: true,
     blogs: true,
     transactions: false,
@@ -87,6 +89,35 @@ export default function Dashboard() {
   });
   const primaryAdminEmail = getPrimaryAdminEmail();
   const effectiveUser = user || auth.currentUser;
+  const canManageNews = Boolean(effectiveUser?.email && (
+    normalizeEmail(effectiveUser.email) === primaryAdminEmail || allowedSections.legalNews === true
+  ));
+  const newsLabel = locale === 'ar' ? 'إدارة الأخبار القانونية' : 'Legal News Management';
+  const mobileColumns = Math.min(3, 1 + Number(allowedSections.blogs) + Number(canManageNews) + Number(accessRole === 'admin'));
+
+  const toggleLegalNewsAccess = async (account: DashboardAccessRecord) => {
+    if (!effectiveUser) return;
+    setIsAccessActionLoading(true);
+    setAccessFeedback(null);
+    try {
+      const enabled = !account.permissions.legalNews;
+      const response = await fetch('/api/legal-news/access', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${await effectiveUser.getIdToken()}` },
+        body: JSON.stringify({ email: account.email, enabled }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.message);
+      setAccessUsers((current) => current.map((entry) => entry.email === account.email
+        ? { ...entry, permissions: { ...entry.permissions, legalNews: enabled } }
+        : entry));
+      setAccessFeedback({ type: 'success', message: locale === 'ar' ? 'تم تحديث إذن الأخبار القانونية.' : 'Legal News permission updated.' });
+    } catch (error) {
+      setAccessFeedback({ type: 'error', message: locale === 'ar' ? 'تعذر تحديث إذن الأخبار القانونية.' : error instanceof Error && error.message ? error.message : 'Failed to update Legal News permission.' });
+    } finally {
+      setIsAccessActionLoading(false);
+    }
+  };
 
   const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<{ timedOut: boolean; value?: T; error?: unknown }> => {
     return new Promise((resolve) => {
@@ -441,6 +472,10 @@ export default function Dashboard() {
       setActiveSection('dashboard');
     }
   }, [activeSection, allowedSections.blogs]);
+
+  useEffect(() => {
+    if (activeSection === 'legal-news' && !canManageNews) setActiveSection('dashboard');
+  }, [activeSection, canManageNews]);
 
   useEffect(() => {
     if (activeSection === 'access' && accessRole !== 'admin') {
@@ -1187,6 +1222,14 @@ export default function Dashboard() {
               {locale === 'ar' ? 'إدارة المدونة' : 'Blogs'}
             </button>
           ) : null}
+          {canManageNews && (
+            <button type="button" onClick={() => setActiveSection('legal-news')}
+              className={`w-full rounded-xl px-4 py-3 font-semibold transition-colors ${locale === 'ar' ? 'text-right' : 'text-left'} ${
+                activeSection === 'legal-news' ? 'bg-[#DE3B34] text-white' : 'text-white/80 hover:bg-white/10'
+              }`}>
+              {newsLabel}
+            </button>
+          )}
           {accessRole === 'admin' ? (
             <button
               type="button"
@@ -1226,7 +1269,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className={`md:hidden mb-4 grid gap-2 ${allowedSections.blogs && accessRole === 'admin' ? 'grid-cols-3' : allowedSections.blogs || accessRole === 'admin' ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        <div className="md:hidden mb-4 grid gap-2" style={{ gridTemplateColumns: `repeat(${mobileColumns}, minmax(0, 1fr))` }}>
           <button
             type="button"
             onClick={() => setActiveSection('dashboard')}
@@ -1247,6 +1290,14 @@ export default function Dashboard() {
               {locale === 'ar' ? 'المدونة' : 'Blogs'}
             </button>
           ) : null}
+          {canManageNews && (
+            <button type="button" onClick={() => setActiveSection('legal-news')}
+              className={`rounded-xl px-2 py-2.5 text-sm font-semibold transition-colors ${
+                activeSection === 'legal-news' ? 'bg-[#DE3B34] text-white' : 'bg-white text-[#160A0A]'
+              }`}>
+              {locale === 'ar' ? 'الأخبار القانونية' : 'Legal News'}
+            </button>
+          )}
           {accessRole === 'admin' ? (
             <button
               type="button"
@@ -1295,6 +1346,8 @@ export default function Dashboard() {
               </section>
             </div>
           </div>
+        ) : activeSection === 'legal-news' ? (
+          canManageNews && effectiveUser ? <LegalNewsManager key={effectiveUser.uid} user={effectiveUser} locale={locale === 'ar' ? 'ar' : 'en'} /> : null
         ) : activeSection === 'access' ? (
           <div className="space-y-5">
             <section className="rounded-2xl bg-white p-6 md:p-8 shadow-sm">
@@ -1421,7 +1474,15 @@ export default function Dashboard() {
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        {accessUser.status === 'active' && accessUser.permissions?.dashboard && accessUser.email !== primaryAdminEmail && (
+                          <button type="button" disabled={isAccessActionLoading} onClick={() => void toggleLegalNewsAccess(accessUser)}
+                            className="rounded-lg border border-[#CECDCB] px-3 py-2 text-xs font-semibold hover:bg-[#F1EFF0] disabled:opacity-50">
+                            {accessUser.permissions.legalNews
+                              ? (locale === 'ar' ? 'إلغاء إذن الأخبار القانونية' : 'Revoke Legal News')
+                              : (locale === 'ar' ? 'منح إذن الأخبار القانونية' : 'Grant Legal News')}
+                          </button>
+                        )}
                         {accessUser.role !== 'admin' ? (
                           <>
                             {accessUser.status !== 'active' ? (

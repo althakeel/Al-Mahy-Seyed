@@ -272,6 +272,7 @@ export default function Navbar({ locale: localeProp }: NavbarProps) {
     { href: `/${lang}/services`, label: t.ourServices },
     { href: `/${lang}/pricing-table`, label: t.pricing },
     { href: `/${lang}/blogs`, label: t.blogs },
+    { href: `/${lang}/legal-news`, label: lang === 'ar' ? 'الأخبار القانونية' : 'Legal News' },
     { href: `/${lang}/about`, label: t.whoAreWe },
     { href: `/${lang}/contact`, label: t.contactUs },
   ];

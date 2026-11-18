@@ -24,6 +24,8 @@ interface BlogArticleCardProps {
   readMoreLabel: string;
   isRTL: boolean;
   className?: string;
+  section?: 'blogs' | 'legal-news';
+  categoryLabel?: string;
 }
 
 export default function BlogArticleCard({
@@ -33,11 +35,13 @@ export default function BlogArticleCard({
   readMoreLabel,
   isRTL,
   className = '',
+  section = 'blogs',
+  categoryLabel,
 }: BlogArticleCardProps) {
-  const cardImage = getBlogLocalizedImage(blog, lang);
+  const cardImage = getBlogLocalizedImage(blog, lang) || (section === 'legal-news' ? '/assets/banner/blogs-hero.jpg' : '');
   const cardTitle = getBlogLocalizedField(blog, 'title', lang);
   const cardShortDescription = getBlogLocalizedField(blog, 'shortDescription', lang);
-  const href = `/${locale}/blogs/${blog.slug}`;
+  const href = `/${locale}/${section}/${blog.slug}`;
 
   return (
     <article
@@ -67,7 +71,7 @@ export default function BlogArticleCard({
           </h3>
         </Link>
 
-        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38D42]">{blog.date}</p>
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38D42]">{categoryLabel ? `${categoryLabel} · ` : ''}{blog.date}</p>
         <div className={`mb-3 h-px w-8 bg-[#B38D42] ${isRTL ? 'ml-auto' : ''}`} aria-hidden="true" />
 
         <div className="mb-4 flex-1 text-sm leading-relaxed text-[#160A0A]/65">

@@ -21,6 +21,7 @@ const PUBLIC_LOCALIZED_ROUTES = [
   '/corporate-services',
   '/expert-reports',
   '/legal-services',
+  '/legal-news',
   '/notary-public-services',
   '/pricing-table',
   '/privacy',
