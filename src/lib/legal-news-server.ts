@@ -4,7 +4,10 @@ import { cache } from 'react';
 import { randomUUID } from 'node:crypto';
 
 import { getMongoDb } from '@/lib/mongodb';
-import { hasMeaningfulLocalizedText } from '@/lib/blogs';
+import {
+  hasMeaningfulLocalizedText,
+  slugify,
+} from '@/lib/blogs';
 
 import {
   newsImageFields,
@@ -27,12 +30,6 @@ const collection = async () =>
 
 const published = { status: 'published' } as const;
 
-/**
- * List Legal News articles.
- *
- * Public requests return only published articles.
- * Dashboard requests can return drafts and published articles.
- */
 export async function listLegalNews({
   manage = false,
   limit,
@@ -65,30 +62,14 @@ export async function listLegalNews({
     : cursor.toArray();
 }
 
-/**
- * Retrieve a published article by its slug.
- */
 export const getPublishedLegalNews = cache(
   async (slug: string) =>
     (await collection()).findOne(
-      {
-        ...published,
-        slug,
-      },
-      {
-        projection: { _id: 0 },
-      }
+      { ...published, slug },
+      { projection: { _id: 0 } }
     )
 );
 
-/**
- * Validate article fields.
- *
- * Drafts require an English title.
- * Published articles require all bilingual text fields.
- *
- * Partial updates reuse existing article fields.
- */
 function validateNews(
   body: unknown,
   current?: LegalNews
@@ -115,30 +96,13 @@ function validateNews(
       typeof field !== 'string' ||
       field.length > max
     ) {
-      throw new NewsError(
-        `Invalid field: ${key}.`
-      );
+      throw new NewsError(`Invalid field: ${key}.`);
     }
 
     return field.trim();
   };
 
-  /**
-   * Validate slug.
-   */
-  const slug = value('slug', 160).toLowerCase();
-
-  if (
-    !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)
-  ) {
-    throw new NewsError(
-      'Use letters, digits and hyphens for the slug.'
-    );
-  }
-
-  /**
-   * Validate publication date.
-   */
+  // Publication date
   const date = value('date', 10);
   const parsedDate = new Date(date);
 
@@ -152,9 +116,7 @@ function validateNews(
     );
   }
 
-  /**
-   * Validate publication status.
-   */
+  // Publication status
   const status = value('status', 9);
 
   if (
@@ -166,9 +128,7 @@ function validateNews(
     );
   }
 
-  /**
-   * Read and validate all bilingual text fields.
-   */
+  // Read text fields, including optional legacy categories.
   const text = Object.fromEntries(
     newsTextFields.map((key) => [
       key,
@@ -186,51 +146,71 @@ function validateNews(
     (typeof newsTextFields)[number]
   >;
 
-  /**
-   * English title is mandatory even for drafts.
-   */
+  // An English title is required for drafts and published news.
   if (!text.title) {
     throw new NewsError(
       'English title is required.'
     );
   }
 
-  /**
-   * Published articles require complete bilingual content.
-   *
-   * Report exactly which fields are missing.
-   */
+  // Generate slug automatically from English title.
+  // Keep existing URLs unchanged when editing.
+  const generatedSlug = slugify(text.title)
+    .toLowerCase()
+    .replace(/^-+|-+$/g, '');
+
+  const slug = current?.slug || generatedSlug;
+
+  if (
+    slug.length > 160 ||
+    !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)
+  ) {
+    throw new NewsError(
+      'Unable to generate a valid URL from the English title.'
+    );
+  }
+
+  // Only six bilingual article fields are mandatory for publishing.
+  // Categories are optional.
+  const requiredPublishFields = [
+    'title',
+    'titleAr',
+    'shortDescription',
+    'shortDescriptionAr',
+    'content',
+    'contentAr',
+  ] as const;
+
   if (status === 'published') {
-    const missingFields = newsTextFields.filter(
+    const missingFields = requiredPublishFields.filter(
       (key) =>
         !hasMeaningfulLocalizedText(text[key])
     );
 
     if (missingFields.length > 0) {
-      const fieldLabels: Record<string, string> = {
+      const fieldLabels: Record<
+        (typeof requiredPublishFields)[number],
+        string
+      > = {
         title: 'English Title',
         titleAr: 'Arabic Title',
         shortDescription: 'English Short Description',
         shortDescriptionAr: 'Arabic Short Description',
         content: 'English Full Content',
         contentAr: 'Arabic Full Content',
-        category: 'English Category',
-        categoryAr: 'Arabic Category',
       };
 
-      const missingLabels = missingFields.map(
-        (key) => fieldLabels[key] || key
-      );
-
       throw new NewsError(
-        `Cannot publish. Complete these fields: ${missingLabels.join(', ')}.`
+        'Cannot publish. Complete these fields: ' +
+          missingFields
+            .map((key) => fieldLabels[key])
+            .join(', ') +
+          '.'
       );
     }
   }
 
-  /**
-   * Validate image URLs.
-   */
+  // Validate image URLs.
   const images = Object.fromEntries(
     newsImageFields.map((key) => {
       const url = value(key, 2048);
@@ -263,17 +243,8 @@ function validateNews(
   };
 }
 
-/**
- * MongoDB indexes.
- */
 let indexes: Promise<unknown> | undefined;
 
-/**
- * Create or update a Legal News article.
- *
- * Existing fields are preserved during partial updates.
- * Concurrent edits are protected using updatedAt.
- */
 export async function saveLegalNews(
   body: unknown,
   id?: string
@@ -294,9 +265,7 @@ export async function saveLegalNews(
     );
   }
 
-  /**
-   * Prevent overwriting another user's newer changes.
-   */
+  // Prevent concurrent updates from overwriting changes.
   if (
     current &&
     body &&
@@ -310,9 +279,7 @@ export async function saveLegalNews(
     );
   }
 
-  /**
-   * Validate against existing fields when editing.
-   */
+  // Validate partial updates against the stored article.
   const fields = validateNews(
     body,
     current ?? undefined
@@ -329,20 +296,15 @@ export async function saveLegalNews(
       : now,
   };
 
-  /**
-   * Ensure database indexes exist.
-   */
   indexes ??= Promise.all([
     news.createIndex(
       { slug: 1 },
       { unique: true }
     ),
-
     news.createIndex(
       { id: 1 },
       { unique: true }
     ),
-
     news.createIndex({
       status: 1,
       date: -1,
@@ -357,17 +319,9 @@ export async function saveLegalNews(
   try {
     await indexes;
 
-    /**
-     * Create new article.
-     */
     if (!current) {
-      await news.insertOne({
-        ...article,
-      });
+      await news.insertOne({ ...article });
     } else {
-      /**
-       * Update existing article.
-       */
       const result = await news.updateOne(
         {
           id: current.id,
@@ -402,9 +356,6 @@ export async function saveLegalNews(
   }
 }
 
-/**
- * Delete a Legal News article.
- */
 export async function deleteLegalNews(
   id: string
 ) {
