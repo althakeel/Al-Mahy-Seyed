@@ -25,6 +25,7 @@ export const FULL_PERMISSIONS: DashboardPermissions = {
 export const BLOGS_ONLY_PERMISSIONS: DashboardPermissions = {
   dashboard: true,
   blogs: true,
+  legalNews: true,
   transactions: false,
   calls: false,
 };
@@ -140,16 +141,24 @@ const submitDashboardAccessRequest = async (email: string, username?: string) =>
   const normalizedEmail = normalizeEmail(email);
   const normalizedUsername = normalizeUsername(username || '');
   const now = Date.now();
+
   const payload: DashboardAccessRecord = {
     email: normalizedEmail,
-    username: normalizedUsername || undefined,
-    usernameNormalized: normalizedUsername || undefined,
+
+    ...(normalizedUsername
+      ? {
+          username: normalizedUsername,
+          usernameNormalized: normalizedUsername,
+        }
+      : {}),
+
     role: 'editor',
     status: 'pending',
     permissions: BLOGS_ONLY_PERMISSIONS,
     createdAt: now,
     updatedAt: now,
   };
+
 
   try {
     await assertUsernameAvailableForEmail(normalizedUsername, normalizedEmail);
