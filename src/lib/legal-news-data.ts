@@ -8,7 +8,7 @@ export const newsTextFields = ['title', 'titleAr', 'shortDescription', 'shortDes
 export type NewsInput = Record<(typeof newsTextFields)[number] | (typeof newsImageFields)[number], string> & {
   slug: string;
   date: string;
-  status: 'draft' | 'published';
+  status: 'draft' | 'published'; 
 };
 
 export type LegalNews = NewsInput & BlogPost & { updatedAt: number };
