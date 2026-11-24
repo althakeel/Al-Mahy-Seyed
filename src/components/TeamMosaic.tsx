@@ -23,7 +23,7 @@ function TeamCard({
   className?: string;
 }) {
   const name = isRTL ? member.nameAr : member.nameEn;
-  const role = isRTL ? member.roleAr : member.roleEn;
+  // const role = isRTL ? member.roleAr : member.roleEn;
   const label = name || (isRTL ? "قريباً" : "Coming soon");
 
   const cardClassName = `group block overflow-hidden rounded-[18px] border border-[#B38D42]/15 bg-white shadow-[0_10px_28px_rgba(20,15,7,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-[#B38D42]/40 hover:shadow-[0_18px_40px_rgba(20,15,7,0.10)] ${className}`;
@@ -51,9 +51,9 @@ function TeamCard({
             >
               {name}
             </h4>
-            {role ? (
+            {/* {role ? (
               <p className="mt-1 text-xs font-medium tracking-wide text-[#B38D42]">{role}</p>
-            ) : null}
+            ) : null} */}
           </>
         ) : (
           <p className="text-sm font-medium text-[#160A0A]/40">{label}</p>
@@ -67,7 +67,7 @@ function TeamCard({
       <Link
         href={`/${locale}/about/team/${member.slug}`}
         className={`${cardClassName} cursor-pointer`}
-        aria-label={name ? `${name} - ${role}` : label}
+        aria-label={label}
       >
         {body}
       </Link>

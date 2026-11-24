@@ -80,13 +80,13 @@ export default function TeamGrid() {
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-              <div className="absolute bottom-3 left-3 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15">
+              {/* <div className="absolute bottom-3 left-3 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold text-white/90 ring-1 ring-white/15">
                 {member.location ?? "Global"}
-              </div>
+              </div> */}
             </div>
             <div className="space-y-1 px-5 py-4">
               <p className="text-lg font-semibold text-white leading-snug">{member.name}</p>
-              <p className="text-sm text-white/70 leading-relaxed">{member.role}</p>
+              {/* <p className="text-sm text-white/70 leading-relaxed">{member.role}</p> */}
             </div>
           </div>
         ))}
